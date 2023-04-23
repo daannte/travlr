@@ -9,7 +9,7 @@ function Planner() {
     const renderCards = () => {
         const cards = [];
         for (let i = 1; i <= cardCount; i++) {
-            cards.push(<Card day={i} key={i} />);
+            cards.push(<Card day={i} setCardCount={setCardCount} cardCount={cardCount} />);
         }
         return cards;
     };
@@ -19,7 +19,7 @@ function Planner() {
             <div className="event-container">
                 {renderCards()}
                 <button className="add-icon" onClick={() => setCardCount((count) => count + 1)}>
-                    <img src={AddIcon}></img>
+                    <img src={AddIcon} alt="Add Day"></img>
                 </button>
             </div>
         </div>
