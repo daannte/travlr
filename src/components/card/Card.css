@@ -1,0 +1,22 @@
+.card-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem;
+}
+
+.card-day {
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.add-icon {
+    width: 2rem;
+    height: 2rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: white;
+    margin-right: 4px;
+}
