@@ -11,16 +11,15 @@
     justify-content: center;
     align-items: center;
     flex-direction: row;
-    background-color: rgba(255, 255, 255, 0.6);
-    border-radius: 10px;
-    height: auto;
 }
 
 .add-icon {
-    width: 1.8rem;
-    height: 1.8rem;
-    background: transparent;
+    width: 1.5rem;
+    height: 1.5rem;
     border: none;
     cursor: pointer;
     margin-right: 4px;
+    background-color: rgba(255, 255, 255, 0.6);
+    padding: 2px;
+    border-radius: 4px;
 }

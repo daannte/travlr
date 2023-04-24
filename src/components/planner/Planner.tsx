@@ -1,25 +1,41 @@
 import Card from "../card/Card";
-import AddIcon from "../../assets/add.svg";
+import AddDayIcon from "../../assets/addDay.svg";
 import "./Planner.css";
 import { useState } from "react";
 
-function Planner() {
-    const [cardCount, setCardCount] = useState(1);
+interface ActivityList {
+    [key: number]: number;
+}
 
+function Planner() {
+    const [activityList, setActivityList] = useState<ActivityList>({ 1: 0 });
+    console.log(activityList);
     const renderCards = () => {
-        const cards = [];
-        for (let i = 1; i <= cardCount; i++) {
-            cards.push(<Card day={i} setCardCount={setCardCount} cardCount={cardCount} />);
-        }
-        return cards;
+        return Object.keys(activityList).map((day) => (
+            <Card
+                key={day}
+                day={parseInt(day)}
+                cardCount={Object.keys(activityList).length}
+                setActivityList={setActivityList}
+                activityList={activityList}
+            />
+        ));
     };
 
     return (
         <div className="planner-container">
             <div className="event-container">
                 {renderCards()}
-                <button className="add-icon" onClick={() => setCardCount((count) => count + 1)}>
-                    <img src={AddIcon} alt="Add Day"></img>
+                <button
+                    className="add-icon"
+                    onClick={() =>
+                        setActivityList((prevActivityList) => {
+                            const newDay = Object.keys(prevActivityList).length + 1;
+                            return { ...prevActivityList, [newDay]: 0 };
+                        })
+                    }
+                >
+                    <img src={AddDayIcon} alt="Add Day"></img>
                 </button>
             </div>
         </div>
