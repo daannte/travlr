@@ -1,0 +1,33 @@
+.navbar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: absolute;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.navbar-title {
+    margin-left: 2rem;
+    font-weight: 500;
+    font-size: 2rem;
+}
+
+.navbar-links {
+    display: flex;
+    flex-direction: row;
+    margin-left: auto;
+}
+
+.navbar-element {
+    list-style: none;
+    margin-right: 2rem;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.navbar-element:hover {
+    color: white;
+    background-color: black;
+    border-radius: 6px;
+}

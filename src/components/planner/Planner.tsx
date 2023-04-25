@@ -9,18 +9,17 @@ interface ActivityList {
 
 function Planner() {
     const [activityList, setActivityList] = useState<ActivityList>({ 1: 0 });
-    console.log(activityList);
-    const renderCards = () => {
+
+    function renderCards() {
         return Object.keys(activityList).map((day) => (
             <Card
                 key={day}
                 day={parseInt(day)}
-                cardCount={Object.keys(activityList).length}
                 setActivityList={setActivityList}
                 activityList={activityList}
             />
         ));
-    };
+    }
 
     return (
         <div className="planner-container">

@@ -9,12 +9,11 @@ interface ActivityList {
 
 interface CardProps {
     day: number;
-    cardCount: number;
     setActivityList: Dispatch<SetStateAction<ActivityList>>;
     activityList: ActivityList;
 }
 
-function Card({ day, cardCount, setActivityList, activityList }: CardProps) {
+function Card({ day, setActivityList, activityList }: CardProps) {
     const renderActivities = () => {
         const activityCount = activityList[day];
         const activities = [];
@@ -51,8 +50,8 @@ function Card({ day, cardCount, setActivityList, activityList }: CardProps) {
                 className="addActivity-icon"
                 onClick={() =>
                     setActivityList((prevList: ActivityList) => {
-                        const newActivity = prevList[day] + 1;
-                        return { ...prevList, [day]: newActivity };
+                        const activityCount = prevList[day] + 1;
+                        return { ...prevList, [day]: activityCount };
                     })
                 }
             >

@@ -1,22 +1,17 @@
 import Home from "./components/home/Home";
-import "./App.css";
 import Planner from "./components/planner/Planner";
-import background from "./assets/background.jpg";
+import Navbar from "./components/navbar/Navbar";
 import { useState } from "react";
+import "./App.css";
 
 function App() {
     const [submitted, setSubmitted] = useState(false);
 
     return (
-        <div
-            style={{
-                background: `url(${background}) no-repeat center`,
-                backgroundSize: "cover",
-                height: "100vh",
-            }}
-        >
+        <>
+            <Navbar />
             {submitted ? <Planner /> : <Home setSubmitted={setSubmitted} />}
-        </div>
+        </>
     );
 }
 
