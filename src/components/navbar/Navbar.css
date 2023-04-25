@@ -8,7 +8,7 @@
 }
 
 .navbar-title {
-    margin-left: 2rem;
+    margin-left: 5rem;
     font-weight: 500;
     font-size: 2rem;
 }
@@ -17,6 +17,7 @@
     display: flex;
     flex-direction: row;
     margin-left: auto;
+    margin-right: 3rem
 }
 
 .navbar-element {
