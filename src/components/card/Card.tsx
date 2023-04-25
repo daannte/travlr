@@ -33,10 +33,11 @@ function Card({ day, setActivityList, activityList }: CardProps) {
                         setActivityList((prevList: ActivityList) => {
                             delete prevList[day];
                             const newActivityList: ActivityList = {};
-                            let index = 1;
+                            // Reassign the keys so the numbers are back in order
+                            let i = 1;
                             for (const key in prevList) {
-                                newActivityList[index] = prevList[key];
-                                index++;
+                                newActivityList[i] = prevList[key];
+                                i++;
                             }
                             return newActivityList;
                         })

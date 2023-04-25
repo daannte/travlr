@@ -3,7 +3,7 @@ import "./Activity.css";
 function Activity() {
     return (
         <div className="activity-container">
-            <p className="title">Activity</p>
+            <form>Test</form>
         </div>
     );
 }

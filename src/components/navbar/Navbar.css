@@ -17,18 +17,24 @@
     display: flex;
     flex-direction: row;
     margin-left: auto;
-    margin-right: 3rem
+    margin-right: 3rem;
 }
 
 .navbar-element {
     list-style: none;
     margin-right: 2rem;
     cursor: pointer;
-    padding: 5px;
+    padding: 3px;
+    position: relative;
 }
 
-.navbar-element:hover {
-    color: white;
+.navbar-element:hover::after {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
     background-color: black;
-    border-radius: 6px;
 }

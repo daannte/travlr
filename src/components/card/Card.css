@@ -4,14 +4,14 @@
     justify-content: center;
     align-items: center;
     margin: 1rem;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 50, 100, 0.4);
     border-radius: 10px;
     padding: 8px;
 }
 
 .card-day {
-    font-size: 24px;
-    font-weight: 500;
+    font-size: 1.5rem;
+    font-weight: 400;
 }
 
 .delete-icon {
