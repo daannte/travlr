@@ -1,11 +1,11 @@
-import "./Activity.css";
+import "./Activity.css"
 
 function Activity() {
-    return (
-        <div className="activity-container">
-            <form>Test</form>
-        </div>
-    );
+  return (
+    <div className="activity">
+      <h1>Activity</h1>
+    </div>
+  )
 }
 
 export default Activity;

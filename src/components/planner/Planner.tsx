@@ -4,11 +4,11 @@ import "./Planner.css";
 import { useState } from "react";
 
 interface ActivityList {
-    [key: number]: number;
+    [key: number]: string[];
 }
 
 function Planner() {
-    const [activityList, setActivityList] = useState<ActivityList>({ 1: 0 });
+    const [activityList, setActivityList] = useState<ActivityList>({ 1: [] });
 
     function renderCards() {
         return Object.keys(activityList).map((day) => (
@@ -30,7 +30,7 @@ function Planner() {
                     onClick={() =>
                         setActivityList((prevActivityList) => {
                             const newDay = Object.keys(prevActivityList).length + 1;
-                            return { ...prevActivityList, [newDay]: 0 };
+                            return { ...prevActivityList, [newDay]: [] };
                         })
                     }
                 >
