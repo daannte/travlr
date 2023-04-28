@@ -26,7 +26,7 @@ function Card({ day, setActivityList, activityList }: CardProps) {
             return fixedActivityList;
         });
     }
-    console.log(activityList);
+
     function handleAddActivity() {
         setActivityList((prevActivityList: ActivityList) => {
             const newActivityList = { ...prevActivityList };
