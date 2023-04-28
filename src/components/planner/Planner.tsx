@@ -14,7 +14,9 @@ interface ActivityList {
 }
 
 function Planner() {
-    const [activityList, setActivityList] = useState<ActivityList>({ 1: [] });
+    const [activityList, setActivityList] = useState<ActivityList>({
+        1: [{ startTime: "Start", endTime: "End", name: "Activity Name" }],
+    });
 
     function renderCards() {
         return Object.keys(activityList).map((day) => (
@@ -36,7 +38,12 @@ function Planner() {
                     onClick={() =>
                         setActivityList((prevActivityList) => {
                             const newDay = Object.keys(prevActivityList).length + 1;
-                            return { ...prevActivityList, [newDay]: [] };
+                            return {
+                                ...prevActivityList,
+                                [newDay]: [
+                                    { startTime: "Start", endTime: "End", name: "Activity Name" },
+                                ],
+                            };
                         })
                     }
                 >

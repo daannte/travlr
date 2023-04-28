@@ -70,7 +70,7 @@ function Card({ day, setActivityList, activityList }: CardProps) {
                     <img src={deleteIcon} alt="Delete Card" />
                 </button>
             </div>
-            {renderActivites()}
+            <div className="card-activities">{renderActivites()}</div>
             <button className="add-activity-icon" onClick={handleAddActivity}>
                 <img src={addActivityIcon} alt="Add Activity" />
             </button>

@@ -16,6 +16,11 @@
     width: 100%;
 }
 
+.card-activities {
+    max-height: 24rem;
+    overflow-y: auto;
+}
+
 .card-title {
     font-style: normal;
     font-weight: 400;
