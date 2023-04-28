@@ -1,0 +1,47 @@
+.card {
+    background-color: #0b507a;
+    border-radius: 16px;
+    width: 450px;
+    height: fit-content;
+    margin: 30px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.card-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+}
+
+.card-title {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    margin-top: 20px;
+    margin-left: 25px;
+    color: white;
+}
+
+.delete-card-icon {
+    width: 24px;
+    height: 24px;
+    background: white;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    margin: 25px 25px 0 auto;
+}
+
+.add-activity-icon {
+    width: 24px;
+    height: 24px;
+    background: white;
+    border-radius: 8px;
+    border: none;
+    padding: 2px;
+    cursor: pointer;
+    margin: 25px 25px 25px auto;
+}
