@@ -24,18 +24,20 @@ interface ActivityProps {
 function Activity({ day, index, setActivityList, activityList }: ActivityProps) {
     const [isEditing, setIsEditing] = useState<boolean>(true);
 
+    // Handle edit values and add them to activity object
     function handleEditValues(event: React.ChangeEvent<HTMLInputElement>) {
         const { value, className } = event.target;
         const activity = activityList[day][index];
         if (className === "time-start-edit") {
-          activity.startTime = value;
+            activity.startTime = value;
         } else if (className === "time-end-edit") {
-          activity.endTime = value;
+            activity.endTime = value;
         } else {
-          activity.name = value;
+            activity.name = value;
         }
-      }
+    }
 
+    // Delete activity from activity list
     function handleActivityDelete() {
         setActivityList((prevActivityList) => {
             const newActivityList = { ...prevActivityList };
@@ -52,6 +54,7 @@ function Activity({ day, index, setActivityList, activityList }: ActivityProps) 
         <div className="activity">
             <div className="activity-info">
                 {isEditing ? (
+                    // Show edit form
                     <>
                         <div>
                             <input
@@ -73,6 +76,7 @@ function Activity({ day, index, setActivityList, activityList }: ActivityProps) 
                         />
                     </>
                 ) : (
+                    // Show activity info
                     <>
                         <p className="activity-time">
                             <span>{activityList[day][index].startTime} </span>-
@@ -83,11 +87,11 @@ function Activity({ day, index, setActivityList, activityList }: ActivityProps) 
                 )}
             </div>
             <div className="activity-button">
-                {isEditing ? null : (
+                {!isEditing ? (
                     <button className="delete-button" onClick={handleActivityDelete}>
                         <img src={deleteIcon} alt="Delete Activity" />
                     </button>
-                )}
+                ) : null}
                 {isEditing ? (
                     <button className="confirm-button" onClick={() => setIsEditing(!isEditing)}>
                         <img src={confirmIcon} alt="Confirm Edit" />
