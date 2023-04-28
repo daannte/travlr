@@ -3,8 +3,14 @@ import AddDayIcon from "../../assets/addDay.svg";
 import "./Planner.css";
 import { useState } from "react";
 
+interface ActivityDetails {
+    startTime: string;
+    endTime: string;
+    name: string;
+}
+
 interface ActivityList {
-    [key: number]: string[];
+    [key: number]: ActivityDetails[];
 }
 
 function Planner() {

@@ -3,8 +3,14 @@ import deleteIcon from "../../assets/delete.svg";
 import addActivityIcon from "../../assets/addActivity.svg";
 import "./Card.css";
 
+interface ActivityDetails {
+    startTime: string;
+    endTime: string;
+    name: string;
+}
+
 interface ActivityList {
-    [key: number]: string[];
+    [key: number]: ActivityDetails[];
 }
 interface CardProps {
     day: number;
@@ -32,21 +38,25 @@ function Card({ day, setActivityList, activityList }: CardProps) {
             const newActivityList = { ...prevActivityList };
             newActivityList[day] = [
                 ...newActivityList[day],
-                "activity" + (newActivityList[day].length + 1),
+                {
+                    startTime: "Start",
+                    endTime: "End",
+                    name: "Activity Name",
+                },
             ];
             return newActivityList;
         });
     }
 
     function renderActivites() {
-        return activityList[day].map((activityId: string, index: number) => {
+        return activityList[day].map((_, index: number) => {
             return (
                 <Activity
                     key={index}
                     day={day}
-                    activityId={activityId}
                     index={index}
                     setActivityList={setActivityList}
+                    activityList={activityList}
                 />
             );
         });
