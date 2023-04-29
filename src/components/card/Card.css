@@ -30,23 +30,16 @@
     color: white;
 }
 
-.delete-card-icon {
-    width: 24px;
-    height: 24px;
-    background: white;
-    border-radius: 8px;
+.delete-card-button {
+    background: transparent;
     border: none;
     cursor: pointer;
     margin: 25px 25px 0 auto;
 }
 
-.add-activity-icon {
-    width: 24px;
-    height: 24px;
-    background: white;
-    border-radius: 8px;
+.add-activity-button {
+    background: transparent;
     border: none;
-    padding: 2px;
     cursor: pointer;
     margin: 25px 25px 25px auto;
 }

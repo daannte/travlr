@@ -66,12 +66,12 @@ function Card({ day, setActivityList, activityList }: CardProps) {
         <div className="card">
             <div className="card-header">
                 <h1 className="card-title">Day {day}</h1>
-                <button className="delete-card-icon" onClick={handleCardDelete}>
+                <button className="delete-card-button" onClick={handleCardDelete}>
                     <img src={deleteIcon} alt="Delete Card" />
                 </button>
             </div>
             <div className="card-activities">{renderActivites()}</div>
-            <button className="add-activity-icon" onClick={handleAddActivity}>
+            <button className="add-activity-button" onClick={handleAddActivity}>
                 <img src={addActivityIcon} alt="Add Activity" />
             </button>
         </div>

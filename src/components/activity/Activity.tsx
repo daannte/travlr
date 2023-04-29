@@ -1,7 +1,7 @@
 import { useState } from "react";
-import deleteIcon from "../../assets/delete.svg";
+import deleteIcon from "../../assets/deleteActivity.svg";
 import editIcon from "../../assets/edit.svg";
-import confirmIcon from "../../assets/confirm.svg";
+import checkIcon from "../../assets/check.svg";
 import "./Activity.css";
 
 interface Activity {
@@ -23,11 +23,11 @@ interface ActivityProps {
 
 function Activity({ day, index, setActivityList, activityList }: ActivityProps) {
     const [isEditing, setIsEditing] = useState<boolean>(true);
+    const activity = activityList[day][index];
 
     // Handle edit values and add them to activity object
     function handleEditValues(event: React.ChangeEvent<HTMLInputElement>) {
         const { value, className } = event.target;
-        const activity = activityList[day][index];
         if (className === "time-start-edit") {
             activity.startTime = value;
         } else if (className === "time-end-edit") {
@@ -59,19 +59,19 @@ function Activity({ day, index, setActivityList, activityList }: ActivityProps) 
                         <div>
                             <input
                                 className="time-start-edit"
-                                placeholder={activityList[day][index].startTime}
+                                placeholder={activity.startTime}
                                 onChange={handleEditValues}
                             />{" "}
                             <span> - </span>
                             <input
                                 className="time-end-edit"
-                                placeholder={activityList[day][index].endTime}
+                                placeholder={activity.endTime}
                                 onChange={handleEditValues}
                             />
                         </div>
                         <input
                             className="name-edit"
-                            placeholder={activityList[day][index].name}
+                            placeholder={activity.name}
                             onChange={handleEditValues}
                         />
                     </>
@@ -79,10 +79,9 @@ function Activity({ day, index, setActivityList, activityList }: ActivityProps) 
                     // Show activity info
                     <>
                         <p className="activity-time">
-                            <span>{activityList[day][index].startTime} </span>-
-                            <span> {activityList[day][index].endTime}</span>
+                            <span>{activity.startTime} </span>-<span> {activity.endTime}</span>
                         </p>
-                        <p className="activity-name">{activityList[day][index].name}</p>
+                        <p className="activity-name">{activity.name}</p>
                     </>
                 )}
             </div>
@@ -94,7 +93,7 @@ function Activity({ day, index, setActivityList, activityList }: ActivityProps) 
                 ) : null}
                 {isEditing ? (
                     <button className="confirm-button" onClick={() => setIsEditing(!isEditing)}>
-                        <img src={confirmIcon} alt="Confirm Edit" />
+                        <img src={checkIcon} alt="Confirm Edit" />
                     </button>
                 ) : (
                     <button className="edit-button" onClick={() => setIsEditing(!isEditing)}>
