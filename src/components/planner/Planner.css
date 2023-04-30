@@ -11,12 +11,21 @@
     justify-content: center;
     align-items: center;
     flex-direction: row;
+    max-width: 82%;
+}
+
+.cards-container {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    max-width: 100%;
+    background-color: #F3EFE6;
+    border-radius: 12px;
 }
 
 .add-icon {
-    width: 1.5rem;
-    height: 1.5rem;
     border: none;
     cursor: pointer;
     background-color: transparent;
+    margin-left: 8px;
 }

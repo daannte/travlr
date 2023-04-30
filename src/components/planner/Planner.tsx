@@ -32,7 +32,7 @@ function Planner() {
     return (
         <div className="planner-container">
             <div className="event-container">
-                {renderCards()}
+                <div className="cards-container">{renderCards()}</div>
                 <button
                     className="add-icon"
                     onClick={() =>

@@ -60,7 +60,8 @@
     cursor: pointer;
 }
 
-.time-start-edit, .time-end-edit {
+.time-start-edit,
+.time-end-edit {
     width: 20%;
     font-size: 14px;
     outline: none;
