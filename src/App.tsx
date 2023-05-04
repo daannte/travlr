@@ -6,11 +6,16 @@ import "./App.css";
 
 function App() {
     const [submitted, setSubmitted] = useState(false);
+    const [destination, setDestination] = useState("");
 
     return (
         <>
             <Navbar />
-            {submitted ? <Planner /> : <Home setSubmitted={setSubmitted} />}
+            {submitted ? (
+                <Planner destination={destination} />
+            ) : (
+                <Home setSubmitted={setSubmitted} setDestination={setDestination} />
+            )}
         </>
     );
 }

@@ -1,10 +1,11 @@
 import "./Home.css";
 
 interface HomeProps {
-    setSubmitted: (arg0: boolean) => void;
+    setSubmitted: (submitted: boolean) => void;
+    setDestination: (destination: string) => void;
 }
 
-function Home({ setSubmitted }: HomeProps) {
+function Home({ setSubmitted, setDestination }: HomeProps) {
     return (
         <div className="home-container">
             <h1 className="title">Plan your next vacation.</h1>
@@ -15,6 +16,7 @@ function Home({ setSubmitted }: HomeProps) {
                     name="destination"
                     type="text"
                     placeholder="e.g Barcelona"
+                    onChange={(e) => setDestination(e.target.value)}
                     required
                 />
             </form>
