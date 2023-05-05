@@ -43,3 +43,15 @@
     cursor: pointer;
     margin: 25px 25px 25px auto;
 }
+
+@media screen and (max-width: 768px) {
+    .card {
+        margin: 15px;
+        width: 90%;
+    }
+
+    .card-activities {
+        max-height: 10rem;
+        overflow-y: auto;
+    }
+}

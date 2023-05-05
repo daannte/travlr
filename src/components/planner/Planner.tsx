@@ -44,8 +44,8 @@ function Planner({ destination }: { destination: string }) {
                         onClick={() => setIsSaved((prevIsSaved) => !prevIsSaved)}
                     />
                 </div>
-                <div className="cards-container">
-                    {renderCards()}
+                <div className="cards-button-container">
+                    <div className="cards-container">{renderCards()}</div>
                     <button
                         className="add-icon"
                         onClick={() =>

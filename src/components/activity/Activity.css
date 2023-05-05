@@ -74,4 +74,30 @@
     font-size: 16px;
     outline: none;
     border-radius: 4px;
+    width: 50%;
+}
+
+@media screen and (max-width: 768px) {
+    .activity {
+        margin: 15px 15px 0 15px;
+        width: 300px;
+    }
+
+    .name-edit {
+        width: 55%;
+        font-size: 14px;
+    }
+
+    .time-start-edit,
+    .time-end-edit {
+        font-size: 12px;
+    }
+
+    .activity-time {
+        font-size: 14px;
+    }
+
+    .activity-name {
+        font-size: 16px;
+    }
 }
