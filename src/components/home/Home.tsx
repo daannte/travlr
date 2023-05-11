@@ -1,3 +1,4 @@
+import searchIcon from "../../assets/search.svg";
 import "./Home.css";
 
 interface HomeProps {
@@ -10,7 +11,7 @@ function Home({ setSubmitted, setDestination }: HomeProps) {
         <div className="home-container">
             <h1 className="title">Plan your next vacation.</h1>
             <p>Enter your destination:</p>
-            <form onSubmit={() => setSubmitted(true)}>
+            <form onSubmit={() => setSubmitted(true)} className="form-container">
                 <input
                     className="search-box"
                     name="destination"
@@ -19,6 +20,9 @@ function Home({ setSubmitted, setDestination }: HomeProps) {
                     onChange={(e) => setDestination(e.target.value)}
                     required
                 />
+                <button type="submit" className="search-icon">
+                    <img src={searchIcon} alt="Search" />
+                </button>
             </form>
         </div>
     );

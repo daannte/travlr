@@ -1,9 +1,9 @@
 .home-container {
     display: flex;
     flex-direction: column;
-    position: absolute;
-    top: 40%;
-    left: 15%;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
 .title {
@@ -12,10 +12,25 @@
     margin-bottom: 12px;
 }
 
+.form-container {
+    display: flex;
+    align-items: center;
+    border: 0.15rem solid black;
+    border-radius: 1rem;
+    padding-right: 0.5rem;
+    margin-top: 0.5rem;
+}
+
 .search-box {
     outline: none;
     border: none;
-    border-bottom: 1px solid black;
     font-size: large;
+    padding: 0.5rem;
     background: transparent;
+}
+
+.search-icon {
+    background: transparent;
+    border: none;
+    cursor: pointer;
 }
