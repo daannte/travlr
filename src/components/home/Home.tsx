@@ -3,11 +3,12 @@ import searchIcon from "../../assets/search.svg";
 import "./Home.css";
 
 interface HomeProps {
-  setDestination: (destination: string) => void;
+  setDestination: React.Dispatch<React.SetStateAction<string>>;
 }
 
 function Home({ setDestination }: HomeProps) {
   const navigate = useNavigate();
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     navigate("/planner");
