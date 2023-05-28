@@ -1,57 +1,57 @@
 .card {
-    background-color: #0b507a;
-    border-radius: 16px;
-    width: 450px;
-    height: fit-content;
-    margin: 30px;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
+  background-color: #0b507a;
+  border-radius: 16px;
+  width: 450px;
+  height: fit-content;
+  margin: 30px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 
 .card-header {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
 }
 
 .card-activities {
-    max-height: 24rem;
-    overflow-y: auto;
+  max-height: 24rem;
+  overflow-y: auto;
 }
 
 .card-title {
-    font-style: normal;
-    font-weight: 400;
-    font-size: 24px;
-    margin-top: 20px;
-    margin-left: 25px;
-    color: white;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  margin-top: 20px;
+  margin-left: 25px;
+  color: white;
 }
 
 .delete-card-button {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    margin: 25px 25px 0 auto;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  margin: 25px 25px 0 auto;
 }
 
 .add-activity-button {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    margin: 25px 25px 25px auto;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  margin: 25px 25px 25px auto;
 }
 
 @media screen and (max-width: 768px) {
-    .card {
-        margin: 15px;
-        width: 90%;
-    }
+  .card {
+    margin: 15px;
+    width: 90%;
+  }
 
-    .card-activities {
-        max-height: 10rem;
-        overflow-y: auto;
-    }
+  .card-activities {
+    max-height: 10rem;
+    overflow-y: auto;
+  }
 }

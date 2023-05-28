@@ -1,102 +1,102 @@
 .activity {
-    width: 400px;
-    height: 90px;
-    border-radius: 18px;
-    background-color: #fbf8f3;
-    margin: 25px 25px 0 25px;
-    display: flex;
-    flex-direction: row;
+  width: 400px;
+  height: 90px;
+  border-radius: 18px;
+  background-color: #fbf8f3;
+  margin: 25px 25px 0 25px;
+  display: flex;
+  flex-direction: row;
 }
 
 .activity-info {
-    margin-left: 25px;
-    margin-top: 15px;
-    width: fit-content;
-    height: fit-content;
+  margin-left: 25px;
+  margin-top: 15px;
+  width: fit-content;
+  height: fit-content;
 }
 
 .activity-time {
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    text-transform: uppercase;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  text-transform: uppercase;
 }
 
 .activity-name {
-    font-style: normal;
-    font-weight: 400;
-    font-size: 18px;
-    margin-top: 15px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  margin-top: 15px;
 }
 
 .activity-button {
-    display: flex;
-    flex-direction: column;
-    margin-left: auto;
-    margin-right: 25px;
-    height: 100%;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+  margin-right: 25px;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
 }
 
 .delete-button {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    margin-bottom: 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 12px;
 }
 
 .edit-button {
-    background: transparent;
-    border: none;
-    cursor: pointer;
+  background: transparent;
+  border: none;
+  cursor: pointer;
 }
 
 .confirm-button {
-    width: 24px;
-    height: 24px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
+  width: 24px;
+  height: 24px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
 }
 
 .time-start-edit,
 .time-end-edit {
-    width: 20%;
-    font-size: 14px;
-    outline: none;
-    border-radius: 4px;
-    text-transform: uppercase;
+  width: 20%;
+  font-size: 14px;
+  outline: none;
+  border-radius: 4px;
+  text-transform: uppercase;
 }
 
 .name-edit {
-    margin-top: 15px;
-    font-size: 16px;
-    outline: none;
-    border-radius: 4px;
-    width: 50%;
+  margin-top: 15px;
+  font-size: 16px;
+  outline: none;
+  border-radius: 4px;
+  width: 50%;
 }
 
 @media screen and (max-width: 768px) {
-    .activity {
-        width: 300px;
-    }
+  .activity {
+    width: 300px;
+  }
 
-    .name-edit {
-        width: 55%;
-        font-size: 14px;
-    }
+  .name-edit {
+    width: 55%;
+    font-size: 14px;
+  }
 
-    .time-start-edit,
-    .time-end-edit {
-        font-size: 12px;
-    }
+  .time-start-edit,
+  .time-end-edit {
+    font-size: 12px;
+  }
 
-    .activity-time {
-        font-size: 14px;
-    }
+  .activity-time {
+    font-size: 14px;
+  }
 
-    .activity-name {
-        font-size: 16px;
-    }
+  .activity-name {
+    font-size: 16px;
+  }
 }
