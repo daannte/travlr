@@ -16,23 +16,26 @@ interface ActivityList {
   [key: number]: ActivityDetails[];
 }
 
-interface FavouriteActivities {
+interface SavedActivities {
   [key: string]: ActivityList;
 }
 function App() {
   const [destination, setDestination] = useState<string>("");
-  const [favouriteDests, setFavouriteDests] = useState<string[]>([]);
-  const [favouriteActivities, setFavouriteActivities] =
-    useState<FavouriteActivities>({});
-  const [activityList, setActivityList] = useState<ActivityList>({});
+  const [prevDestination, setPrevDestination] = useState<string>("");
+  const [savedDests, setSavedDests] = useState<string[]>([]);
+  const [savedActivities, setSavedActivities] = useState<SavedActivities>({});
+  const [activityList, setActivityList] = useState<ActivityList>({
+    1: [{ startTime: "Start", endTime: "End", name: "Activity Name" }],
+  });
 
   useEffect(() => {
-    if (!favouriteDests.includes(destination)) {
+    if (!savedDests.includes(destination) && destination !== prevDestination) {
       setActivityList({
         1: [{ startTime: "Start", endTime: "End", name: "Activity Name" }],
       });
     }
-  }, [destination, favouriteDests]);
+    setPrevDestination(destination);
+  }, [destination, savedDests, prevDestination]);
 
   return (
     <Router>
@@ -42,8 +45,8 @@ function App() {
           path="/saved"
           element={
             <Saved
-              favouriteActivities={favouriteActivities}
-              favouriteDests={favouriteDests}
+              savedActivities={savedActivities}
+              savedDests={savedDests}
               setActivityList={setActivityList}
               setDestination={setDestination}
             />
@@ -54,11 +57,11 @@ function App() {
           element={
             <Planner
               destination={destination}
-              setFavouriteActivities={setFavouriteActivities}
-              setFavouriteDests={setFavouriteDests}
+              setSavedActivities={setSavedActivities}
+              setSavedDests={setSavedDests}
               setActivityList={setActivityList}
               activityList={activityList}
-              favouriteDests={favouriteDests}
+              savedDests={savedDests}
             />
           }
         />

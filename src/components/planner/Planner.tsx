@@ -1,9 +1,9 @@
 import Card from "../card/Card";
 import AddDayIcon from "../../assets/addDay.svg";
-import HeartIcon from "../../assets/heart.svg";
-import FilledHeartIcon from "../../assets/filledHeart.svg";
+import StarIcon from "../../assets/star.svg";
+import StarFilledIcon from "../../assets/starFilled.svg";
 import "./Planner.css";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface ActivityDetails {
   startTime: string;
@@ -15,30 +15,28 @@ interface ActivityList {
   [key: number]: ActivityDetails[];
 }
 
-interface FavouriteActivities {
+interface SavedActivities {
   [key: string]: ActivityList;
 }
 
 interface PlannerProps {
   destination: string;
-  setFavouriteActivities: React.Dispatch<
-    React.SetStateAction<FavouriteActivities>
-  >;
-  setFavouriteDests: React.Dispatch<React.SetStateAction<string[]>>;
+  setSavedActivities: React.Dispatch<React.SetStateAction<SavedActivities>>;
+  setSavedDests: React.Dispatch<React.SetStateAction<string[]>>;
   setActivityList: React.Dispatch<React.SetStateAction<ActivityList>>;
   activityList: ActivityList;
-  favouriteDests: string[];
+  savedDests: string[];
 }
 
 function Planner({
   destination,
-  setFavouriteActivities,
-  setFavouriteDests,
+  setSavedActivities,
+  setSavedDests,
   setActivityList,
   activityList,
-  favouriteDests,
+  savedDests,
 }: PlannerProps) {
-  const [isSaved, setIsSaved] = useState(favouriteDests.includes(destination));
+  const [isSaved, setIsSaved] = useState(savedDests.includes(destination));
 
   function renderCards() {
     return Object.keys(activityList).map((day) => (
@@ -54,7 +52,7 @@ function Planner({
   function handleAddCard() {
     setActivityList((prevActivityList) => {
       const newDay = Object.keys(prevActivityList).length + 1;
-      return {
+      const newActivityList = {
         ...prevActivityList,
         [newDay]: [
           {
@@ -64,40 +62,38 @@ function Planner({
           },
         ],
       };
+      return newActivityList;
     });
   }
 
-  const handleFavourites = useCallback(
-    (isSaved: boolean) => {
-      if (isSaved) {
-        setFavouriteActivities((prevFavourites: FavouriteActivities) => ({
-          ...prevFavourites,
-          [destination]: activityList,
-        }));
-        setFavouriteDests((prevFavouriteDests) =>
-          prevFavouriteDests.includes(destination)
-            ? prevFavouriteDests
-            : [...prevFavouriteDests, destination]
-        );
-      } else {
-        setFavouriteActivities((prevFavourites) => {
-          const updatedFavourites = { ...prevFavourites };
-          delete updatedFavourites[destination];
-          return updatedFavourites;
-        });
-        setFavouriteDests((prevFavouriteDests) =>
-          prevFavouriteDests.filter((dest) => dest !== destination)
-        );
-      }
-    },
-    [activityList, destination, setFavouriteActivities, setFavouriteDests]
-  );
-
   useEffect(() => {
     if (isSaved) {
-      handleFavourites(true);
+      setSavedActivities((prevSavedActivities) => ({
+        ...prevSavedActivities,
+        [destination]: activityList,
+      }));
     }
-  }, [activityList, destination, handleFavourites, isSaved]);
+  }, [activityList, destination, isSaved, setSavedActivities]);
+
+  function handleSaved() {
+    setIsSaved((prevIsSaved) => !prevIsSaved);
+    if (!isSaved) {
+      setSavedDests((prevSavedDests) =>
+        prevSavedDests.includes(destination)
+          ? prevSavedDests
+          : [...prevSavedDests, destination]
+      );
+    } else {
+      setSavedActivities((prevSaved) => {
+        const updatedSaved = { ...prevSaved };
+        delete updatedSaved[destination];
+        return updatedSaved;
+      });
+      setSavedDests((prevSavedDests) =>
+        prevSavedDests.filter((dest) => dest !== destination)
+      );
+    }
+  }
 
   return (
     <div className="planner-container">
@@ -105,10 +101,10 @@ function Planner({
         <div className="title-container">
           <h1 className="destination">{destination}</h1>{" "}
           <img
-            src={isSaved ? FilledHeartIcon : HeartIcon}
+            src={isSaved ? StarFilledIcon : StarIcon}
             alt="Save"
             className="save-icon"
-            onClick={() => setIsSaved(!isSaved)}
+            onClick={handleSaved}
           />
         </div>
         <div className="cards-button-container">

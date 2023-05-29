@@ -11,28 +11,28 @@ interface ActivityList {
   [key: number]: ActivityDetails[];
 }
 
-interface FavouriteActivities {
+interface SavedActivities {
   [key: string]: ActivityList;
 }
 
-interface FavouritesProps {
-  favouriteActivities: FavouriteActivities;
-  favouriteDests: string[];
+interface SavedProps {
+  savedActivities: SavedActivities;
+  savedDests: string[];
   setActivityList: React.Dispatch<React.SetStateAction<ActivityList>>;
   setDestination: React.Dispatch<React.SetStateAction<string>>;
 }
 
 function Saved({
-  favouriteActivities,
-  favouriteDests,
+  savedActivities,
+  savedDests,
   setActivityList,
   setDestination,
-}: FavouritesProps) {
+}: SavedProps) {
   const navigate = useNavigate();
 
   const loadItinerary = (destination: string) => {
     setDestination(destination);
-    setActivityList(favouriteActivities[destination]);
+    setActivityList(savedActivities[destination]);
     navigate("/planner");
   };
 
@@ -40,7 +40,7 @@ function Saved({
     <div className="saved-container">
       <h2>Saved Itineraries</h2>
       <div className="destination-list">
-        {favouriteDests.map((destination, index) => (
+        {savedDests.map((destination, index) => (
           <div key={index} className="saved-destination">
             {`>>`}
             <p className="destination-name">{destination}</p>
