@@ -3,7 +3,7 @@ import AddDayIcon from "../../assets/addDay.svg";
 import HeartIcon from "../../assets/heart.svg";
 import FilledHeartIcon from "../../assets/filledHeart.svg";
 import "./Planner.css";
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 interface ActivityDetails {
   startTime: string;
@@ -25,17 +25,20 @@ interface PlannerProps {
     React.SetStateAction<FavouriteActivities>
   >;
   setFavouriteDests: React.Dispatch<React.SetStateAction<string[]>>;
+  setActivityList: React.Dispatch<React.SetStateAction<ActivityList>>;
+  activityList: ActivityList;
+  favouriteDests: string[];
 }
 
 function Planner({
   destination,
   setFavouriteActivities,
   setFavouriteDests,
+  setActivityList,
+  activityList,
+  favouriteDests,
 }: PlannerProps) {
-  const [activityList, setActivityList] = useState<ActivityList>({
-    1: [{ startTime: "Start", endTime: "End", name: "Activity Name" }],
-  });
-  const [isSaved, setIsSaved] = useState(false);
+  const [isSaved, setIsSaved] = useState(favouriteDests.includes(destination));
 
   function renderCards() {
     return Object.keys(activityList).map((day) => (
@@ -64,35 +67,37 @@ function Planner({
     });
   }
 
-  const handleFavorites = useCallback(() => {
-    if (isSaved) {
-      setFavouriteActivities((prevFavourites: FavouriteActivities) => ({
-        ...prevFavourites,
-        [destination]: activityList,
-      }));
-      setFavouriteDests((prevFavouriteDests) =>
-        prevFavouriteDests.includes(destination)
-          ? prevFavouriteDests
-          : [...prevFavouriteDests, destination]
-      );
-    } else {
-      setFavouriteActivities((prevFavourites) => {
-        const updatedFavourites = { ...prevFavourites };
-        delete updatedFavourites[destination];
-        return updatedFavourites;
-      });
-    }
-  }, [
-    activityList,
-    destination,
-    isSaved,
-    setFavouriteActivities,
-    setFavouriteDests,
-  ]);
+  const handleFavourites = useCallback(
+    (isSaved: boolean) => {
+      if (isSaved) {
+        setFavouriteActivities((prevFavourites: FavouriteActivities) => ({
+          ...prevFavourites,
+          [destination]: activityList,
+        }));
+        setFavouriteDests((prevFavouriteDests) =>
+          prevFavouriteDests.includes(destination)
+            ? prevFavouriteDests
+            : [...prevFavouriteDests, destination]
+        );
+      } else {
+        setFavouriteActivities((prevFavourites) => {
+          const updatedFavourites = { ...prevFavourites };
+          delete updatedFavourites[destination];
+          return updatedFavourites;
+        });
+        setFavouriteDests((prevFavouriteDests) =>
+          prevFavouriteDests.filter((dest) => dest !== destination)
+        );
+      }
+    },
+    [activityList, destination, setFavouriteActivities, setFavouriteDests]
+  );
 
   useEffect(() => {
-    handleFavorites();
-  }, [handleFavorites]);
+    if (isSaved) {
+      handleFavourites(true);
+    }
+  }, [activityList, destination, handleFavourites, isSaved]);
 
   return (
     <div className="planner-container">

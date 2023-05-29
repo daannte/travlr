@@ -27,7 +27,7 @@ function Activity({
   setActivityList,
   activityList,
 }: ActivityProps) {
-  const [isEditing, setIsEditing] = useState<boolean>(true);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
   const activity = activityList[day][index];
 
   // Handle edit values and add them to activity object
@@ -73,19 +73,19 @@ function Activity({
             <div>
               <input
                 className="time-start-edit"
-                placeholder={activity.startTime}
+                value={activity.startTime}
                 onChange={handleEditValues}
               />{" "}
               <span> - </span>
               <input
                 className="time-end-edit"
-                placeholder={activity.endTime}
+                value={activity.endTime}
                 onChange={handleEditValues}
               />
             </div>
             <input
               className="name-edit"
-              placeholder={activity.name}
+              value={activity.name}
               onChange={handleEditValues}
             />
           </>

@@ -6,8 +6,8 @@ function Navbar() {
     <nav className="navbar">
       <h1 className="navbar-title">Travlr</h1>
       <ul className="navbar-links">
-        <NavLink to="/favourites" className="navbar-element">
-          Favourites
+        <NavLink to="/saved" className="navbar-element">
+          Saved
         </NavLink>
         <NavLink end to="/" className="navbar-element">
           Home
