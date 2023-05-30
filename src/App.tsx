@@ -36,6 +36,10 @@ function App() {
         const savedDestinationNames = Object.keys(data);
         setSavedDests(savedDestinationNames);
         setSavedActivities(data);
+      } else {
+        // Set it to blank if data is null
+        setSavedDests([]);
+        setSavedActivities({});
       }
     });
   }, []);
