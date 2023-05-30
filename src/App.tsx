@@ -4,6 +4,7 @@ import Navbar from "./components/navbar/Navbar";
 import Saved from "./components/saved/Saved";
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { db, ref, onValue } from "./backend/firebaseSetup";
 import "./App.css";
 
 interface ActivityDetails {
@@ -24,14 +25,25 @@ function App() {
   const [prevDestination, setPrevDestination] = useState<string>("");
   const [savedDests, setSavedDests] = useState<string[]>([]);
   const [savedActivities, setSavedActivities] = useState<SavedActivities>({});
-  const [activityList, setActivityList] = useState<ActivityList>({
-    1: [{ startTime: "Start", endTime: "End", name: "Activity Name" }],
-  });
+  const [activityList, setActivityList] = useState<ActivityList>({});
+
+  // get the destination names from the DB
+  useEffect(() => {
+    const dataRef = ref(db, "savedDestinations/");
+    onValue(dataRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        const savedDestinationNames = Object.keys(data);
+        setSavedDests(savedDestinationNames);
+        setSavedActivities(data);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     if (!savedDests.includes(destination) && destination !== prevDestination) {
       setActivityList({
-        1: [{ startTime: "Start", endTime: "End", name: "Activity Name" }],
+        0: [{ startTime: "Start", endTime: "End", name: "Activity Name" }],
       });
     }
     setPrevDestination(destination);
@@ -57,8 +69,6 @@ function App() {
           element={
             <Planner
               destination={destination}
-              setSavedActivities={setSavedActivities}
-              setSavedDests={setSavedDests}
               setActivityList={setActivityList}
               activityList={activityList}
               savedDests={savedDests}

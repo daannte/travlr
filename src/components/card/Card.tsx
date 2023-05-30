@@ -25,7 +25,7 @@ function Card({ day, setActivityList, activityList }: CardProps) {
       delete prevActivityList[day];
       const fixedActivityList: ActivityList = {};
       // Reassign the keys so the numbers are back in order
-      let i = 1;
+      let i = 0;
       for (const key in prevActivityList) {
         fixedActivityList[i] = prevActivityList[key];
         i++;
@@ -66,7 +66,7 @@ function Card({ day, setActivityList, activityList }: CardProps) {
   return (
     <div className="card">
       <div className="card-header">
-        <h1 className="card-title">Day {day}</h1>
+        <h1 className="card-title">Day {day + 1}</h1>
         <button className="delete-card-button" onClick={handleCardDelete}>
           <img src={deleteIcon} alt="Delete Card" />
         </button>

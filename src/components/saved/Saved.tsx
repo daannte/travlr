@@ -1,5 +1,6 @@
 import "./Saved.css";
 import { useNavigate } from "react-router-dom";
+// import { db, ref, onValue } from "../../backend/firebaseSetup";
 
 interface ActivityDetails {
   startTime: string;
@@ -29,7 +30,6 @@ function Saved({
   setDestination,
 }: SavedProps) {
   const navigate = useNavigate();
-
   const loadItinerary = (destination: string) => {
     setDestination(destination);
     setActivityList(savedActivities[destination]);

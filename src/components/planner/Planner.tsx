@@ -4,6 +4,7 @@ import StarIcon from "../../assets/star.svg";
 import StarFilledIcon from "../../assets/starFilled.svg";
 import "./Planner.css";
 import React, { useEffect, useState } from "react";
+import { db, ref, set, remove } from "../../backend/firebaseSetup";
 
 interface ActivityDetails {
   startTime: string;
@@ -15,14 +16,8 @@ interface ActivityList {
   [key: number]: ActivityDetails[];
 }
 
-interface SavedActivities {
-  [key: string]: ActivityList;
-}
-
 interface PlannerProps {
   destination: string;
-  setSavedActivities: React.Dispatch<React.SetStateAction<SavedActivities>>;
-  setSavedDests: React.Dispatch<React.SetStateAction<string[]>>;
   setActivityList: React.Dispatch<React.SetStateAction<ActivityList>>;
   activityList: ActivityList;
   savedDests: string[];
@@ -30,8 +25,6 @@ interface PlannerProps {
 
 function Planner({
   destination,
-  setSavedActivities,
-  setSavedDests,
   setActivityList,
   activityList,
   savedDests,
@@ -51,7 +44,7 @@ function Planner({
 
   function handleAddCard() {
     setActivityList((prevActivityList) => {
-      const newDay = Object.keys(prevActivityList).length + 1;
+      const newDay = Object.keys(prevActivityList).length;
       const newActivityList = {
         ...prevActivityList,
         [newDay]: [
@@ -68,30 +61,14 @@ function Planner({
 
   useEffect(() => {
     if (isSaved) {
-      setSavedActivities((prevSavedActivities) => ({
-        ...prevSavedActivities,
-        [destination]: activityList,
-      }));
+      set(ref(db, "savedDestinations/" + destination), activityList);
     }
-  }, [activityList, destination, isSaved, setSavedActivities]);
+  }, [activityList, destination, isSaved]);
 
   function handleSaved() {
     setIsSaved((prevIsSaved) => !prevIsSaved);
-    if (!isSaved) {
-      setSavedDests((prevSavedDests) =>
-        prevSavedDests.includes(destination)
-          ? prevSavedDests
-          : [...prevSavedDests, destination]
-      );
-    } else {
-      setSavedActivities((prevSaved) => {
-        const updatedSaved = { ...prevSaved };
-        delete updatedSaved[destination];
-        return updatedSaved;
-      });
-      setSavedDests((prevSavedDests) =>
-        prevSavedDests.filter((dest) => dest !== destination)
-      );
+    if (isSaved) {
+      remove(ref(db, `savedDestinations/${destination}`));
     }
   }
 
