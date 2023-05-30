@@ -3,14 +3,14 @@
   height: 90px;
   border-radius: 18px;
   background-color: #fbf8f3;
-  margin: 25px 25px 0 25px;
+  margin: 1.5625rem 1.5625rem 0 1.5625rem;
   display: flex;
   flex-direction: row;
 }
 
 .activity-info {
-  margin-left: 25px;
-  margin-top: 15px;
+  margin-left: 1.5625rem;
+  margin-top: 0.9375rem;
   width: fit-content;
   height: fit-content;
 }
@@ -18,22 +18,21 @@
 .activity-time {
   font-style: normal;
   font-weight: 400;
-  font-size: 16px;
   text-transform: uppercase;
 }
 
 .activity-name {
   font-style: normal;
   font-weight: 400;
-  font-size: 18px;
-  margin-top: 15px;
+  font-size: 1.125rem;
+  margin-top: 0.9375rem;
 }
 
 .activity-button {
   display: flex;
   flex-direction: column;
   margin-left: auto;
-  margin-right: 25px;
+  margin-right: 1.5625rem;
   height: 100%;
   align-items: center;
   justify-content: center;
@@ -43,7 +42,7 @@
   background: transparent;
   border: none;
   cursor: pointer;
-  margin-bottom: 12px;
+  margin-bottom: 0.75rem;
 }
 
 .edit-button {
@@ -63,15 +62,14 @@
 .time-start-edit,
 .time-end-edit {
   width: 20%;
-  font-size: 14px;
+  font-size: 0.875rem;
   outline: none;
   border-radius: 4px;
   text-transform: uppercase;
 }
 
 .name-edit {
-  margin-top: 15px;
-  font-size: 16px;
+  margin-top: 0.9375rem;
   outline: none;
   border-radius: 4px;
   width: 50%;
@@ -84,19 +82,19 @@
 
   .name-edit {
     width: 55%;
-    font-size: 14px;
+    font-size: 0.875rem;
   }
 
   .time-start-edit,
   .time-end-edit {
-    font-size: 12px;
+    font-size: 0.75rem;
   }
 
   .activity-time {
-    font-size: 14px;
+    font-size: 0.875rem;
   }
 
   .activity-name {
-    font-size: 16px;
+    font-size: 1rem;
   }
 }

@@ -9,7 +9,8 @@
 .title {
   font-size: 2rem;
   font-weight: 500;
-  margin-bottom: 12px;
+  margin-bottom: 0.75rem;
+  text-align: center;
 }
 
 .form-container {

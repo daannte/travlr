@@ -66,7 +66,7 @@ function Planner({
   }, [activityList, destination, isSaved]);
 
   function handleSaved() {
-    setIsSaved((prevIsSaved) => !prevIsSaved);
+    setIsSaved(!isSaved);
     if (isSaved) {
       remove(ref(db, `savedDestinations/${destination}`));
     }

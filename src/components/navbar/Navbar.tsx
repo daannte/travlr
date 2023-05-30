@@ -1,18 +1,43 @@
 import { NavLink } from "react-router-dom";
+import menuIcon from "../../assets/menu.svg";
+import closeIcon from "../../assets/close.svg";
+import { useState } from "react";
 import "./Navbar.css";
 
 function Navbar() {
+  const [isMenuOpened, setIsMenuOpened] = useState<boolean>(false);
+
+  function handleMenuClick() {
+    setIsMenuOpened(!isMenuOpened);
+  }
+
   return (
     <nav className="navbar">
       <h1 className="navbar-title">Travlr</h1>
-      <ul className="navbar-links">
-        <NavLink to="/saved" className="navbar-element">
-          Saved
-        </NavLink>
-        <NavLink end to="/" className="navbar-element">
+      <button className="nav-icon" onClick={handleMenuClick}>
+        <img src={isMenuOpened ? closeIcon : menuIcon} alt="Menu" />
+      </button>
+      <ul className={`navbar-links ${isMenuOpened ? "active" : ""}`}>
+        <NavLink
+          end
+          to="/"
+          className="navbar-element"
+          onClick={handleMenuClick}
+        >
           Home
         </NavLink>
-        <NavLink to="/signin" className="navbar-element">
+        <NavLink
+          to="/saved"
+          className="navbar-element"
+          onClick={handleMenuClick}
+        >
+          Saved
+        </NavLink>
+        <NavLink
+          to="/signin"
+          className="navbar-element"
+          onClick={handleMenuClick}
+        >
           Sign in
         </NavLink>
       </ul>

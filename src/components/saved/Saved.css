@@ -12,13 +12,13 @@
   justify-content: space-between;
   align-items: center;
   font-size: 1.2rem;
-  margin: 8px;
+  margin: 1rem;
 }
 
 .destination-name {
   width: 10rem;
   overflow-wrap: break-word;
-  margin-left: 4px;
+  margin-left: 0.25rem;
 }
 
 .load-button {
@@ -27,7 +27,7 @@
   color: white;
   border: none;
   border-radius: 12px;
-  padding: 8px;
-  margin-left: 8px;
+  padding: 0.3125rem;
+  margin-left: 0.5rem;
   cursor: pointer;
 }
