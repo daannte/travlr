@@ -4,7 +4,7 @@ import Navbar from "./components/navbar/Navbar";
 import Saved from "./components/saved/Saved";
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { db, ref, onValue } from "./backend/firebaseSetup";
+import { db, ref, onValue } from "./backend/firebase";
 import "./App.css";
 
 interface ActivityDetails {

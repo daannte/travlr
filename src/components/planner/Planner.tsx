@@ -4,7 +4,7 @@ import StarIcon from "../../assets/star.svg";
 import StarFilledIcon from "../../assets/starFilled.svg";
 import "./Planner.css";
 import React, { useEffect, useState } from "react";
-import { db, ref, set, remove } from "../../backend/firebaseSetup";
+import { db, ref, set, remove } from "../../backend/firebase";
 
 interface ActivityDetails {
   startTime: string;
