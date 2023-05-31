@@ -2,9 +2,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import lockIcon from "../../assets/lock.svg";
 import mailIcon from "../../assets/mail.svg";
-import "./Login.css";
+import "./Signup.css";
 
-function Login() {
+function Signin() {
   const [currentInput, setCurrentInput] = useState<string>("");
   const navigate = useNavigate();
 
@@ -14,9 +14,9 @@ function Login() {
   }
 
   return (
-    <div className="login-container">
-      <h2 className="login-title">Login</h2>
-      <form className="login-form-container" onSubmit={handleSubmit}>
+    <div className="signup-container">
+      <h2 className="signup-title">Create Account</h2>
+      <form className="signup-form-container" onSubmit={handleSubmit}>
         <div className="input-container">
           <img src={mailIcon} className="input-icon" />
           <input
@@ -45,20 +45,35 @@ function Login() {
             onBlur={() => setCurrentInput("")}
           />
         </div>
+        <div className="input-container">
+          <img src={lockIcon} className="input-icon" />
+          <input
+            className={`info-input ${
+              currentInput === "confirmPassword" ? "active" : ""
+            }`}
+            type="password"
+            name="password"
+            placeholder="CONFIRM PASSWORD"
+            required
+            autoComplete="off"
+            onFocus={() => setCurrentInput("confirmPassword")}
+            onBlur={() => setCurrentInput("")}
+          />
+        </div>
         <div className="submit-container">
           <button className="submit-button" type="submit">
-            Login
+            Signup
           </button>
         </div>
       </form>
       <footer className="footer-container">
-        Don't have an account?{" "}
-        <span className="signup-text" onClick={() => navigate("/signup")}>
-          Sign up
+        Already have an account?{" "}
+        <span className="login-text" onClick={() => navigate("/login")}>
+          Login
         </span>
       </footer>
     </div>
   );
 }
 
-export default Login;
+export default Signin;

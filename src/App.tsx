@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { db, ref, onValue } from "./backend/firebase";
 import "./App.css";
+import Signup from "./components/signup/Signup";
 
 interface ActivityDetails {
   startTime: string;
@@ -82,6 +83,7 @@ function App() {
         />
         <Route path="/" element={<Home setDestination={setDestination} />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
     </Router>
   );
