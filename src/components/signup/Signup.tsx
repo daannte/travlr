@@ -10,7 +10,7 @@ function Signin() {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    navigate("/home");
+    navigate("/");
   }
 
   return (
