@@ -34,11 +34,11 @@ function Navbar() {
           Saved
         </NavLink>
         <NavLink
-          to="/signin"
+          to="/login"
           className="navbar-element"
           onClick={handleMenuClick}
         >
-          Sign in
+          Login
         </NavLink>
       </ul>
     </nav>

@@ -2,6 +2,7 @@ import Home from "./components/home/Home";
 import Planner from "./components/planner/Planner";
 import Navbar from "./components/navbar/Navbar";
 import Saved from "./components/saved/Saved";
+import Login from "./components/login/Login";
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { db, ref, onValue } from "./backend/firebase";
@@ -80,6 +81,7 @@ function App() {
           }
         />
         <Route path="/" element={<Home setDestination={setDestination} />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </Router>
   );

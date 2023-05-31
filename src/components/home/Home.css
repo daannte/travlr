@@ -16,8 +16,8 @@
 .form-container {
   display: flex;
   align-items: center;
-  border: 0.15rem solid black;
-  border-radius: 1rem;
+  border: 2px solid black;
+  border-radius: 16px;
   padding-right: 0.5rem;
   margin-top: 0.5rem;
 }

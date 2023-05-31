@@ -26,6 +26,7 @@ function Home({ setDestination }: HomeProps) {
           placeholder="e.g Barcelona"
           onChange={(e) => setDestination(e.target.value)}
           required
+          autoComplete="off"
         />
         <button type="submit" className="search-icon">
           <img src={searchIcon} alt="Search" />
