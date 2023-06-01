@@ -53,7 +53,7 @@ function Login() {
       </form>
       <footer className="footer-container">
         Don't have an account?{" "}
-        <span className="signup-text" onClick={() => navigate("/signup")}>
+        <span className="login-text" onClick={() => navigate("/signup")}>
           Sign up
         </span>
       </footer>

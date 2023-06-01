@@ -11,6 +11,7 @@
   width: 16.5rem;
   font-size: 2rem;
   margin-bottom: 1.5rem;
+  color: #022249;
 }
 
 .login-form-container {
@@ -26,6 +27,7 @@
   padding-left: 2rem;
   font-size: 0.8rem;
   width: 100%;
+  border-radius: 12px;
 }
 
 .info-input.active {
@@ -52,11 +54,11 @@
 .submit-button {
   padding: 1rem;
   border: none;
-  border-radius: 32px;
+  border-radius: 28px;
   width: 12rem;
-  font-size: 1rem;
+  font-size: 1.1rem;
   cursor: pointer;
-  background-color: gray;
+  background-color: #f07c42;
   color: white;
 }
 
@@ -67,5 +69,5 @@
 
 .login-text {
   cursor: pointer;
-  color: #54bcc9;
+  color: white;
 }

@@ -10,6 +10,7 @@
 .signup-title {
   font-size: 2rem;
   margin-bottom: 0.5rem;
+  color: #022249;
 }
 
 .signup-form-container {
@@ -24,6 +25,7 @@
   padding: 0.8rem;
   padding-left: 2rem;
   font-size: 0.8rem;
+  border-radius: 12px;
   width: 100%;
 }
 
@@ -51,11 +53,11 @@
 .submit-button {
   padding: 1rem;
   border: none;
-  border-radius: 32px;
+  border-radius: 28px;
   width: 12rem;
-  font-size: 1rem;
+  font-size: 1.1rem;
   cursor: pointer;
-  background-color: gray;
+  background-color: #f07c42;
   color: white;
 }
 
@@ -66,5 +68,5 @@
 
 .signup-text {
   cursor: pointer;
-  color: #54bcc9;
+  color: white;
 }
