@@ -51,6 +51,23 @@
   margin: 0.75rem 3rem 0 auto;
 }
 
+.loggedin-user-button {
+  background: #f07c42;
+  border: none;
+  padding: 0.3rem;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.signout-container {
+  margin-top: auto;
+}
+
+.signout-button {
+  background: transparent;
+  border: none;
+}
+
 @media screen and (max-width: 768px) {
   .nav-icon {
     display: inline-block;
@@ -62,7 +79,7 @@
     top: 100%;
     width: 100vw;
     height: 100vh;
-    background-color: white;
+    background-color: #c7eef5;
     padding: 1rem;
     z-index: 1;
   }

@@ -1,15 +1,31 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { auth, signInWithEmailAndPassword } from "../../backend/firebase";
 import lockIcon from "../../assets/lock.svg";
 import mailIcon from "../../assets/mail.svg";
 import "./Login.css";
 
-function Login() {
+interface LoginProps {
+  setUserId: React.Dispatch<React.SetStateAction<string>>;
+}
+
+function Login({ setUserId }: LoginProps) {
   const [currentInput, setCurrentInput] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  async function loginAccount() {
+    try {
+      const userInfo = await signInWithEmailAndPassword(auth, email, password);
+      setUserId(userInfo.user.uid);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  function handleSubmit() {
+    loginAccount();
     navigate("/");
   }
 
@@ -28,6 +44,7 @@ function Login() {
             autoComplete="off"
             onFocus={() => setCurrentInput("email")}
             onBlur={() => setCurrentInput("")}
+            onChange={(event) => setEmail(event.target.value)}
           />
         </div>
         <div className="input-container">
@@ -43,6 +60,7 @@ function Login() {
             autoComplete="off"
             onFocus={() => setCurrentInput("password")}
             onBlur={() => setCurrentInput("")}
+            onChange={(event) => setPassword(event.target.value)}
           />
         </div>
         <div className="submit-container">

@@ -1,15 +1,38 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { auth, createUserWithEmailAndPassword } from "../../backend/firebase";
 import lockIcon from "../../assets/lock.svg";
 import mailIcon from "../../assets/mail.svg";
 import "./Signup.css";
 
-function Signin() {
+interface SigninProps {
+  setUserId: React.Dispatch<React.SetStateAction<string>>;
+}
+
+function Signin({ setUserId }: SigninProps) {
   const [currentInput, setCurrentInput] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
   const navigate = useNavigate();
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  async function createAccount() {
+    try {
+      const userInfo = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      setUserId(userInfo.user.uid);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  function handleSubmit() {
+    if (password === confirmPassword) {
+      createAccount();
+    }
     navigate("/");
   }
 
@@ -28,6 +51,7 @@ function Signin() {
             autoComplete="off"
             onFocus={() => setCurrentInput("email")}
             onBlur={() => setCurrentInput("")}
+            onChange={(event) => setEmail(event.target.value)}
           />
         </div>
         <div className="input-container">
@@ -43,6 +67,7 @@ function Signin() {
             autoComplete="off"
             onFocus={() => setCurrentInput("password")}
             onBlur={() => setCurrentInput("")}
+            onChange={(event) => setPassword(event.target.value)}
           />
         </div>
         <div className="input-container">
@@ -58,6 +83,7 @@ function Signin() {
             autoComplete="off"
             onFocus={() => setCurrentInput("confirmPassword")}
             onBlur={() => setCurrentInput("")}
+            onChange={(event) => setConfirmPassword(event.target.value)}
           />
         </div>
         <div className="submit-container">

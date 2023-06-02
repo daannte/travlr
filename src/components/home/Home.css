@@ -25,7 +25,7 @@
   align-items: center;
   border-radius: 20px;
   padding-right: 0.5rem;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
   background-color: white;
 }
 
@@ -53,6 +53,36 @@
 
 .search-icon {
   width: 20px;
+}
+
+.date-select-container {
+  margin-top: 1rem;
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.calendar-button-container {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 12px;
+  padding: 0.5rem;
+  width: 45%;
+}
+
+.calendar-button {
+  background: transparent;
+  border: none;
+  outline: none;
+  margin-left: 0.5rem;
+  cursor: pointer;
+  caret-color: transparent;
+}
+
+.calendar-icon {
+  width: 18px;
+  margin-left: 0.5rem;
 }
 
 .phone-image {

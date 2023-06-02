@@ -19,7 +19,6 @@
   flex-direction: row;
   overflow-x: auto;
   max-width: 100%;
-  background-color: #f3efe6;
   border-radius: 12px;
 }
 
@@ -30,22 +29,16 @@
   width: 100%;
 }
 
-.add-icon {
-  border: none;
-  cursor: pointer;
-  background-color: transparent;
-  margin-left: 0.5rem;
-}
-
 .title-container {
   display: flex;
   flex-direction: row;
-  margin-bottom: 2rem;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
 }
 
 .save-icon {
-  margin-left: 1rem;
-  margin-top: 0.25rem;
+  margin: 0.25rem 0 0 1rem;
   width: 28px;
   cursor: pointer;
 }
@@ -69,8 +62,12 @@
     height: 45%;
   }
 
-  .add-icon {
+  .add-button {
     margin-left: 0;
     margin-top: 0.5rem;
+  }
+
+  .destination {
+    font-size: 1.5rem;
   }
 }

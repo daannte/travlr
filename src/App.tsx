@@ -3,11 +3,11 @@ import Planner from "./components/planner/Planner";
 import Navbar from "./components/navbar/Navbar";
 import Saved from "./components/saved/Saved";
 import Login from "./components/login/Login";
+import Signup from "./components/signup/Signup";
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { db, ref, onValue } from "./backend/firebase";
 import "./App.css";
-import Signup from "./components/signup/Signup";
 
 interface ActivityDetails {
   startTime: string;
@@ -28,10 +28,13 @@ function App() {
   const [savedDests, setSavedDests] = useState<string[]>([]);
   const [savedActivities, setSavedActivities] = useState<SavedActivities>({});
   const [activityList, setActivityList] = useState<ActivityList>({});
+  const [userId, setUserId] = useState<string>("");
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
 
   // get the destination names from the DB
   useEffect(() => {
-    const dataRef = ref(db, "savedDestinations/");
+    const dataRef = ref(db, `users/${userId}/savedDestinations`);
     onValue(dataRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
@@ -44,7 +47,7 @@ function App() {
         setSavedActivities({});
       }
     });
-  }, []);
+  }, [userId]);
 
   useEffect(() => {
     if (!savedDests.includes(destination) && destination !== prevDestination) {
@@ -78,12 +81,24 @@ function App() {
               setActivityList={setActivityList}
               activityList={activityList}
               savedDests={savedDests}
+              userId={userId}
             />
           }
         />
-        <Route path="/" element={<Home setDestination={setDestination} />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route
+          path="/"
+          element={
+            <Home
+              setDestination={setDestination}
+              setStartDate={setStartDate}
+              setEndDate={setEndDate}
+              startDate={startDate}
+              endDate={endDate}
+            />
+          }
+        />
+        <Route path="/login" element={<Login setUserId={setUserId} />} />
+        <Route path="/signup" element={<Signup setUserId={setUserId} />} />
       </Routes>
     </Router>
   );

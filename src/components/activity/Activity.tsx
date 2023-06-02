@@ -70,6 +70,11 @@ function Activity({
         {isEditing ? (
           // Show edit form
           <>
+            <input
+              className="name-edit"
+              value={activity.name}
+              onChange={handleEditValues}
+            />
             <div>
               <input
                 className="time-start-edit"
@@ -83,20 +88,15 @@ function Activity({
                 onChange={handleEditValues}
               />
             </div>
-            <input
-              className="name-edit"
-              value={activity.name}
-              onChange={handleEditValues}
-            />
           </>
         ) : (
           // Show activity info
           <>
+            <p className="activity-name">{activity.name}</p>
             <p className="activity-time">
               <span>{activity.startTime} </span>-
               <span> {activity.endTime}</span>
             </p>
-            <p className="activity-name">{activity.name}</p>
           </>
         )}
       </div>

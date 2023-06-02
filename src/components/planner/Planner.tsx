@@ -1,10 +1,10 @@
+import React, { useEffect, useState } from "react";
+import { db, ref, set, remove } from "../../backend/firebase";
+import { useNavigate } from "react-router-dom";
 import Card from "../card/Card";
-import AddDayIcon from "../../assets/addDay.svg";
 import StarIcon from "../../assets/star.svg";
 import StarFilledIcon from "../../assets/starFilled.svg";
 import "./Planner.css";
-import React, { useEffect, useState } from "react";
-import { db, ref, set, remove } from "../../backend/firebase";
 
 interface ActivityDetails {
   startTime: string;
@@ -21,6 +21,7 @@ interface PlannerProps {
   setActivityList: React.Dispatch<React.SetStateAction<ActivityList>>;
   activityList: ActivityList;
   savedDests: string[];
+  userId: string;
 }
 
 function Planner({
@@ -28,6 +29,7 @@ function Planner({
   setActivityList,
   activityList,
   savedDests,
+  userId,
 }: PlannerProps) {
   const [isSaved, setIsSaved] = useState(savedDests.includes(destination));
 
@@ -61,14 +63,21 @@ function Planner({
 
   useEffect(() => {
     if (isSaved) {
-      set(ref(db, "savedDestinations/" + destination), activityList);
+      set(
+        ref(db, `users/${userId}/savedDestinations/${destination}`),
+        activityList
+      );
     }
-  }, [activityList, destination, isSaved]);
+  }, [activityList, destination, isSaved, userId]);
 
+  const navigate = useNavigate();
   function handleSaved() {
-    setIsSaved(!isSaved);
-    if (isSaved) {
-      remove(ref(db, `savedDestinations/${destination}`));
+    if (userId == "") navigate("/login");
+    else {
+      setIsSaved(!isSaved);
+      if (isSaved) {
+        remove(ref(db, `users/${userId}/savedDestinations/${destination}`));
+      }
     }
   }
 
@@ -76,7 +85,7 @@ function Planner({
     <div className="planner-container">
       <div className="event-container">
         <div className="title-container">
-          <h1 className="destination">{destination}</h1>{" "}
+          <h1 className="destination">{destination}</h1>
           <img
             src={isSaved ? StarFilledIcon : StarIcon}
             alt="Save"
@@ -86,9 +95,6 @@ function Planner({
         </div>
         <div className="cards-button-container">
           <div className="cards-container">{renderCards()}</div>
-          <button className="add-icon" onClick={handleAddCard}>
-            <img src={AddDayIcon} alt="Add Day" />
-          </button>
         </div>
       </div>
     </div>
