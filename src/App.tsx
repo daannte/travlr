@@ -1,12 +1,12 @@
-import Home from "./components/home/Home";
-import Planner from "./components/planner/Planner";
+import Home from "./pages/home/Home";
+import Planner from "./pages/planner/Planner";
 import Navbar from "./components/navbar/Navbar";
 import Saved from "./components/saved/Saved";
 import Login from "./components/login/Login";
 import Signup from "./components/signup/Signup";
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { db, ref, onValue } from "./backend/firebase";
+import { db, ref, onValue, auth } from "./backend/firebase";
 import "./App.css";
 
 interface ActivityDetails {
@@ -16,24 +16,25 @@ interface ActivityDetails {
 }
 
 interface ActivityList {
-  [key: number]: ActivityDetails[];
+  date: string;
+  activities: ActivityDetails[];
 }
 
 interface SavedActivities {
-  [key: string]: ActivityList;
+  [key: string]: ActivityList[];
 }
 function App() {
   const [destination, setDestination] = useState<string>("");
-  const [prevDestination, setPrevDestination] = useState<string>("");
   const [savedDests, setSavedDests] = useState<string[]>([]);
   const [savedActivities, setSavedActivities] = useState<SavedActivities>({});
-  const [activityList, setActivityList] = useState<ActivityList>({});
+  const [activityList, setActivityList] = useState<ActivityList[]>([]);
   const [userId, setUserId] = useState<string>("");
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
 
   // get the destination names from the DB
   useEffect(() => {
+    setUserId(auth.currentUser == null ? "" : auth.currentUser.uid);
     const dataRef = ref(db, `users/${userId}/savedDestinations`);
     onValue(dataRef, (snapshot) => {
       const data = snapshot.val();
@@ -48,15 +49,6 @@ function App() {
       }
     });
   }, [userId]);
-
-  useEffect(() => {
-    if (!savedDests.includes(destination) && destination !== prevDestination) {
-      setActivityList({
-        0: [{ startTime: "Start", endTime: "End", name: "Activity Name" }],
-      });
-    }
-    setPrevDestination(destination);
-  }, [destination, savedDests, prevDestination]);
 
   return (
     <Router>
@@ -82,6 +74,7 @@ function App() {
               activityList={activityList}
               savedDests={savedDests}
               userId={userId}
+              setUserId={setUserId}
             />
           }
         />
@@ -94,6 +87,9 @@ function App() {
               setEndDate={setEndDate}
               startDate={startDate}
               endDate={endDate}
+              setActivityList={setActivityList}
+              destination={destination}
+              savedDests={savedDests}
             />
           }
         />

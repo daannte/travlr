@@ -8,17 +8,18 @@ interface ActivityDetails {
 }
 
 interface ActivityList {
-  [key: number]: ActivityDetails[];
+  date: string;
+  activities: ActivityDetails[];
 }
 
 interface SavedActivities {
-  [key: string]: ActivityList;
+  [key: string]: ActivityList[];
 }
 
 interface SavedProps {
   savedActivities: SavedActivities;
   savedDests: string[];
-  setActivityList: React.Dispatch<React.SetStateAction<ActivityList>>;
+  setActivityList: React.Dispatch<React.SetStateAction<ActivityList[]>>;
   setDestination: React.Dispatch<React.SetStateAction<string>>;
 }
 

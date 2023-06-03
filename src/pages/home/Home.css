@@ -22,7 +22,13 @@
 
 .form-container {
   display: flex;
+  flex-direction: column;
   align-items: center;
+}
+
+.search-box-container {
+  display: flex;
+  flex-direction: row;
   border-radius: 20px;
   padding-right: 0.5rem;
   margin-top: 1rem;
@@ -40,6 +46,8 @@
 }
 
 .search-button {
+  display: flex;
+  align-items: center;
   position: relative;
   left: 10px;
   background: #f07c42;
@@ -53,11 +61,12 @@
 
 .search-icon {
   width: 20px;
+  margin: auto;
 }
 
 .date-select-container {
   margin-top: 1rem;
-  width: 80%;
+  width: 95%;
   display: flex;
   justify-content: space-between;
 }
@@ -68,7 +77,7 @@
   background: white;
   border-radius: 12px;
   padding: 0.5rem;
-  width: 45%;
+  margin-right: 2rem;
 }
 
 .calendar-button {
@@ -88,6 +97,7 @@
 .phone-image {
   width: 28rem;
   margin-left: 8rem;
+  margin-top: 1rem;
 }
 
 @media screen and (max-width: 768px) {

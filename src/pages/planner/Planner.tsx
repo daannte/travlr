@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { db, ref, set, remove } from "../../backend/firebase";
+import { db, ref, set, remove, auth } from "../../backend/firebase";
 import { useNavigate } from "react-router-dom";
-import Card from "../card/Card";
+import { v4 as uuidv4 } from "uuid";
+import Card from "../../components/card/Card";
 import StarIcon from "../../assets/star.svg";
 import StarFilledIcon from "../../assets/starFilled.svg";
 import "./Planner.css";
+import useAuth from "../../hooks/useAuth";
 
 interface ActivityDetails {
   startTime: string;
@@ -13,15 +15,17 @@ interface ActivityDetails {
 }
 
 interface ActivityList {
-  [key: number]: ActivityDetails[];
+  date: string;
+  activities: ActivityDetails[];
 }
 
 interface PlannerProps {
   destination: string;
-  setActivityList: React.Dispatch<React.SetStateAction<ActivityList>>;
-  activityList: ActivityList;
+  setActivityList: React.Dispatch<React.SetStateAction<ActivityList[]>>;
+  activityList: ActivityList[];
   savedDests: string[];
   userId: string;
+  setUserId: React.Dispatch<React.SetStateAction<string>>;
 }
 
 function Planner({
@@ -30,35 +34,24 @@ function Planner({
   activityList,
   savedDests,
   userId,
+  setUserId,
 }: PlannerProps) {
   const [isSaved, setIsSaved] = useState(savedDests.includes(destination));
 
-  function renderCards() {
-    return Object.keys(activityList).map((day) => (
-      <Card
-        key={day}
-        day={parseInt(day)}
-        setActivityList={setActivityList}
-        activityList={activityList}
-      />
-    ));
-  }
+  useAuth(setUserId);
 
-  function handleAddCard() {
-    setActivityList((prevActivityList) => {
-      const newDay = Object.keys(prevActivityList).length;
-      const newActivityList = {
-        ...prevActivityList,
-        [newDay]: [
-          {
-            startTime: "Start",
-            endTime: "End",
-            name: "Activity Name",
-          },
-        ],
-      };
-      return newActivityList;
+  function renderCards() {
+    const cards = activityList.map((activity) => {
+      return (
+        <Card
+          key={uuidv4()}
+          currentDate={activity.date}
+          setActivityList={setActivityList}
+          activityList={activityList}
+        />
+      );
     });
+    return cards;
   }
 
   useEffect(() => {
@@ -72,7 +65,7 @@ function Planner({
 
   const navigate = useNavigate();
   function handleSaved() {
-    if (userId == "") navigate("/login");
+    if (auth.currentUser == null) navigate("/login");
     else {
       setIsSaved(!isSaved);
       if (isSaved) {
