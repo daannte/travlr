@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { db, ref, set, remove, auth } from "../../backend/firebase";
 import { useNavigate } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
 import Card from "../../components/card/Card";
 import StarIcon from "../../assets/star.svg";
 import StarFilledIcon from "../../assets/starFilled.svg";
@@ -38,14 +37,15 @@ function Planner({
 }: PlannerProps) {
   const [isSaved, setIsSaved] = useState(savedDests.includes(destination));
 
+  // Check if the user is logged in already
   useAuth(setUserId);
 
   function renderCards() {
-    const cards = activityList.map((activity) => {
+    const cards = activityList.map((_, index) => {
       return (
         <Card
-          key={uuidv4()}
-          currentDate={activity.date}
+          key={index}
+          day={index}
           setActivityList={setActivityList}
           activityList={activityList}
         />

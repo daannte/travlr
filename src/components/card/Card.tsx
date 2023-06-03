@@ -1,5 +1,4 @@
 import Activity from "../activity/Activity";
-import deleteIcon from "../../assets/delete.svg";
 import addActivityIcon from "../../assets/addActivity.svg";
 import "./Card.css";
 
@@ -15,65 +14,54 @@ interface ActivityList {
 }
 
 interface CardProps {
-  currentDate: string;
+  day: number;
   setActivityList: React.Dispatch<React.SetStateAction<ActivityList[]>>;
   activityList: ActivityList[];
 }
 
-function Card({ currentDate, setActivityList, activityList }: CardProps) {
-  // function handleCardDelete() {
-  //   setActivityList((prevActivityList: ActivityList) => {
-  //     delete prevActivityList[day];
-  //     const fixedActivityList: ActivityList = {};
-  //     // Reassign the keys so the numbers are back in order
-  //     let i = 0;
-  //     for (const key in prevActivityList) {
-  //       fixedActivityList[i] = prevActivityList[key];
-  //       i++;
-  //     }
-  //     return fixedActivityList;
-  //   });
-  // }
-  //
-  // function handleAddActivity() {
-  //   setActivityList((prevActivityList: ActivityList) => {
-  //     const newActivityList = { ...prevActivityList };
-  //     newActivityList[day] = [
-  //       ...newActivityList[day],
-  //       {
-  //         startTime: "Start",
-  //         endTime: "End",
-  //         name: "Activity Name",
-  //       },
-  //     ];
-  //     return newActivityList;
-  //   });
-  // }
-  //
-  // function renderActivites() {
-  //   return activityList[day].map((_, index: number) => {
-  //     return (
-  //       <Activity
-  //         key={index}
-  //         day={day}
-  //         index={index}
-  //         setActivityList={setActivityList}
-  //         activityList={activityList}
-  //       />
-  //     );
-  //   });
-  // }
+function Card({ day, setActivityList, activityList }: CardProps) {
+  const currentDate = activityList[day].date;
+
+  function handleAddActivity() {
+    setActivityList((prevActivityList: ActivityList[]) => {
+      const updatedActivityList = prevActivityList.map((item) => {
+        if (item.date === currentDate) {
+          return {
+            ...item,
+            activities: [
+              ...item.activities,
+              { startTime: "Start", endTime: "End", name: "Activity Name" },
+            ],
+          };
+        }
+        return item;
+      });
+      return updatedActivityList;
+    });
+  }
+
+  function renderActivities() {
+    const activitiesList = activityList[day].activities.map((_, index) => {
+      return (
+        <Activity
+          key={index}
+          day={day}
+          activityIndex={index}
+          setActivityList={setActivityList}
+          activityList={activityList}
+        />
+      );
+    });
+    return activitiesList;
+  }
 
   return (
     <div className="card">
       <div className="card-header">
         <h1 className="card-title">{currentDate}</h1>
-        <button className="delete-card-button" /* onClick={handleCardDelete} */>
-          <img src={deleteIcon} alt="Delete Card" />
-        </button>
       </div>
-      <div className="card-activities">{/* {renderActivites()} */}</div>
-      <button className="add-activity-button" /* onClick={handleAddActivity} */>
+      <div className="card-activities">{renderActivities()}</div>
+      <button className="add-activity-button" onClick={handleAddActivity}>
         <img src={addActivityIcon} alt="Add Activity" />
       </button>
     </div>
