@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { db, ref, set, remove, auth } from "../../backend/firebase";
 import { useNavigate } from "react-router-dom";
+import "./Planner.css";
+
 import Card from "../../components/card/Card";
 import StarIcon from "../../assets/star.svg";
 import StarFilledIcon from "../../assets/starFilled.svg";
-import "./Planner.css";
-import useAuth from "../../hooks/useAuth";
 
 interface ActivityDetails {
   startTime: string;
@@ -38,7 +38,10 @@ function Planner({
   const [isSaved, setIsSaved] = useState(savedDests.includes(destination));
 
   // Check if the user is logged in already
-  useAuth(setUserId);
+  useEffect(() => {
+    const currentUser = auth.currentUser;
+    if (currentUser != null) setUserId(currentUser.uid);
+  }, [setUserId]);
 
   function renderCards() {
     const cards = activityList.map((_, index) => {

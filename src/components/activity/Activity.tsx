@@ -1,8 +1,9 @@
 import { useState } from "react";
+import "./Activity.css";
+
 import deleteIcon from "../../assets/deleteActivity.svg";
 import editIcon from "../../assets/edit.svg";
 import checkIcon from "../../assets/check.svg";
-import "./Activity.css";
 
 interface ActivityDetails {
   startTime: string;
@@ -38,14 +39,20 @@ function Activity({
     const updatedActivity = {
       ...activityListData[day].activities[activityIndex],
     };
-    if (className === "name-edit") {
-      updatedActivity.name = value;
-    } else if (className === "time-start-edit") {
-      updatedActivity.startTime = value;
-    } else if (className === "time-end-edit") {
-      updatedActivity.endTime = value;
-    }
 
+    switch (className) {
+      case "name-edit":
+        updatedActivity.name = value;
+        break;
+      case "time-start-edit":
+        updatedActivity.startTime = value;
+        break;
+      case "time-end-edit":
+        updatedActivity.endTime = value;
+        break;
+      default:
+        break;
+    }
     activityListData[day].activities[activityIndex] = updatedActivity;
     setActivityList(activityListData);
   }
@@ -97,19 +104,20 @@ function Activity({
         )}
       </div>
       <div className="activity-button">
-        {!isEditing ? (
+        {!isEditing && (
           <button className="delete-button" onClick={handleActivityDelete}>
             <img src={deleteIcon} alt="Delete Activity" />
           </button>
-        ) : null}
-        {isEditing ? (
+        )}
+        {isEditing && (
           <button
             className="confirm-button"
             onClick={() => setIsEditing(!isEditing)}
           >
             <img src={checkIcon} alt="Confirm Edit" />
           </button>
-        ) : (
+        )}
+        {!isEditing && (
           <button
             className="edit-button"
             onClick={() => setIsEditing(!isEditing)}

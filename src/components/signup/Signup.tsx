@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, createUserWithEmailAndPassword } from "../../backend/firebase";
+import "./Signup.css";
+
 import lockIcon from "../../assets/lock.svg";
 import mailIcon from "../../assets/mail.svg";
-import "./Signup.css";
 
 interface SigninProps {
   setUserId: React.Dispatch<React.SetStateAction<string>>;

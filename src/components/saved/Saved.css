@@ -23,11 +23,10 @@
 
 .load-button {
   margin-left: auto;
-  background-color: gray;
-  color: white;
+  background-color: #f07c42;
   border: none;
-  border-radius: 12px;
-  padding: 0.3125rem;
+  border-radius: 16px;
+  padding: 0.6rem;
   margin-left: 0.5rem;
   cursor: pointer;
 }

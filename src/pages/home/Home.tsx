@@ -2,10 +2,11 @@ import { useNavigate } from "react-router-dom";
 import React, { useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import "./Home.css";
+
 import searchIcon from "../../assets/search.svg";
 import calendarIcon from "../../assets/calendar.svg";
 import phoneIll from "../../assets/phoneIll.svg";
-import "./Home.css";
 
 interface ActivityDetails {
   startTime: string;
@@ -20,10 +21,16 @@ interface ActivityList {
 
 interface HomeProps {
   setDestination: React.Dispatch<React.SetStateAction<string>>;
-  setStartDate: React.Dispatch<React.SetStateAction<Date | null>>;
-  setEndDate: React.Dispatch<React.SetStateAction<Date | null>>;
-  startDate: Date | null;
-  endDate: Date | null;
+  setDateRange: React.Dispatch<
+    React.SetStateAction<{
+      startDate: Date | null;
+      endDate: Date | null;
+    }>
+  >;
+  dateRange: {
+    startDate: Date | null;
+    endDate: Date | null;
+  };
   setActivityList: React.Dispatch<React.SetStateAction<ActivityList[]>>;
   destination: string;
   savedDests: string[];
@@ -31,10 +38,8 @@ interface HomeProps {
 
 function Home({
   setDestination,
-  setStartDate,
-  setEndDate,
-  startDate,
-  endDate,
+  setDateRange,
+  dateRange,
   setActivityList,
   destination,
   savedDests,
@@ -45,15 +50,15 @@ function Home({
 
     if (
       !savedDests.includes(destination) &&
-      startDate !== null &&
-      endDate !== null
+      dateRange.startDate !== null &&
+      dateRange.endDate !== null
     ) {
       const newActivityList: ActivityList[] = [];
-      const currentDate = new Date(startDate);
+      const currentDate = new Date(dateRange.startDate);
       // Set the time to end of the day so the last day gets added
-      endDate.setHours(23, 59, 59);
+      dateRange.endDate.setHours(23, 59, 59);
 
-      while (currentDate <= endDate) {
+      while (currentDate <= dateRange.endDate) {
         const date = currentDate.toLocaleDateString("en-US", {
           month: "long",
           day: "numeric",
@@ -71,9 +76,8 @@ function Home({
   };
 
   useEffect(() => {
-    setStartDate(null);
-    setEndDate(null);
-  }, [setStartDate, setEndDate]);
+    setDateRange({ startDate: null, endDate: null });
+  }, [setDateRange]);
 
   return (
     <div className="home-container">
@@ -104,13 +108,18 @@ function Home({
               />
               <DatePicker
                 className="calendar-button"
-                selected={startDate}
-                onChange={(date: Date) => setStartDate(date)}
+                selected={dateRange.startDate}
+                onChange={(date: Date) =>
+                  setDateRange((prevDateRange) => ({
+                    ...prevDateRange,
+                    startDate: date,
+                  }))
+                }
                 placeholderText="Start Date"
-                startDate={startDate}
-                endDate={endDate}
+                startDate={dateRange.startDate}
+                endDate={dateRange.startDate}
                 monthsShown={2}
-                dateFormat="MMMM d, yyyy"
+                dateFormat="MMMM d"
                 onKeyDown={(e) => e.preventDefault()}
                 required
                 selectsStart
@@ -124,14 +133,19 @@ function Home({
               />
               <DatePicker
                 className="calendar-button"
-                selected={endDate}
-                onChange={(date: Date) => setEndDate(date)}
+                selected={dateRange.endDate}
+                onChange={(date: Date) =>
+                  setDateRange((prevDateRange) => ({
+                    ...prevDateRange,
+                    endDate: date,
+                  }))
+                }
                 placeholderText="End Date"
-                startDate={startDate}
-                endDate={endDate}
-                minDate={startDate}
+                startDate={dateRange.startDate}
+                endDate={dateRange.endDate}
+                minDate={dateRange.startDate}
                 monthsShown={2}
-                dateFormat="MMMM d, yyyy"
+                dateFormat="MMMM d"
                 onKeyDown={(e) => e.preventDefault()}
                 required
                 selectsEnd

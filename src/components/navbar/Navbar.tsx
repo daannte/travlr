@@ -1,10 +1,10 @@
 import { NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { auth, onAuthStateChanged, signOut } from "../../backend/firebase";
+import "./Navbar.css";
+
 import menuIcon from "../../assets/menu.svg";
 import closeIcon from "../../assets/close.svg";
-import userIcon from "../../assets/user.svg";
-import "./Navbar.css";
 
 function Navbar() {
   const [isMenuOpened, setIsMenuOpened] = useState(false);
@@ -48,14 +48,8 @@ function Navbar() {
             >
               Saved
             </NavLink>
-            <button className="loggedin-user-button navbar-element">
-              <img src={userIcon} alt="User" className="loggedin-user-icon" />
-            </button>
-            <div className="signout-container">
-              <button
-                className="navbar-element signout-button"
-                onClick={handleSignOut}
-              >
+            <div className="navbar-element">
+              <button className="signout-button" onClick={handleSignOut}>
                 Sign out
               </button>
             </div>
