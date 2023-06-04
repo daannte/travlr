@@ -64,10 +64,18 @@
 
 .footer-container {
   position: absolute;
-  bottom: 18%;
+  bottom: 2%;
+  color: white;
 }
 
 .login-text {
   cursor: pointer;
-  color: white;
+  color: #66fcf1;
+  text-decoration: none;
+}
+
+.login-error {
+  color: #fc4344;
+  display: flex;
+  justify-content: center;
 }

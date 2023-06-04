@@ -1,69 +1,110 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { auth, signInWithEmailAndPassword } from "../../backend/firebase";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import {
+  auth,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+} from "../../backend/firebase";
+import { useForm, SubmitHandler } from "react-hook-form";
 import "./Login.css";
 
 import lockIcon from "../../assets/lock.svg";
 import mailIcon from "../../assets/mail.svg";
 
-interface LoginProps {
-  setUserId: React.Dispatch<React.SetStateAction<string>>;
+interface IFormInputs {
+  email: string;
+  password: string;
 }
 
-function Login({ setUserId }: LoginProps) {
-  const [currentInput, setCurrentInput] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+interface ActivityDetails {
+  startTime: string;
+  endTime: string;
+  name: string;
+}
+
+interface ActivityList {
+  date: string;
+  activities: ActivityDetails[];
+}
+
+interface LoginProps {
+  setUserId: React.Dispatch<React.SetStateAction<string>>;
+  activityList: ActivityList[];
+}
+
+function Login({ setUserId, activityList }: LoginProps) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IFormInputs>();
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
-  async function loginAccount() {
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserId(user.uid);
+        if (activityList.length !== 0) {
+          navigate("/planner");
+        } else {
+          navigate("/");
+        }
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [navigate, setUserId, activityList]);
+
+  const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
     try {
-      const userInfo = await signInWithEmailAndPassword(auth, email, password);
+      const userInfo = await signInWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
       setUserId(userInfo.user.uid);
-    } catch (error) {
-      console.log(error);
+    } catch (error: unknown) {
+      setErrorMessage("Invalid password or email!");
     }
-  }
-
-  function handleSubmit() {
-    loginAccount();
-    navigate("/");
-  }
+  };
 
   return (
     <div className="login-container">
       <h2 className="login-title">Login</h2>
-      <form className="login-form-container" onSubmit={handleSubmit}>
+      <form className="login-form-container" onSubmit={handleSubmit(onSubmit)}>
         <div className="input-container">
           <img src={mailIcon} className="input-icon" />
           <input
-            className={`info-input ${currentInput === "email" ? "active" : ""}`}
-            type="text"
-            name="username"
+            className="info-input"
+            type="email"
             placeholder="EMAIL"
-            required
             autoComplete="off"
-            onFocus={() => setCurrentInput("email")}
-            onBlur={() => setCurrentInput("")}
-            onChange={(event) => setEmail(event.target.value)}
+            {...register("email", {
+              required: true,
+            })}
           />
         </div>
         <div className="input-container">
           <img src={lockIcon} className="input-icon" />
           <input
-            className={`info-input ${
-              currentInput === "password" ? "active" : ""
-            }`}
+            className="info-input"
             type="password"
-            name="password"
             placeholder="PASSWORD"
-            required
             autoComplete="off"
-            onFocus={() => setCurrentInput("password")}
-            onBlur={() => setCurrentInput("")}
-            onChange={(event) => setPassword(event.target.value)}
+            {...register("password", {
+              required: true,
+            })}
           />
         </div>
+        <span className="login-error">
+          {errorMessage && errorMessage}
+          {(errors.email || errors.password) &&
+            !errorMessage &&
+            "email and password required!"}
+        </span>
         <div className="submit-container">
           <button className="submit-button" type="submit">
             Login
@@ -72,9 +113,9 @@ function Login({ setUserId }: LoginProps) {
       </form>
       <footer className="footer-container">
         Don't have an account?{" "}
-        <span className="login-text" onClick={() => navigate("/signup")}>
+        <Link to="/signup" className="login-text">
           Sign up
-        </span>
+        </Link>
       </footer>
     </div>
   );

@@ -4,6 +4,7 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  fetchSignInMethodsForEmail,
   onAuthStateChanged,
   signOut,
 } from "firebase/auth";
@@ -30,6 +31,7 @@ export {
   remove,
   onValue,
   signInWithEmailAndPassword,
+  fetchSignInMethodsForEmail,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signOut,

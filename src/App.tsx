@@ -83,8 +83,14 @@ function App() {
         <Route path="/saved" element={renderSavedRoute()} />
         <Route path="/planner" element={renderPlannerRoute()} />
         <Route path="/" element={renderHomeRoute()} />
-        <Route path="/login" element={<Login setUserId={setUserId} />} />
-        <Route path="/signup" element={<Signup setUserId={setUserId} />} />
+        <Route
+          path="/login"
+          element={<Login setUserId={setUserId} activityList={activityList} />}
+        />
+        <Route
+          path="/signup"
+          element={<Signup setUserId={setUserId} activityList={activityList} />}
+        />
       </Routes>
     </Router>
   );

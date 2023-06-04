@@ -58,7 +58,7 @@ function Planner({
   }
 
   useEffect(() => {
-    if (isSaved) {
+    if (isSaved && userId) {
       set(
         ref(db, `users/${userId}/savedDestinations/${destination}`),
         activityList
