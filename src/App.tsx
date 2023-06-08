@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { auth } from "./backend/firebase";
+import { auth, onAuthStateChanged } from "./backend/firebase";
 import { fetchSavedInfo } from "./utils/firebaseUtils";
 import "./App.css";
 
@@ -8,8 +8,6 @@ import Home from "./pages/home/Home";
 import Planner from "./pages/planner/Planner";
 import Navbar from "./components/navbar/Navbar";
 import Saved from "./components/saved/Saved";
-import Login from "./components/login/Login";
-import Signup from "./components/signup/Signup";
 
 interface ActivityDetails {
   startTime: string;
@@ -27,10 +25,16 @@ interface SavedActivities {
 }
 
 function App() {
-  const [destination, setDestination] = useState<string>("");
+  const [destination, setDestination] = useState<string>(() => {
+    const currentDestination = localStorage.getItem("destination");
+    return currentDestination ? currentDestination : "";
+  });
   const [savedDests, setSavedDests] = useState<string[]>([]);
   const [savedActivities, setSavedActivities] = useState<SavedActivities>({});
-  const [activityList, setActivityList] = useState<ActivityList[]>([]);
+  const [activityList, setActivityList] = useState<ActivityList[]>(() => {
+    const currentPlanner = localStorage.getItem("currentPlanner");
+    return currentPlanner ? JSON.parse(currentPlanner) : [];
+  });
   const [userId, setUserId] = useState<string>("");
   const [dateRange, setDateRange] = useState<{
     startDate: Date | null;
@@ -40,11 +44,19 @@ function App() {
     endDate: null,
   });
 
-  // get the destination names from the DB
   useEffect(() => {
-    setUserId(auth.currentUser == null ? "" : auth.currentUser.uid);
-    fetchSavedInfo(userId, setSavedDests, setSavedActivities);
-  }, [userId]);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const userId = user.uid;
+        setUserId(userId);
+        fetchSavedInfo(userId, setSavedDests, setSavedActivities);
+      } else {
+        setUserId("");
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const renderSavedRoute = () => (
     <Saved
@@ -61,8 +73,8 @@ function App() {
       setActivityList={setActivityList}
       activityList={activityList}
       savedDests={savedDests}
+      setSavedDests={setSavedDests}
       userId={userId}
-      setUserId={setUserId}
     />
   );
 
@@ -83,14 +95,6 @@ function App() {
         <Route path="/saved" element={renderSavedRoute()} />
         <Route path="/planner" element={renderPlannerRoute()} />
         <Route path="/" element={renderHomeRoute()} />
-        <Route
-          path="/login"
-          element={<Login setUserId={setUserId} activityList={activityList} />}
-        />
-        <Route
-          path="/signup"
-          element={<Signup setUserId={setUserId} activityList={activityList} />}
-        />
       </Routes>
     </Router>
   );

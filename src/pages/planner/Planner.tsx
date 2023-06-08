@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { db, ref, set, remove, auth } from "../../backend/firebase";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { db, ref, set, remove } from "../../backend/firebase";
 import "./Planner.css";
 
 import Card from "../../components/card/Card";
@@ -23,8 +22,8 @@ interface PlannerProps {
   setActivityList: React.Dispatch<React.SetStateAction<ActivityList[]>>;
   activityList: ActivityList[];
   savedDests: string[];
+  setSavedDests: React.Dispatch<React.SetStateAction<string[]>>;
   userId: string;
-  setUserId: React.Dispatch<React.SetStateAction<string>>;
 }
 
 function Planner({
@@ -32,16 +31,10 @@ function Planner({
   setActivityList,
   activityList,
   savedDests,
+  setSavedDests,
   userId,
-  setUserId,
 }: PlannerProps) {
-  const [isSaved, setIsSaved] = useState(savedDests.includes(destination));
-
-  // Check if the user is logged in already
-  useEffect(() => {
-    const currentUser = auth.currentUser;
-    if (currentUser != null) setUserId(currentUser.uid);
-  }, [setUserId]);
+  const isSaved = savedDests.includes(destination);
 
   function renderCards() {
     const cards = activityList.map((_, index) => {
@@ -64,14 +57,17 @@ function Planner({
         activityList
       );
     }
+    localStorage.setItem("currentPlanner", JSON.stringify(activityList));
   }, [activityList, destination, isSaved, userId]);
 
-  const navigate = useNavigate();
   function handleSaved() {
-    if (auth.currentUser == null) navigate("/login");
-    else {
-      setIsSaved(!isSaved);
-      if (isSaved) {
+    if (userId !== "") {
+      const newSavedDests = savedDests.includes(destination)
+        ? savedDests.filter((dest) => dest !== destination)
+        : [...savedDests, destination];
+      setSavedDests(newSavedDests);
+
+      if (savedDests.includes(destination)) {
         remove(ref(db, `users/${userId}/savedDestinations/${destination}`));
       }
     }
@@ -83,7 +79,7 @@ function Planner({
         <div className="title-container">
           <h1 className="destination">{destination}</h1>
           <img
-            src={isSaved ? StarFilledIcon : StarIcon}
+            src={isSaved && userId !== "" ? StarFilledIcon : StarIcon}
             alt="Save"
             className="save-icon"
             onClick={handleSaved}

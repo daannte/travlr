@@ -1,15 +1,15 @@
-import { Link, useNavigate } from "react-router-dom";
 import {
   auth,
-  createUserWithEmailAndPassword,
   fetchSignInMethodsForEmail,
+  createUserWithEmailAndPassword,
 } from "../../backend/firebase";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
 import "./Signup.css";
 
-import lockIcon from "../../assets/lock.svg";
 import mailIcon from "../../assets/mail.svg";
-import { useState } from "react";
+import lockIcon from "../../assets/lock.svg";
+import { AuthErrorCodes } from "firebase/auth";
 
 interface IFormInputs {
   email: string;
@@ -17,24 +17,12 @@ interface IFormInputs {
   confirmPassword: string;
 }
 
-interface ActivityDetails {
-  startTime: string;
-  endTime: string;
-  name: string;
+interface LoginProps {
+  setLoginPopup: React.Dispatch<React.SetStateAction<boolean>>;
+  setSignupPopup: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-interface ActivityList {
-  date: string;
-  activities: ActivityDetails[];
-}
-
-interface SigninProps {
-  setUserId: React.Dispatch<React.SetStateAction<string>>;
-  activityList: ActivityList[];
-}
-
-function Signin({ setUserId, activityList }: SigninProps) {
-  const navigate = useNavigate();
+function Signup({ setLoginPopup, setSignupPopup }: LoginProps) {
   const {
     register,
     handleSubmit,
@@ -45,36 +33,33 @@ function Signin({ setUserId, activityList }: SigninProps) {
 
   async function createAccount(email: string, password: string) {
     try {
-      const userInfo = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      setUserId(userInfo.user.uid);
-    } catch (error) {
-      console.log(error);
+      await createUserWithEmailAndPassword(auth, email, password);
+    } catch (error: unknown) {
+      if (error === AuthErrorCodes.WEAK_PASSWORD) {
+        setErrorMessage("Password must be longer than 6 characters!");
+      }
     }
   }
 
-  const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
+  async function onSubmit(data: IFormInputs) {
     const methods = await fetchSignInMethodsForEmail(auth, data.email);
     if (data.password === data.confirmPassword && methods.length === 0) {
       createAccount(data.email, data.password);
-      activityList.length !== 0 ? navigate("/planner") : navigate("/");
+      setSignupPopup(false);
     } else if (methods.length > 0) {
       setErrorMessage("Email already exists!");
     }
-  };
+  }
 
   return (
-    <div className="signup-container">
+    <>
       <h2 className="signup-title">Create Account</h2>
-      <form className="signup-form-container" onSubmit={handleSubmit(onSubmit)}>
-        <div className="input-container">
-          <img src={mailIcon} className="input-icon" />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="input-signup-container">
+          <img src={mailIcon} alt="Mail" className="signup-input-icon" />
           <input
-            className="info-input"
-            type="text"
+            className="signup-input"
+            type="email"
             placeholder="EMAIL"
             autoComplete="off"
             {...register("email", {
@@ -83,10 +68,10 @@ function Signin({ setUserId, activityList }: SigninProps) {
             })}
           />
         </div>
-        <div className="input-container">
-          <img src={lockIcon} className="input-icon" />
+        <div className="input-signup-container">
+          <img src={lockIcon} alt="Lock" className="signup-input-icon" />
           <input
-            className="info-input"
+            className="signup-input"
             type="password"
             placeholder="PASSWORD"
             autoComplete="off"
@@ -95,10 +80,10 @@ function Signin({ setUserId, activityList }: SigninProps) {
             })}
           />
         </div>
-        <div className="input-container">
-          <img src={lockIcon} className="input-icon" />
+        <div className="input-signup-container">
+          <img src={lockIcon} alt="Lock" className="signup-input-icon" />
           <input
-            className="info-input"
+            className="signup-input"
             type="password"
             placeholder="CONFIRM PASSWORD"
             autoComplete="off"
@@ -112,27 +97,33 @@ function Signin({ setUserId, activityList }: SigninProps) {
             })}
           />
         </div>
+        <div className="signup-submit-container">
+          <button className="signup-submit-button" type="submit">
+            Sign up
+          </button>
+        </div>
         <span className="login-error">
           {errorMessage
             ? errorMessage
             : (errors.confirmPassword && errors.confirmPassword.message) ||
               ((errors.email || errors.password) &&
-                "email and password required!")}{" "}
+                "email and password required!")}
         </span>
-        <div className="submit-container">
-          <button className="submit-button" type="submit">
-            Signup
-          </button>
-        </div>
       </form>
-      <footer className="footer-container">
+      <footer className="signup-footer">
         Already have an account?{" "}
-        <Link to="/login" className="signup-text">
+        <span
+          className="signup-footer-span"
+          onClick={() => {
+            setLoginPopup(true);
+            setSignupPopup(false);
+          }}
+        >
           Login
-        </Link>
+        </span>
       </footer>
-    </div>
+    </>
   );
 }
 
-export default Signin;
+export default Signup;

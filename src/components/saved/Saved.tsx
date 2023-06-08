@@ -31,8 +31,15 @@ function Saved({
 }: SavedProps) {
   const navigate = useNavigate();
   const loadItinerary = (destination: string) => {
+    // Update all the values when we want to load a saved destination
     setDestination(destination);
     setActivityList(savedActivities[destination]);
+    localStorage.setItem(
+      "currentPlanner",
+      JSON.stringify(savedActivities[destination])
+    );
+    localStorage.setItem("destination", destination);
+
     navigate("/planner");
   };
 

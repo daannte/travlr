@@ -47,7 +47,7 @@ function Home({
   const navigate = useNavigate();
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    localStorage.setItem("destination", destination);
     if (
       !savedDests.includes(destination) &&
       dateRange.startDate !== null &&
