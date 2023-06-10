@@ -1,51 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { db, ref, set, remove } from "../../backend/firebase";
+import { PlannerContext, UserIdContext } from "../../App";
 import "./Planner.css";
 
 import Card from "../../components/card/Card";
-import StarIcon from "../../assets/star.svg";
-import StarFilledIcon from "../../assets/starFilled.svg";
-
-interface ActivityDetails {
-  startTime: string;
-  endTime: string;
-  name: string;
-}
-
-interface ActivityList {
-  date: string;
-  activities: ActivityDetails[];
-}
+import starIcon from "../../assets/star.svg";
+import starFilledIcon from "../../assets/starFilled.svg";
 
 interface PlannerProps {
-  destination: string;
-  setActivityList: React.Dispatch<React.SetStateAction<ActivityList[]>>;
-  activityList: ActivityList[];
   savedDests: string[];
   setSavedDests: React.Dispatch<React.SetStateAction<string[]>>;
-  userId: string;
 }
 
-function Planner({
-  destination,
-  setActivityList,
-  activityList,
-  savedDests,
-  setSavedDests,
-  userId,
-}: PlannerProps) {
-  const isSaved = savedDests.includes(destination);
+function Planner({ savedDests, setSavedDests }: PlannerProps) {
+  const { currentPlanner } = useContext(PlannerContext);
+  const userId = useContext(UserIdContext);
+  const isSaved = savedDests.includes(currentPlanner.destination);
 
   function renderCards() {
-    const cards = activityList.map((_, index) => {
-      return (
-        <Card
-          key={index}
-          day={index}
-          setActivityList={setActivityList}
-          activityList={activityList}
-        />
-      );
+    const cards = currentPlanner.activityLists.map((_, index) => {
+      return <Card key={index} day={index} />;
     });
     return cards;
   }
@@ -53,22 +27,30 @@ function Planner({
   useEffect(() => {
     if (isSaved && userId) {
       set(
-        ref(db, `users/${userId}/savedDestinations/${destination}`),
-        activityList
+        ref(
+          db,
+          `users/${userId}/savedDestinations/${currentPlanner.destination}`
+        ),
+        currentPlanner
       );
     }
-    localStorage.setItem("currentPlanner", JSON.stringify(activityList));
-  }, [activityList, destination, isSaved, userId]);
+    localStorage.setItem("currentPlanner", JSON.stringify(currentPlanner));
+  }, [isSaved, userId, currentPlanner]);
 
   function handleSaved() {
     if (userId !== "") {
-      const newSavedDests = savedDests.includes(destination)
-        ? savedDests.filter((dest) => dest !== destination)
-        : [...savedDests, destination];
+      const newSavedDests = savedDests.includes(currentPlanner.destination)
+        ? savedDests.filter((dest) => dest !== currentPlanner.destination)
+        : [...savedDests, currentPlanner.destination];
       setSavedDests(newSavedDests);
 
-      if (savedDests.includes(destination)) {
-        remove(ref(db, `users/${userId}/savedDestinations/${destination}`));
+      if (savedDests.includes(currentPlanner.destination)) {
+        remove(
+          ref(
+            db,
+            `users/${userId}/savedDestinations/${currentPlanner.destination}`
+          )
+        );
       }
     }
   }
@@ -77,9 +59,9 @@ function Planner({
     <div className="planner-container">
       <div className="event-container">
         <div className="title-container">
-          <h1 className="destination">{destination}</h1>
+          <h1 className="destination">{currentPlanner.destination}</h1>
           <img
-            src={isSaved && userId !== "" ? StarFilledIcon : StarIcon}
+            src={isSaved && userId !== "" ? starFilledIcon : starIcon}
             alt="Save"
             className="save-icon"
             onClick={handleSaved}

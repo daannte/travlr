@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
+import { PlannerContext } from "../../App";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Home.css";
@@ -20,45 +21,27 @@ interface ActivityList {
 }
 
 interface HomeProps {
-  setDestination: React.Dispatch<React.SetStateAction<string>>;
-  setDateRange: React.Dispatch<
-    React.SetStateAction<{
-      startDate: Date | null;
-      endDate: Date | null;
-    }>
-  >;
-  dateRange: {
-    startDate: Date | null;
-    endDate: Date | null;
-  };
-  setActivityList: React.Dispatch<React.SetStateAction<ActivityList[]>>;
-  destination: string;
   savedDests: string[];
 }
 
-function Home({
-  setDestination,
-  setDateRange,
-  dateRange,
-  setActivityList,
-  destination,
-  savedDests,
-}: HomeProps) {
+function Home({ savedDests }: HomeProps) {
+  const { currentPlanner, setCurrentPlanner } = useContext(PlannerContext);
   const navigate = useNavigate();
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    localStorage.setItem("destination", destination);
-    if (
-      !savedDests.includes(destination) &&
-      dateRange.startDate !== null &&
-      dateRange.endDate !== null
-    ) {
-      const newActivityList: ActivityList[] = [];
-      const currentDate = new Date(dateRange.startDate);
-      // Set the time to end of the day so the last day gets added
-      dateRange.endDate.setHours(23, 59, 59);
 
-      while (currentDate <= dateRange.endDate) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (
+      !savedDests.includes(currentPlanner.destination) &&
+      currentPlanner.startDate !== "" &&
+      currentPlanner.endDate !== ""
+    ) {
+      const newCurrentPlanner: ActivityList[] = [];
+
+      const currentDate = new Date(currentPlanner.startDate);
+      const endDate = new Date(currentPlanner.endDate);
+      endDate.setHours(23, 59, 59);
+
+      while (currentDate <= endDate) {
         const date = currentDate.toLocaleDateString("en-US", {
           month: "long",
           day: "numeric",
@@ -67,17 +50,33 @@ function Home({
         const activities = [
           { startTime: "Start", endTime: "End", name: "Activity Name" },
         ];
-        newActivityList.push({ date, activities });
+        newCurrentPlanner.push({ date, activities });
         currentDate.setDate(currentDate.getDate() + 1);
       }
-      setActivityList(newActivityList);
+
+      setCurrentPlanner((prevPlanner) => ({
+        ...prevPlanner,
+        activityLists: newCurrentPlanner,
+      }));
     }
     navigate("/planner");
-  };
+  }
 
   useEffect(() => {
-    setDateRange({ startDate: null, endDate: null });
-  }, [setDateRange]);
+    setCurrentPlanner((prevPlanner) => ({
+      ...prevPlanner,
+      startDate: "",
+      endDate: "",
+    }));
+  }, [setCurrentPlanner]);
+
+  function checkStartDate() {
+    return currentPlanner.startDate ? new Date(currentPlanner.startDate) : null;
+  }
+
+  function checkEndDate() {
+    return currentPlanner.endDate ? new Date(currentPlanner.endDate) : null;
+  }
 
   return (
     <div className="home-container">
@@ -91,7 +90,12 @@ function Home({
               name="destination"
               type="text"
               placeholder="e.g Barcelona"
-              onChange={(e) => setDestination(e.target.value)}
+              onChange={(e) =>
+                setCurrentPlanner((prevPlanner) => ({
+                  ...prevPlanner,
+                  destination: e.target.value,
+                }))
+              }
               required
               autoComplete="off"
             />
@@ -108,16 +112,20 @@ function Home({
               />
               <DatePicker
                 className="calendar-button"
-                selected={dateRange.startDate}
+                selected={checkStartDate()}
                 onChange={(date: Date) =>
-                  setDateRange((prevDateRange) => ({
-                    ...prevDateRange,
-                    startDate: date,
+                  setCurrentPlanner((prevPlanner) => ({
+                    ...prevPlanner,
+                    startDate: date.toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    }),
                   }))
                 }
                 placeholderText="Start Date"
-                startDate={dateRange.startDate}
-                endDate={dateRange.startDate}
+                startDate={checkStartDate()}
+                endDate={checkEndDate()}
                 monthsShown={2}
                 dateFormat="MMMM d"
                 onKeyDown={(e) => e.preventDefault()}
@@ -133,17 +141,21 @@ function Home({
               />
               <DatePicker
                 className="calendar-button"
-                selected={dateRange.endDate}
+                selected={checkEndDate()}
                 onChange={(date: Date) =>
-                  setDateRange((prevDateRange) => ({
-                    ...prevDateRange,
-                    endDate: date,
+                  setCurrentPlanner((prevPlanner) => ({
+                    ...prevPlanner,
+                    endDate: date.toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    }),
                   }))
                 }
                 placeholderText="End Date"
-                startDate={dateRange.startDate}
-                endDate={dateRange.endDate}
-                minDate={dateRange.startDate}
+                startDate={checkStartDate()}
+                endDate={checkEndDate()}
+                minDate={checkStartDate()}
                 monthsShown={2}
                 dateFormat="MMMM d"
                 onKeyDown={(e) => e.preventDefault()}

@@ -15,18 +15,8 @@
   margin: 1rem;
 }
 
-.destination-name {
-  width: 10rem;
-  overflow-wrap: break-word;
-  margin-left: 0.25rem;
-}
-
-.load-button {
-  margin-left: auto;
-  background-color: #f07c42;
-  border: none;
-  border-radius: 16px;
-  padding: 0.6rem;
-  margin-left: 0.5rem;
-  cursor: pointer;
+.destination-list {
+  background: #f8f9fd;
+  border-radius: 28px;
+  margin-top: 2rem;
 }

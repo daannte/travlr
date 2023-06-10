@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { auth, onAuthStateChanged } from "./backend/firebase";
 import { fetchSavedInfo } from "./utils/firebaseUtils";
@@ -6,8 +6,8 @@ import "./App.css";
 
 import Home from "./pages/home/Home";
 import Planner from "./pages/planner/Planner";
+import Saved from "./pages/saved/Saved";
 import Navbar from "./components/navbar/Navbar";
-import Saved from "./components/saved/Saved";
 
 interface ActivityDetails {
   startTime: string;
@@ -20,36 +20,51 @@ interface ActivityList {
   activities: ActivityDetails[];
 }
 
-interface SavedActivities {
-  [key: string]: ActivityList[];
+interface IPlanner {
+  destination: string;
+  startDate: string;
+  endDate: string;
+  activityLists: ActivityList[];
 }
 
+interface SavedPlanners {
+  [key: string]: IPlanner;
+}
+
+interface PlannerContextProps {
+  currentPlanner: IPlanner;
+  setCurrentPlanner: React.Dispatch<React.SetStateAction<IPlanner>>;
+}
+
+export const PlannerContext = createContext<PlannerContextProps>({
+  currentPlanner: {
+    destination: "",
+    startDate: "",
+    endDate: "",
+    activityLists: [],
+  },
+  setCurrentPlanner: () => undefined,
+});
+
+export const UserIdContext = createContext<string>("");
+
 function App() {
-  const [destination, setDestination] = useState<string>(() => {
-    const currentDestination = localStorage.getItem("destination");
-    return currentDestination ? currentDestination : "";
-  });
   const [savedDests, setSavedDests] = useState<string[]>([]);
-  const [savedActivities, setSavedActivities] = useState<SavedActivities>({});
-  const [activityList, setActivityList] = useState<ActivityList[]>(() => {
-    const currentPlanner = localStorage.getItem("currentPlanner");
-    return currentPlanner ? JSON.parse(currentPlanner) : [];
+  const [savedPlanners, setSavedPlanners] = useState<SavedPlanners>({});
+  const [currentPlanner, setCurrentPlanner] = useState<IPlanner>(() => {
+    const localPlanner = localStorage.getItem("currentPlanner");
+    return localPlanner
+      ? JSON.parse(localPlanner)
+      : { destination: "", startDate: "", endDate: "", activityLists: [] };
   });
   const [userId, setUserId] = useState<string>("");
-  const [dateRange, setDateRange] = useState<{
-    startDate: Date | null;
-    endDate: Date | null;
-  }>({
-    startDate: null,
-    endDate: null,
-  });
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         const userId = user.uid;
         setUserId(userId);
-        fetchSavedInfo(userId, setSavedDests, setSavedActivities);
+        fetchSavedInfo(userId, setSavedDests, setSavedPlanners);
       } else {
         setUserId("");
       }
@@ -59,43 +74,26 @@ function App() {
   }, []);
 
   const renderSavedRoute = () => (
-    <Saved
-      savedActivities={savedActivities}
-      savedDests={savedDests}
-      setActivityList={setActivityList}
-      setDestination={setDestination}
-    />
+    <Saved savedPlanners={savedPlanners} savedDests={savedDests} />
   );
 
   const renderPlannerRoute = () => (
-    <Planner
-      destination={destination}
-      setActivityList={setActivityList}
-      activityList={activityList}
-      savedDests={savedDests}
-      setSavedDests={setSavedDests}
-      userId={userId}
-    />
+    <Planner savedDests={savedDests} setSavedDests={setSavedDests} />
   );
 
-  const renderHomeRoute = () => (
-    <Home
-      setDestination={setDestination}
-      setDateRange={setDateRange}
-      dateRange={dateRange}
-      setActivityList={setActivityList}
-      destination={destination}
-      savedDests={savedDests}
-    />
-  );
+  const renderHomeRoute = () => <Home savedDests={savedDests} />;
   return (
     <Router>
       <Navbar />
-      <Routes>
-        <Route path="/saved" element={renderSavedRoute()} />
-        <Route path="/planner" element={renderPlannerRoute()} />
-        <Route path="/" element={renderHomeRoute()} />
-      </Routes>
+      <PlannerContext.Provider value={{ currentPlanner, setCurrentPlanner }}>
+        <UserIdContext.Provider value={userId}>
+          <Routes>
+            <Route path="/saved" element={renderSavedRoute()} />
+            <Route path="/planner" element={renderPlannerRoute()} />
+            <Route path="/" element={renderHomeRoute()} />
+          </Routes>
+        </UserIdContext.Provider>
+      </PlannerContext.Provider>
     </Router>
   );
 }

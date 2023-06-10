@@ -11,14 +11,21 @@ interface ActivityList {
   activities: ActivityDetails[];
 }
 
-interface SavedActivities {
-  [key: string]: ActivityList[];
+interface IPlanner {
+  destination: string;
+  startDate: string;
+  endDate: string;
+  activityLists: ActivityList[];
+}
+
+interface SavedPlanners {
+  [key: string]: IPlanner;
 }
 
 const fetchSavedInfo = (
   userId: string,
   setSavedDests: React.Dispatch<React.SetStateAction<string[]>>,
-  setSavedActivities: React.Dispatch<React.SetStateAction<SavedActivities>>
+  setSavedPlanners: React.Dispatch<React.SetStateAction<SavedPlanners>>
 ) => {
   const dataRef = ref(db, `users/${userId}/savedDestinations`);
   onValue(dataRef, (snapshot) => {
@@ -26,10 +33,10 @@ const fetchSavedInfo = (
     if (data) {
       const savedDestinationNames = Object.keys(data);
       setSavedDests(savedDestinationNames);
-      setSavedActivities(data);
+      setSavedPlanners(data);
     } else {
       setSavedDests([]);
-      setSavedActivities({});
+      setSavedPlanners({});
     }
   });
 };

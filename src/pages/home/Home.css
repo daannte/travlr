@@ -76,8 +76,8 @@
   align-items: center;
   background: white;
   border-radius: 12px;
-  padding: 0.5rem;
-  margin-right: 1rem;
+  padding: 0.4rem;
+  margin-right: 0.8rem;
 }
 
 .calendar-button {
@@ -88,6 +88,7 @@
   cursor: pointer;
   caret-color: transparent;
   width: 80%;
+  font-size: 0.8rem;
 }
 
 .calendar-icon {

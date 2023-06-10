@@ -1,64 +1,48 @@
+import { PlannerContext } from "../../App";
+import { useContext } from "react";
 import Activity from "../activity/Activity";
-import addActivityIcon from "../../assets/addActivity.svg";
 import "./Card.css";
 
-interface ActivityDetails {
-  startTime: string;
-  endTime: string;
-  name: string;
-}
-
-interface ActivityList {
-  date: string;
-  activities: ActivityDetails[];
-}
+import addActivityIcon from "../../assets/addActivity.svg";
 
 interface CardProps {
   day: number;
-  setActivityList: React.Dispatch<React.SetStateAction<ActivityList[]>>;
-  activityList: ActivityList[];
 }
 
-function Card({ day, setActivityList, activityList }: CardProps) {
-  const currentDate = activityList[day].date;
+function Card({ day }: CardProps) {
+  const { currentPlanner, setCurrentPlanner } = useContext(PlannerContext);
+  const date = currentPlanner.activityLists[day].date;
 
   function handleAddActivity() {
-    setActivityList((prevActivityList: ActivityList[]) => {
-      const updatedActivityList = prevActivityList.map((item) => {
-        if (item.date === currentDate) {
-          return {
-            ...item,
-            activities: [
-              ...item.activities,
-              { startTime: "Start", endTime: "End", name: "Activity Name" },
-            ],
-          };
+    setCurrentPlanner((prevPlanner) => {
+      const { activityLists } = prevPlanner;
+      const updatedActivityLists = activityLists.map((activityList) => {
+        if (activityList.date === date) {
+          const updatedActivities = [
+            ...activityList.activities,
+            { startTime: "Start", endTime: "End", name: "Activity Name" },
+          ];
+          return { ...activityList, activities: updatedActivities };
         }
-        return item;
+        return activityList;
       });
-      return updatedActivityList;
+      return { ...prevPlanner, activityLists: updatedActivityLists };
     });
   }
 
   function renderActivities() {
-    const activitiesList = activityList[day].activities.map((_, index) => {
-      return (
-        <Activity
-          key={index}
-          day={day}
-          activityIndex={index}
-          setActivityList={setActivityList}
-          activityList={activityList}
-        />
-      );
-    });
+    const activitiesList = currentPlanner.activityLists[day].activities.map(
+      (_, index) => {
+        return <Activity key={index} day={day} activityIndex={index} />;
+      }
+    );
     return activitiesList;
   }
 
   return (
     <div className="card">
       <div className="card-header">
-        <h1 className="card-title">{currentDate}</h1>
+        <h1 className="card-title">{date}</h1>
       </div>
       <div className="card-activities">{renderActivities()}</div>
       <button className="add-activity-button" onClick={handleAddActivity}>

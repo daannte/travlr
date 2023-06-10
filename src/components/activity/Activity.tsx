@@ -1,70 +1,70 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { PlannerContext } from "../../App";
 import "./Activity.css";
 
 import deleteIcon from "../../assets/deleteActivity.svg";
 import editIcon from "../../assets/edit.svg";
 import checkIcon from "../../assets/check.svg";
 
-interface ActivityDetails {
-  startTime: string;
-  endTime: string;
-  name: string;
-}
-
-interface ActivityList {
-  date: string;
-  activities: ActivityDetails[];
-}
-
 interface ActivityProps {
   day: number;
   activityIndex: number;
-  setActivityList: React.Dispatch<React.SetStateAction<ActivityList[]>>;
-  activityList: ActivityList[];
 }
 
-function Activity({
-  day,
-  activityIndex,
-  setActivityList,
-  activityList,
-}: ActivityProps) {
+function Activity({ day, activityIndex }: ActivityProps) {
+  const { currentPlanner, setCurrentPlanner } = useContext(PlannerContext);
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const activity = activityList[day].activities[activityIndex];
+  const activity = currentPlanner.activityLists[day].activities[activityIndex];
+  const date = currentPlanner.activityLists[day].date;
 
   // Handle edit values and add them to activity object
   function handleEditValues(event: React.ChangeEvent<HTMLInputElement>) {
     const { value, className } = event.target;
-    const activityListData = [...activityList];
-    const updatedActivity = {
-      ...activityListData[day].activities[activityIndex],
-    };
+    setCurrentPlanner((prevPlanner) => {
+      const { activityLists } = prevPlanner;
+      const updatedActivityLists = activityLists.map((activityList) => {
+        if (activityList.date === date) {
+          const updatedActivities = activityList.activities.map(
+            (activity, index) => {
+              if (index === activityIndex) {
+                switch (className) {
+                  case "name-edit":
+                    return { ...activity, name: value };
+                  case "time-start-edit":
+                    return { ...activity, startTime: value };
+                  case "time-end-edit":
+                    return { ...activity, endTime: value };
+                  default:
+                    return activity;
+                }
+              }
+              return activity;
+            }
+          );
+          return { ...activityList, activities: updatedActivities };
+        }
+        return activityList;
+      });
 
-    switch (className) {
-      case "name-edit":
-        updatedActivity.name = value;
-        break;
-      case "time-start-edit":
-        updatedActivity.startTime = value;
-        break;
-      case "time-end-edit":
-        updatedActivity.endTime = value;
-        break;
-      default:
-        break;
-    }
-    activityListData[day].activities[activityIndex] = updatedActivity;
-    setActivityList(activityListData);
+      return { ...prevPlanner, activityLists: updatedActivityLists };
+    });
   }
 
   // Delete activity from activity list
   function handleActivityDelete() {
-    const activityListData = [...activityList];
-    const updatedActivities = activityListData[day].activities.filter(
-      (_, index) => index !== activityIndex
-    );
-    activityListData[day].activities = updatedActivities;
-    setActivityList(activityListData);
+    setCurrentPlanner((prevPlanner) => {
+      const { activityLists } = prevPlanner;
+      const updatedActivityLists = activityLists.map((activityList) => {
+        if (activityList.date === date) {
+          const updatedActivities = activityList.activities.filter(
+            (_, index) => index !== activityIndex
+          );
+          return { ...activityList, activities: updatedActivities };
+        }
+        return activityList;
+      });
+      return { ...prevPlanner, activityLists: updatedActivityLists };
+    });
   }
 
   return (
