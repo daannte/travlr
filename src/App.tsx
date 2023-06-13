@@ -18,6 +18,7 @@ interface ActivityDetails {
 interface ActivityList {
   date: string;
   activities: ActivityDetails[];
+  isEmpty: boolean;
 }
 
 interface IPlanner {
@@ -62,11 +63,17 @@ function App() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        const userId = user.uid;
-        setUserId(userId);
-        fetchSavedInfo(userId, setSavedDests, setSavedPlanners);
+        setUserId(user.uid);
+        fetchSavedInfo(
+          user.uid,
+          setSavedDests,
+          setSavedPlanners,
+          setCurrentPlanner
+        );
       } else {
         setUserId("");
+        setSavedDests([]);
+        setSavedPlanners({});
       }
     });
 

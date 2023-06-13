@@ -14,6 +14,7 @@ interface ActivityDetails {
 interface ActivityList {
   date: string;
   activities: ActivityDetails[];
+  isEmpty: boolean;
 }
 
 interface IPlanner {
@@ -40,7 +41,6 @@ function SavedCard({
 }: SavedCardProps) {
   const startDate = savedPlanners[destination].startDate;
   const endDate = savedPlanners[destination].endDate;
-
   const userId = useContext(UserIdContext);
 
   function handleUnfavouriteClick(

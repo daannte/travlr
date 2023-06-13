@@ -13,6 +13,7 @@ interface ActivityDetails {
 interface ActivityList {
   date: string;
   activities: ActivityDetails[];
+  isEmpty: boolean;
 }
 
 interface IPlanner {

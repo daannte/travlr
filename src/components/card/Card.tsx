@@ -1,9 +1,9 @@
 import { PlannerContext } from "../../App";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import Activity from "../activity/Activity";
 import "./Card.css";
 
-import addActivityIcon from "../../assets/addActivity.svg";
+import featherMapPin from "../../assets/feather-map-pin.svg";
 
 interface CardProps {
   day: number;
@@ -11,44 +11,67 @@ interface CardProps {
 
 function Card({ day }: CardProps) {
   const { currentPlanner, setCurrentPlanner } = useContext(PlannerContext);
+  const [activityName, setActivityName] = useState("");
   const date = currentPlanner.activityLists[day].date;
 
-  function handleAddActivity() {
+  function handleAddActivity(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
     setCurrentPlanner((prevPlanner) => {
       const { activityLists } = prevPlanner;
       const updatedActivityLists = activityLists.map((activityList) => {
         if (activityList.date === date) {
-          const updatedActivities = [
-            ...activityList.activities,
-            { startTime: "Start", endTime: "End", name: "Activity Name" },
-          ];
-          return { ...activityList, activities: updatedActivities };
+          const updatedActivities = activityList.activities || [];
+          updatedActivities.push({
+            startTime: "",
+            endTime: "",
+            name: activityName,
+          });
+          return {
+            ...activityList,
+            activities: updatedActivities,
+            isEmpty: false,
+          };
         }
         return activityList;
       });
       return { ...prevPlanner, activityLists: updatedActivityLists };
     });
+    setActivityName("");
   }
 
   function renderActivities() {
-    const activitiesList = currentPlanner.activityLists[day].activities.map(
-      (_, index) => {
-        return <Activity key={index} day={day} activityIndex={index} />;
-      }
-    );
+    const isEmpty = currentPlanner.activityLists[day].isEmpty;
+    const activityList = isEmpty
+      ? []
+      : currentPlanner.activityLists[day].activities;
+
+    const activitiesList = activityList.map((_, index) => {
+      return <Activity key={index} day={day} activityIndex={index} />;
+    });
     return activitiesList;
   }
 
   return (
-    <div className="card">
-      <div className="card-header">
+    <>
+      <div className="card">
         <h1 className="card-title">{date}</h1>
+        <div>{renderActivities()}</div>
+        <form
+          className="card-activity-name-container"
+          onSubmit={handleAddActivity}
+        >
+          <img src={featherMapPin} alt="Map Pin" />
+          <input
+            className="card-activity-name-input"
+            value={activityName}
+            type="text"
+            placeholder="Add Activity"
+            onChange={(e) => setActivityName(e.target.value)}
+          />
+        </form>
       </div>
-      <div className="card-activities">{renderActivities()}</div>
-      <button className="add-activity-button" onClick={handleAddActivity}>
-        <img src={addActivityIcon} alt="Add Activity" />
-      </button>
-    </div>
+      <hr className="card-line-split" />
+    </>
   );
 }
 

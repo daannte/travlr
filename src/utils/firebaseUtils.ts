@@ -9,6 +9,7 @@ interface ActivityDetails {
 interface ActivityList {
   date: string;
   activities: ActivityDetails[];
+  isEmpty: boolean;
 }
 
 interface IPlanner {
@@ -25,10 +26,11 @@ interface SavedPlanners {
 const fetchSavedInfo = (
   userId: string,
   setSavedDests: React.Dispatch<React.SetStateAction<string[]>>,
-  setSavedPlanners: React.Dispatch<React.SetStateAction<SavedPlanners>>
+  setSavedPlanners: React.Dispatch<React.SetStateAction<SavedPlanners>>,
+  setCurrentPlanner: React.Dispatch<React.SetStateAction<IPlanner>>
 ) => {
-  const dataRef = ref(db, `users/${userId}/savedDestinations`);
-  onValue(dataRef, (snapshot) => {
+  const savedDestinationsRef = ref(db, `users/${userId}/savedDestinations`);
+  onValue(savedDestinationsRef, (snapshot) => {
     const data = snapshot.val();
     if (data) {
       const savedDestinationNames = Object.keys(data);
@@ -39,6 +41,32 @@ const fetchSavedInfo = (
       setSavedPlanners({});
     }
   });
+
+  const localPlanner = localStorage.getItem("currentPlanner");
+  let destination = null;
+  if (localPlanner) {
+    const localPlannerData = JSON.parse(localPlanner);
+    if (localPlannerData.destination) {
+      destination = localPlannerData.destination;
+    }
+  }
+
+  if (destination) {
+    const currentPlannerRef = ref(
+      db,
+      `users/${userId}/savedDestinations/${destination}`
+    );
+    onValue(currentPlannerRef, (snapshot) => {
+      const currentPlannerData = snapshot.val();
+      if (currentPlannerData) {
+        setCurrentPlanner(currentPlannerData);
+        localStorage.setItem(
+          "currentPlanner",
+          JSON.stringify(currentPlannerData)
+        );
+      }
+    });
+  }
 };
 
 export { fetchSavedInfo };

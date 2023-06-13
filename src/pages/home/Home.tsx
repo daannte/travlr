@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import React, { useContext, useEffect } from "react";
+import { useMediaQuery } from "react-responsive";
 import { PlannerContext } from "../../App";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -7,7 +8,8 @@ import "./Home.css";
 
 import searchIcon from "../../assets/search.svg";
 import calendarIcon from "../../assets/calendar.svg";
-import phoneIll from "../../assets/phoneIll.svg";
+import mapPinIcon from "../../assets/feather-map-pin.svg";
+import heroImage from "/hero.png";
 
 interface ActivityDetails {
   startTime: string;
@@ -18,6 +20,7 @@ interface ActivityDetails {
 interface ActivityList {
   date: string;
   activities: ActivityDetails[];
+  isEmpty: true;
 }
 
 interface HomeProps {
@@ -26,6 +29,7 @@ interface HomeProps {
 
 function Home({ savedDests }: HomeProps) {
   const { currentPlanner, setCurrentPlanner } = useContext(PlannerContext);
+  const isPhone = useMediaQuery({ maxWidth: 767 });
   const navigate = useNavigate();
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -45,12 +49,12 @@ function Home({ savedDests }: HomeProps) {
         const date = currentDate.toLocaleDateString("en-US", {
           month: "long",
           day: "numeric",
+          year: "numeric",
         });
 
-        const activities = [
-          { startTime: "Start", endTime: "End", name: "Activity Name" },
-        ];
-        newCurrentPlanner.push({ date, activities });
+        const activities: ActivityDetails[] = [];
+        const isEmpty = true;
+        newCurrentPlanner.push({ date, activities, isEmpty });
         currentDate.setDate(currentDate.getDate() + 1);
       }
 
@@ -78,95 +82,114 @@ function Home({ savedDests }: HomeProps) {
     return currentPlanner.endDate ? new Date(currentPlanner.endDate) : null;
   }
 
+  function dateChange(dates: [Date, Date]) {
+    const [start, end] = dates;
+
+    setCurrentPlanner((prevPlanner) => ({
+      ...prevPlanner,
+      startDate: start.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      }),
+      endDate: end?.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      }),
+    }));
+  }
+
   return (
     <div className="home-container">
+      <div className="home-title-text">
+        <h1 className="home-title">All you need is Travlr</h1>
+        <h2 className="home-title-subtext">
+          Build your itineraries all in one place, and plan for your ultimate
+          adventure
+        </h2>
+      </div>
+      <img className="home-hero-image" src={heroImage} alt="Hero Image" />
       <div className="home-search-container">
-        <h1 className="title">Plan your next vacation.</h1>
-        <p>Enter your destination:</p>
-        <form onSubmit={handleSubmit} className="form-container">
-          <div className="search-box-container">
+        <form className="home-form-container" onSubmit={handleSubmit}>
+          <div className="destination-container">
+            <div className="destination-title-input-container">
+              <div className="pin-container">
+                <img
+                  className="home-map-pin-icon"
+                  src={mapPinIcon}
+                  alt="Pin Icon"
+                />
+              </div>
+              <label
+                htmlFor="destination-input"
+                className="destination-input-label"
+              >
+                Destination
+              </label>
+            </div>
             <input
-              className="search-box"
               name="destination"
+              id="destination-input"
+              className="destination-input"
               type="text"
-              placeholder="e.g Barcelona"
+              placeholder="Where do you want to go?"
+              autoComplete="off"
+              required
               onChange={(e) =>
                 setCurrentPlanner((prevPlanner) => ({
                   ...prevPlanner,
                   destination: e.target.value,
                 }))
               }
-              required
-              autoComplete="off"
             />
-            <button type="submit" className="search-button">
-              <img src={searchIcon} alt="Search" className="search-icon" />
-            </button>
           </div>
-          <div className="date-select-container">
-            <div className="calendar-button-container">
-              <img
-                src={calendarIcon}
-                alt="calendar"
-                className="calendar-icon"
-              />
-              <DatePicker
-                className="calendar-button"
-                selected={checkStartDate()}
-                onChange={(date: Date) =>
-                  setCurrentPlanner((prevPlanner) => ({
-                    ...prevPlanner,
-                    startDate: date.toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric",
-                    }),
-                  }))
-                }
-                placeholderText="Start Date"
-                startDate={checkStartDate()}
-                endDate={checkEndDate()}
-                monthsShown={2}
-                dateFormat="MMMM d"
-                onKeyDown={(e) => e.preventDefault()}
-                required
-                selectsStart
-              />
+          {isPhone ? (
+            <div className="horizontal-line" />
+          ) : (
+            <div className="vertical-line" />
+          )}
+          <div className="date-container">
+            <div className="date-input-title-container">
+              <div className="calendar-container">
+                <img
+                  className="home-calendar-icon"
+                  src={calendarIcon}
+                  alt="Calendar Icon"
+                />
+              </div>
+              <label className="date-input-label" htmlFor="date-input">
+                Date
+              </label>
             </div>
-            <div className="calendar-button-container">
-              <img
-                src={calendarIcon}
-                alt="calendar"
-                className="calendar-icon"
-              />
-              <DatePicker
-                className="calendar-button"
-                selected={checkEndDate()}
-                onChange={(date: Date) =>
-                  setCurrentPlanner((prevPlanner) => ({
-                    ...prevPlanner,
-                    endDate: date.toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric",
-                    }),
-                  }))
-                }
-                placeholderText="End Date"
-                startDate={checkStartDate()}
-                endDate={checkEndDate()}
-                minDate={checkStartDate()}
-                monthsShown={2}
-                dateFormat="MMMM d"
-                onKeyDown={(e) => e.preventDefault()}
-                required
-                selectsEnd
-              />
-            </div>
+            <DatePicker
+              className="date-input"
+              selected={checkStartDate()}
+              onChange={dateChange}
+              placeholderText="When are you going?"
+              startDate={checkStartDate()}
+              endDate={checkEndDate()}
+              monthsShown={isPhone ? 1 : 2}
+              dateFormat="MMM d"
+              onKeyDown={(e) => e.preventDefault()}
+              required
+              selectsRange
+              // To prevent weird UI design by react-datepicker
+              disabledKeyboardNavigation
+              minDate={null}
+              // Prevent mobile keybaord
+              onFocus={(e) => e.target.blur()}
+            />
           </div>
+          <button type="submit" className="home-search-button">
+            <img
+              className="home-search-icon"
+              src={searchIcon}
+              alt="Search Icon"
+            />
+          </button>
         </form>
       </div>
-      <img src={phoneIll} alt="phone" className="phone-image" />
     </div>
   );
 }

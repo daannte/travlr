@@ -1,112 +1,157 @@
 .home-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
 }
 
-.title {
-  font-size: 2rem;
-  font-weight: 500;
-  margin-bottom: 0.75rem;
-  text-align: center;
+.home-search-container {
+  position: absolute;
+  bottom: 15rem;
+  background: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  z-index: 5;
+  padding: 1.2rem;
+  border-radius: 16px;
 }
 
-.home-search-container {
+.home-title-text {
+  position: absolute;
+  left: 10%;
+  top: 25%;
+  z-index: 1;
+}
+
+.home-title {
+  color: #fe5c5d;
+}
+
+.home-title-subtext {
+  margin-top: 1rem;
+  width: 20rem;
+}
+
+.home-hero-image {
+  margin-bottom: 10rem;
+  width: 80%;
+  height: auto;
+  max-height: 60vh;
+  object-fit: cover;
+  clip-path: polygon(4.2% 0%, 95.3% 0%, 95.8% 100%, 47.7% 100%);
+}
+
+.home-form-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+}
+
+.destination-title-input-container,
+.date-input-title-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.pin-container,
+.calendar-container {
+  width: 20px;
+  height: 20px;
+  background-color: #fe5c5d;
+  border-radius: 50%;
+  display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.form-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.home-map-pin-icon,
+.home-calendar-icon {
+  width: 12px;
 }
 
-.search-box-container {
-  display: flex;
-  flex-direction: row;
-  border-radius: 20px;
-  padding-right: 0.5rem;
-  margin-top: 1rem;
-  background-color: white;
+.destination-input-label,
+.date-input-label {
+  font-weight: 500;
+  font-size: 1.2rem;
+  margin-left: 0.4rem;
 }
 
-.search-box {
-  outline: none;
+.destination-input,
+.date-input {
+  color: gray;
+  width: 14rem;
+  background: transparent;
   border: none;
-  font-size: medium;
+  outline: none;
+  margin-left: 1.7rem;
+  margin-top: 0.5rem;
   font-weight: 300;
-  padding: 0.5rem;
-  background: transparent;
-  text-indent: 10px;
+  font-size: 0.9rem;
 }
 
-.search-button {
-  display: flex;
-  align-items: center;
-  position: relative;
-  left: 10px;
-  background: #f07c42;
-  padding: 0.5rem;
-  width: 2.5rem;
-  border-radius: 50%;
-  border: none;
+.date-input {
+  width: 12rem;
   cursor: pointer;
-  box-shadow: -7px 0 5px rgba(248, 148, 100, 0.6);
 }
 
-.search-icon {
-  width: 20px;
-  margin: auto;
+.vertical-line {
+  width: 2px;
+  height: 3rem;
+  background: #fe5c5d;
+  margin: 0 2rem;
 }
 
-.date-select-container {
-  margin-top: 1rem;
-  width: 95%;
+.horizontal-line {
+  width: 70%;
+  height: 2px;
+  background: #fe5c5d;
+  margin: 2rem 0;
   display: flex;
-  justify-content: space-between;
+  align-self: center;
 }
 
-.calendar-button-container {
-  display: flex;
-  align-items: center;
-  background: white;
-  border-radius: 12px;
-  padding: 0.4rem;
-  margin-right: 0.8rem;
-}
-
-.calendar-button {
-  background: transparent;
+.home-search-button {
+  padding: 0.5rem;
+  background-color: #fe5c5d;
   border: none;
-  outline: none;
-  margin-left: 0.5rem;
+  border-radius: 8px;
   cursor: pointer;
-  caret-color: transparent;
-  width: 80%;
-  font-size: 0.8rem;
 }
 
-.calendar-icon {
+.home-search-icon {
   width: 18px;
-  margin-left: 0.5rem;
 }
 
-.phone-image {
-  width: 28rem;
-  margin-left: 8rem;
-}
+@media (max-width: 640px) {
+  .home-form-container {
+    display: flex;
+    flex-direction: column;
+  }
 
-@media screen and (max-width: 768px) {
-  .phone-image {
+  .home-search-container {
+    bottom: 4rem;
+  }
+
+  .home-hero-image {
     display: none;
   }
 
-  .calendar-button-container {
-    margin-left: 0.6rem;
+  .home-search-button {
+    margin-top: 2rem;
+    width: 50%;
+    display: flex;
+    align-self: center;
+    justify-content: center;
+  }
+
+  .home-title-text {
+    text-align: left;
+    width: 20rem;
+    top: 5rem;
+    left: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 }

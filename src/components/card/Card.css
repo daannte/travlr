@@ -1,57 +1,26 @@
-.card {
-  background-color: #0b507a;
-  border-radius: 16px;
-  width: 450px;
-  height: fit-content;
-  margin: 1.875rem;
+.card-title {
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.card-activity-name-container {
   display: flex;
   align-items: center;
-  flex-direction: column;
+  margin-top: 2rem;
 }
 
-.card-header {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  width: 100%;
-}
-
-.card-activities {
-  max-height: 24rem;
-  overflow-y: auto;
-}
-
-.card-title {
-  font-style: normal;
-  font-weight: 400;
-  font-size: 1.5rem;
-  margin-top: 1.25rem;
-  margin-left: 1.5625rem;
-  color: white;
-}
-
-.delete-card-button {
-  background: transparent;
+.card-activity-name-input {
   border: none;
-  cursor: pointer;
-  margin: 1.5625rem 1.5625rem 0 auto;
+  outline: none;
+  border-radius: 12px;
+  padding: 0.5rem;
+  margin-left: 0.5rem;
+  background: gainsboro;
+  color: black;
 }
 
-.add-activity-button {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  margin: 1.5625rem 1.5625rem 1.5625rem auto;
-}
-
-@media screen and (max-width: 768px) {
-  .card {
-    margin: 0.9375rem;
-    width: 90%;
-  }
-
-  .card-activities {
-    max-height: 10rem;
-    overflow-y: auto;
-  }
+.card-line-split {
+  border-top: 1px solid #fe5c5d;
+  width: 16rem;
+  margin: 2rem;
 }

@@ -36,7 +36,7 @@ function Login({ setLoginPopup, setSignupPopup }: LoginProps) {
   return (
     <>
       <h2 className="login-title">Login</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form className="input-form" onSubmit={handleSubmit(onSubmit)}>
         <div className="input-login-container">
           <img src={mailIcon} alt="Mail" className="login-input-icon" />
           <input
@@ -52,7 +52,7 @@ function Login({ setLoginPopup, setSignupPopup }: LoginProps) {
         <div className="input-login-container">
           <img src={lockIcon} alt="Lock" className="login-input-icon" />
           <input
-            className="login-input"
+            className="login-input-password"
             type="password"
             placeholder="PASSWORD"
             autoComplete="off"
@@ -61,17 +61,15 @@ function Login({ setLoginPopup, setSignupPopup }: LoginProps) {
             })}
           />
         </div>
-        <div className="login-submit-container">
-          <button className="login-submit-button" type="submit">
-            Login
-          </button>
-        </div>
         <span className="login-error">
           {errorMessage && errorMessage}
           {(errors.email || errors.password) &&
             !errorMessage &&
             "email and password required!"}
         </span>
+        <button className="login-submit-button" type="submit">
+          Login
+        </button>
       </form>
       <footer className="login-footer">
         Don't have an account?{" "}

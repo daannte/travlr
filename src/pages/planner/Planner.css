@@ -1,74 +1,96 @@
 .planner-container {
   display: flex;
   justify-content: center;
-  align-items: center;
   height: 100vh;
-  width: 100vw;
 }
 
 .event-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
-  max-width: 82%;
+  width: 100%;
+  margin-top: 3rem;
 }
 
 .cards-container {
   display: flex;
-  flex-direction: row;
-  overflow-x: auto;
-  overscroll-behavior-inline: contain;
-  max-width: 100%;
-  border-radius: 12px;
+  flex-direction: column;
+  align-items: center;
+  border-top-right-radius: 32px;
+  border-top-left-radius: 32px;
+  margin-top: -3rem;
+  background: white;
+  padding-top: 5rem;
 }
 
-.cards-button-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  width: 100%;
-}
-
-.title-container {
+.hero-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   margin-bottom: 1rem;
+  position: relative;
 }
 
-.save-icon {
-  margin: 0.25rem 0 0 1rem;
+.destination-image {
+  width: 100%;
+  height: auto;
+  max-height: 50vh;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.destination-info-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  left: 4rem;
+  bottom: -1rem;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(2px);
+  padding: 1rem;
+  border-radius: 16px;
+}
+
+.destination-title-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.destination-date-container {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+.destination-date-icon {
+  margin-right: 1rem;
+}
+
+.destination {
+  color: black;
+  font-weight: 500;
+  font-size: 2.5rem;
+  text-transform: capitalize;
+}
+
+.pin-icon {
   width: 28px;
-  cursor: pointer;
+  height: 28px;
+  margin-right: 0.5rem;
 }
 
-@media screen and (max-width: 768px) {
-  .cards-container {
-    flex-direction: column;
-    align-items: center;
-    max-width: none;
-    max-height: 100%;
-    overflow-y: auto;
-  }
-
-  .event-container {
-    max-width: 100%;
-    height: 100vh;
-  }
-
-  .cards-button-container {
-    flex-direction: column;
-    height: 45%;
-  }
-
-  .add-button {
-    margin-left: 0;
-    margin-top: 0.5rem;
-  }
-
-  .destination {
-    font-size: 1.5rem;
-  }
+.save-icon-container {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  right: 0.5rem;
+  top: 0.5rem;
+  padding: 0.3rem;
+  background: #fe5c5d;
+  cursor: pointer;
+  border-radius: 50%;
 }

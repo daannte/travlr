@@ -54,7 +54,7 @@ function Signup({ setLoginPopup, setSignupPopup }: LoginProps) {
   return (
     <>
       <h2 className="signup-title">Create Account</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form className="signup-form" onSubmit={handleSubmit(onSubmit)}>
         <div className="input-signup-container">
           <img src={mailIcon} alt="Mail" className="signup-input-icon" />
           <input
@@ -71,7 +71,7 @@ function Signup({ setLoginPopup, setSignupPopup }: LoginProps) {
         <div className="input-signup-container">
           <img src={lockIcon} alt="Lock" className="signup-input-icon" />
           <input
-            className="signup-input"
+            className="signup-input-password"
             type="password"
             placeholder="PASSWORD"
             autoComplete="off"
@@ -83,7 +83,7 @@ function Signup({ setLoginPopup, setSignupPopup }: LoginProps) {
         <div className="input-signup-container">
           <img src={lockIcon} alt="Lock" className="signup-input-icon" />
           <input
-            className="signup-input"
+            className="signup-input-confirm"
             type="password"
             placeholder="CONFIRM PASSWORD"
             autoComplete="off"
@@ -97,18 +97,16 @@ function Signup({ setLoginPopup, setSignupPopup }: LoginProps) {
             })}
           />
         </div>
-        <div className="signup-submit-container">
-          <button className="signup-submit-button" type="submit">
-            Sign up
-          </button>
-        </div>
         <span className="login-error">
           {errorMessage
             ? errorMessage
             : (errors.confirmPassword && errors.confirmPassword.message) ||
-              ((errors.email || errors.password) &&
+              ((errors.email || errors.password || errors.confirmPassword) &&
                 "email and password required!")}
         </span>
+        <button className="signup-submit-button" type="submit">
+          Sign up
+        </button>
       </form>
       <footer className="signup-footer">
         Already have an account?{" "}
