@@ -102,14 +102,18 @@ function Home({ savedDests }: HomeProps) {
 
   return (
     <div className="home-container">
-      <div className="home-title-text">
-        <h1 className="home-title">All you need is Travlr</h1>
-        <h2 className="home-title-subtext">
-          Build your itineraries all in one place, and plan for your ultimate
-          adventure
-        </h2>
+      <div className="home-hero-container">
+        <div className="home-title-text">
+          <h1 className="home-title">Plan your Trip with Travlr</h1>
+          <h2 className="home-title-subtext">
+            Build your itineraries all in one place, and plan for your ultimate
+            adventure
+          </h2>
+        </div>
+        <div className="home-hero-image-container">
+          <img className="home-hero-image" src={heroImage} alt="Hero Image" />
+        </div>
       </div>
-      <img className="home-hero-image" src={heroImage} alt="Hero Image" />
       <div className="home-search-container">
         <form className="home-form-container" onSubmit={handleSubmit}>
           <div className="destination-container">
