@@ -46,6 +46,7 @@ function Login({ setLoginPopup, setSignupPopup }: LoginProps) {
             autoComplete="off"
             {...register("email", {
               required: true,
+              onChange: () => setErrorMessage(""),
             })}
           />
         </div>
@@ -58,6 +59,7 @@ function Login({ setLoginPopup, setSignupPopup }: LoginProps) {
             autoComplete="off"
             {...register("password", {
               required: true,
+              onChange: () => setErrorMessage(""),
             })}
           />
         </div>

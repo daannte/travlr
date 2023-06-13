@@ -9,7 +9,6 @@ import "./Signup.css";
 
 import mailIcon from "../../assets/mail.svg";
 import lockIcon from "../../assets/lock.svg";
-import { AuthErrorCodes } from "firebase/auth";
 
 interface IFormInputs {
   email: string;
@@ -17,12 +16,12 @@ interface IFormInputs {
   confirmPassword: string;
 }
 
-interface LoginProps {
+interface SignupProps {
   setLoginPopup: React.Dispatch<React.SetStateAction<boolean>>;
   setSignupPopup: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function Signup({ setLoginPopup, setSignupPopup }: LoginProps) {
+function Signup({ setLoginPopup, setSignupPopup }: SignupProps) {
   const {
     register,
     handleSubmit,
@@ -35,9 +34,7 @@ function Signup({ setLoginPopup, setSignupPopup }: LoginProps) {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
     } catch (error: unknown) {
-      if (error === AuthErrorCodes.WEAK_PASSWORD) {
-        setErrorMessage("Password must be longer than 6 characters!");
-      }
+      console.log(error);
     }
   }
 
@@ -68,6 +65,11 @@ function Signup({ setLoginPopup, setSignupPopup }: LoginProps) {
             })}
           />
         </div>
+        {(errorMessage || errors.email) && (
+          <span className="signup-error">
+            {errorMessage ? errorMessage : errors.email && "Email is required"}
+          </span>
+        )}
         <div className="input-signup-container">
           <img src={lockIcon} alt="Lock" className="signup-input-icon" />
           <input
@@ -77,6 +79,11 @@ function Signup({ setLoginPopup, setSignupPopup }: LoginProps) {
             autoComplete="off"
             {...register("password", {
               required: true,
+              validate: (val: string) => {
+                if (val.length < 6) {
+                  return "Password must be longer than 6 characters";
+                }
+              },
             })}
           />
         </div>
@@ -97,12 +104,12 @@ function Signup({ setLoginPopup, setSignupPopup }: LoginProps) {
             })}
           />
         </div>
-        <span className="login-error">
-          {errorMessage
-            ? errorMessage
-            : (errors.confirmPassword && errors.confirmPassword.message) ||
-              ((errors.email || errors.password || errors.confirmPassword) &&
-                "email and password required!")}
+        <span className="signup-error">
+          {errors.password
+            ? errors.password.message || "Password is required"
+            : errors.confirmPassword
+            ? errors.confirmPassword.message || "Confirm password is required"
+            : ""}
         </span>
         <button className="signup-submit-button" type="submit">
           Sign up

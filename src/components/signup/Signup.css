@@ -68,7 +68,7 @@
   cursor: pointer;
 }
 
-.login-error {
+.signup-error {
   display: flex;
   justify-content: center;
   color: #fc4344;
