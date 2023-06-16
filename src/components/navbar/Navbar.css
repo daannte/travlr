@@ -5,7 +5,7 @@
   position: absolute;
   width: 100%;
   padding: 0.5rem;
-  background: white;
+  background-color: #e7e7e7;
 }
 
 .navbar-title {
@@ -43,9 +43,9 @@
   font-size: 0.8rem;
   cursor: pointer;
   text-transform: uppercase;
-  background: #fe5c5d;
+  background: #473bf0;
   color: white;
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1rem;
   border-radius: 8px;
 }
 
@@ -70,7 +70,7 @@
   position: absolute;
   top: 0;
   right: 0;
-  background: #fe5c5d;
+  background: #473bf0;
   border: none;
   display: flex;
   align-items: center;

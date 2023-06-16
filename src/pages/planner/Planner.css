@@ -18,7 +18,7 @@
   border-top-right-radius: 32px;
   border-top-left-radius: 32px;
   margin-top: -3rem;
-  background: white;
+  background: #e7e7e7;
   padding-top: 5rem;
 }
 
@@ -90,7 +90,7 @@
   right: 0.5rem;
   top: 0.5rem;
   padding: 0.3rem;
-  background: #fe5c5d;
+  background: #473bf0;
   cursor: pointer;
   border-radius: 50%;
 }

@@ -1,15 +1,14 @@
 import { useContext, useEffect, useState } from "react";
 import { PlannerContext } from "../../App";
-import DatePicker from "react-datepicker";
-import { Controller, useForm } from "react-hook-form";
-import "./Activity.css";
+import TimeSelect from "../timeSelect/TimeSelect";
 
 import deleteIcon from "../../assets/deleteActivity.svg";
 import clockIcon from "../../assets/clock.svg";
+import "./Activity.css";
 
 interface IFormInputs {
-  startTime: string;
-  endTime: string;
+  startTime: Date | null;
+  endTime: Date | null;
 }
 
 interface ActivityProps {
@@ -18,25 +17,19 @@ interface ActivityProps {
 }
 
 function Activity({ day, activityIndex }: ActivityProps) {
-  const {
-    control,
-    handleSubmit,
-    watch,
-    formState: { errors },
-    setValue,
-    reset,
-  } = useForm<IFormInputs>();
-
   const { currentPlanner, setCurrentPlanner } = useContext(PlannerContext);
-  const activity = currentPlanner.activityLists[day].activities[activityIndex];
-  const date = currentPlanner.activityLists[day].date;
-  const [startTime, setStartTime] = useState<string>(activity.startTime);
-  const [endTime, setEndTime] = useState<string>(activity.endTime);
+  const { activityLists } = currentPlanner;
+  const activityList = activityLists[day];
+  const { activities, date } = activityList;
+  const activity = activities[activityIndex];
+  const [startTime, setStartTime] = useState<Date | null>(null);
+  const [endTime, setEndTime] = useState<Date | null>(null);
   const [isChoosingTime, setIsChoosingTime] = useState<boolean>(false);
 
   useEffect(() => {
-    setStartTime(activity.startTime);
-    setEndTime(activity.endTime);
+    // If the activity changes, check if it has a time set
+    setStartTime(activity.startTime ? new Date(activity.startTime) : null);
+    setEndTime(activity.endTime ? new Date(activity.endTime) : null);
   }, [activity]);
 
   // Delete activity from activity list
@@ -60,8 +53,8 @@ function Activity({ day, activityIndex }: ActivityProps) {
   function onSubmit(data: IFormInputs) {
     const updatedActivity = {
       ...activity,
-      startTime: data.startTime,
-      endTime: data.endTime,
+      startTime: data.startTime ? data.startTime.toISOString() : "",
+      endTime: data.endTime ? data.endTime.toISOString() : "",
     };
 
     setCurrentPlanner((prevPlanner) => {
@@ -80,37 +73,41 @@ function Activity({ day, activityIndex }: ActivityProps) {
     setIsChoosingTime(false);
   }
 
-  function handleClear() {
-    reset();
-    setValue("startTime", "");
-    setValue("endTime", "");
-    setStartTime("");
-    setEndTime("");
-  }
+  function renderTime() {
+    if (!startTime) {
+      return (
+        <>
+          <img className="clock-icon" src={clockIcon} alt="Clock Icon" />
+          Add Time
+        </>
+      );
+    }
 
-  function startSelected() {
-    if (startTime === "") return null;
+    if (startTime && !endTime) {
+      return (
+        <div className="time-chosen-colour">
+          {startTime.toLocaleTimeString([], {
+            hour: "numeric",
+            minute: "2-digit",
+          })}
+        </div>
+      );
+    }
 
-    const currentDate = new Date().toDateString();
-    return new Date(`${currentDate} ${startTime}`);
-  }
-
-  function endSelected() {
-    if (endTime === "") return null;
-
-    const currentDate = new Date().toDateString();
-    return new Date(`${currentDate} ${endTime}`);
-  }
-
-  function validateTime(watchStarTime: string, endTime: string) {
-    const endUnix = new Date(
-      `${new Date().toDateString()} ${endTime}`
-    ).getTime();
-    const startUnix = new Date(
-      `${new Date().toDateString()} ${watchStarTime}`
-    ).getTime();
-    if (endTime !== "" && startUnix >= endUnix) {
-      return "End time must be set to a time after start time!";
+    if (startTime && endTime) {
+      return (
+        <div className="time-chosen-colour">
+          {startTime.toLocaleTimeString([], {
+            hour: "numeric",
+            minute: "2-digit",
+          })}{" "}
+          -{" "}
+          {endTime.toLocaleTimeString([], {
+            hour: "numeric",
+            minute: "2-digit",
+          })}
+        </div>
+      );
     }
   }
 
@@ -124,101 +121,16 @@ function Activity({ day, activityIndex }: ActivityProps) {
       />
       <h2 className="activity-destination">{activity.name}</h2>
       <div className="activity-time" onClick={() => setIsChoosingTime(true)}>
-        {!startTime && (
-          <>
-            <img className="clock-icon" src={clockIcon} />
-            Add Time
-          </>
-        )}
-        {startTime && !endTime && (
-          <div className="time-chosen-colour">{startTime}</div>
-        )}
-        {startTime && endTime && (
-          <div className="time-chosen-colour">
-            {startTime} - {endTime}
-          </div>
-        )}
+        {renderTime()}
       </div>
       {isChoosingTime && (
-        <form onSubmit={handleSubmit(onSubmit)} className="choose-time-popup">
-          <div className="time-inputs">
-            <Controller
-              control={control}
-              name={"startTime"}
-              rules={watch("endTime") !== "" ? { required: true } : {}}
-              render={({ field: { onChange } }) => {
-                return (
-                  <DatePicker
-                    onChange={(date: Date) => {
-                      const formattedTime = date.toLocaleTimeString([], {
-                        hour: "numeric",
-                        minute: "2-digit",
-                      });
-                      onChange(formattedTime);
-                      setStartTime(formattedTime);
-                    }}
-                    selected={startSelected()}
-                    showTimeSelect
-                    showTimeSelectOnly
-                    timeIntervals={30}
-                    timeCaption="Start Time"
-                    dateFormat="h:mm aa"
-                    placeholderText="End"
-                    onKeyDown={(e) => e.preventDefault()}
-                    inline
-                  />
-                );
-              }}
-            />
-            <Controller
-              control={control}
-              name={"endTime"}
-              rules={{
-                validate: (val: string) =>
-                  validateTime(watch("startTime"), val),
-              }}
-              render={({ field: { onChange } }) => {
-                return (
-                  <DatePicker
-                    onChange={(date: Date) => {
-                      const formattedTime = date.toLocaleTimeString([], {
-                        hour: "numeric",
-                        minute: "2-digit",
-                      });
-                      onChange(formattedTime);
-                      setEndTime(formattedTime);
-                    }}
-                    selected={endSelected()}
-                    showTimeSelect
-                    showTimeSelectOnly
-                    timeIntervals={30}
-                    timeCaption="End Time"
-                    dateFormat="h:mm aa"
-                    placeholderText="End"
-                    onKeyDown={(e) => e.preventDefault()}
-                    inline
-                  />
-                );
-              }}
-            />
-          </div>
-          <p className="time-error-message">
-            {errors.startTime && "Start time needed if you choose an end time"}
-            {errors.endTime && errors.endTime.message}
-          </p>
-          <div className="time-buttons">
-            <button
-              className="cancel-time-button"
-              type="button"
-              onClick={handleClear}
-            >
-              Clear
-            </button>
-            <button className="save-time-button" type="submit">
-              Save
-            </button>
-          </div>
-        </form>
+        <TimeSelect
+          startTime={startTime}
+          setStartTime={setStartTime}
+          endTime={endTime}
+          setEndTime={setEndTime}
+          onSubmit={onSubmit}
+        />
       )}
     </div>
   );

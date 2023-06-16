@@ -1,0 +1,56 @@
+.choose-time-popup {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  bottom: 2rem;
+  z-index: 1;
+  background: #e7e7e7;
+  padding: 0.5rem;
+  border-radius: 12px;
+  max-width: 12rem;
+}
+
+.time-inputs {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 0.5rem;
+}
+
+.time-buttons {
+  display: flex;
+  flex-direction: row;
+}
+
+.time-error-message {
+  color: red;
+  text-align: center;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.save-time-button {
+  border: none;
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  background: #473bf0;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 8px;
+  margin-left: auto;
+  margin-right: 0.5rem;
+  width: 4.5rem;
+}
+
+.cancel-time-button {
+  border: none;
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  background: #f4f5f5;
+  color: black;
+  padding: 0.5rem;
+  border-radius: 8px;
+  margin-left: 0.5rem;
+  width: 4.5rem;
+}

@@ -3,6 +3,7 @@
   flex-direction: column;
   align-items: center;
   height: 100vh;
+  background-color: #e7e7e7;
 }
 
 .home-search-container {
@@ -39,7 +40,7 @@
 }
 
 .home-title {
-  color: #fe5c5d;
+  color: #0b132b;
   font-size: 3rem;
   display: flex;
   justify-content: center;
@@ -48,7 +49,9 @@
 .home-title-subtext {
   margin-top: 1rem;
   max-width: 24rem;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: #0b132b;
 }
 
 .home-hero-image-container {
@@ -80,18 +83,15 @@
 
 .pin-container,
 .calendar-container {
-  width: 20px;
-  height: 20px;
-  background-color: #fe5c5d;
-  border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .home-map-pin-icon,
-.home-calendar-icon {
-  width: 12px;
+.home-calendar-icon,
+.date-input-label {
+  width: 16px;
 }
 
 .destination-input-label,
@@ -122,14 +122,14 @@
 .vertical-line {
   width: 2px;
   height: 3rem;
-  background: #fe5c5d;
+  background: #473bf0;
   margin: 0 2rem;
 }
 
 .horizontal-line {
   width: 70%;
   height: 2px;
-  background: #fe5c5d;
+  background: #473bf0;
   margin: 2rem 0;
   display: flex;
   align-self: center;
@@ -137,7 +137,7 @@
 
 .home-search-button {
   padding: 0.5rem;
-  background-color: #fe5c5d;
+  background-color: #473bf0;
   border: none;
   border-radius: 8px;
   cursor: pointer;

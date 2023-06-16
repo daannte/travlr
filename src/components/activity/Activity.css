@@ -33,8 +33,8 @@
 }
 
 .time-chosen-colour {
-  color: #fe5c5d;
-  outline: 1px solid #fe5c5d;
+  color: #009ddc;
+  outline: 1px solid #009ddc;
   padding: 0.2rem;
   border-radius: 8px;
 }
@@ -42,61 +42,4 @@
 .clock-icon {
   height: 15px;
   margin-right: 0.2rem;
-}
-
-.choose-time-popup {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  bottom: 2rem;
-  z-index: 1;
-  background: white;
-  padding: 0.5rem;
-  border-radius: 12px;
-  max-width: 12rem;
-}
-
-.time-inputs {
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 0.5rem;
-}
-
-.time-buttons {
-  display: flex;
-  flex-direction: row;
-}
-
-.time-error-message {
-  color: red;
-  text-align: center;
-  font-size: 0.8rem;
-  margin-bottom: 0.5rem;
-}
-
-.save-time-button {
-  border: none;
-  font-size: 0.8rem;
-  cursor: pointer;
-  text-transform: uppercase;
-  background: #06396c;
-  color: white;
-  padding: 0.5rem;
-  border-radius: 8px;
-  margin-left: auto;
-  margin-right: 0.5rem;
-  width: 4.5rem;
-}
-
-.cancel-time-button {
-  border: none;
-  font-size: 0.8rem;
-  cursor: pointer;
-  text-transform: uppercase;
-  background: gray;
-  color: white;
-  padding: 0.5rem;
-  border-radius: 8px;
-  margin-left: 0.5rem;
-  width: 4.5rem;
 }
