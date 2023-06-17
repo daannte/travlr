@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { PlannerContext } from "../../App";
+import { Draggable } from "@hello-pangea/dnd";
 import TimeSelect from "../timeSelect/TimeSelect";
 
 import deleteIcon from "../../assets/deleteActivity.svg";
@@ -113,27 +114,42 @@ function Activity({ day, activityIndex }: ActivityProps) {
   }
 
   return (
-    <div className="activity-container">
-      <img
-        className="delete-icon"
-        src={deleteIcon}
-        alt="Delete Icon"
-        onClick={handleActivityDelete}
-      />
-      <h2 className="activity-destination">{activity.name}</h2>
-      <div className="activity-time" onClick={() => setIsChoosingTime(true)}>
-        {renderTime()}
-      </div>
-      {isChoosingTime && (
-        <TimeSelect
-          startTime={startTime}
-          setStartTime={setStartTime}
-          endTime={endTime}
-          setEndTime={setEndTime}
-          onSubmit={onSubmit}
-        />
+    <Draggable
+      draggableId={`drag-${day}-${activityIndex}`}
+      index={activityIndex}
+    >
+      {(provided) => (
+        <div
+          className="activity-container"
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          ref={provided.innerRef}
+        >
+          <img
+            className="delete-icon"
+            src={deleteIcon}
+            alt="Delete Icon"
+            onClick={handleActivityDelete}
+          />
+          <h2 className="activity-destination">{activity.name}</h2>
+          <div
+            className="activity-time"
+            onClick={() => setIsChoosingTime(true)}
+          >
+            {renderTime()}
+          </div>
+          {isChoosingTime && (
+            <TimeSelect
+              startTime={startTime}
+              setStartTime={setStartTime}
+              endTime={endTime}
+              setEndTime={setEndTime}
+              onSubmit={onSubmit}
+            />
+          )}
+        </div>
       )}
-    </div>
+    </Draggable>
   );
 }
 
