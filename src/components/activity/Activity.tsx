@@ -87,7 +87,7 @@ function Activity({ day, activityIndex }: ActivityProps) {
     if (startTime && !endTime) {
       return (
         <div className="time-chosen-colour">
-          {startTime.toLocaleTimeString([], {
+          {startTime.toLocaleTimeString("en-US", {
             hour: "numeric",
             minute: "2-digit",
           })}
@@ -98,12 +98,12 @@ function Activity({ day, activityIndex }: ActivityProps) {
     if (startTime && endTime) {
       return (
         <div className="time-chosen-colour">
-          {startTime.toLocaleTimeString([], {
+          {startTime.toLocaleTimeString("en-US", {
             hour: "numeric",
             minute: "2-digit",
           })}{" "}
           -{" "}
-          {endTime.toLocaleTimeString([], {
+          {endTime.toLocaleTimeString("en-US", {
             hour: "numeric",
             minute: "2-digit",
           })}

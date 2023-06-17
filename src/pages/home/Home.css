@@ -108,10 +108,11 @@
   background: transparent;
   border: none;
   outline: none;
-  margin-left: 1.7rem;
+  margin-left: 1.4rem;
   margin-top: 0.5rem;
   font-weight: 300;
   font-size: 0.9rem;
+  letter-spacing: 1px;
 }
 
 .date-input {

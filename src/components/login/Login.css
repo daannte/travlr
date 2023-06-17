@@ -25,10 +25,7 @@
   padding: 0.8rem;
   padding-left: 2.2rem;
   font-size: 0.9rem;
-}
-
-.login-input-password {
-  letter-spacing: 2px;
+  letter-spacing: 1px;
 }
 
 .login-input-icon {

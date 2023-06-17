@@ -57,6 +57,7 @@ function TimeSelect({
           control={control}
           name={"startTime"}
           rules={{ required: endTime ? true : false }}
+          defaultValue={startTime}
           render={({ field: { onChange } }) => {
             return (
               <DatePicker
@@ -82,6 +83,7 @@ function TimeSelect({
           rules={{
             validate: (val) => validateTime(watch("startTime"), val),
           }}
+          defaultValue={endTime}
           render={({ field: { onChange } }) => {
             return (
               <DatePicker
