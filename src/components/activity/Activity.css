@@ -1,16 +1,37 @@
 .activity-container {
-  background: gainsboro;
-  padding: 0.5rem;
-  border-radius: 12px;
-  position: relative;
+  display: flex;
   margin-top: 2rem;
 }
 
+.activity-info-container {
+  background: gainsboro;
+  position: relative;
+  padding: 0.5rem;
+  border-radius: 12px;
+  width: 100%;
+}
+
+.activity-container:hover .delete-icon,
+.activity-container:hover .drag-handle-icon {
+  visibility: visible;
+}
+
 .delete-icon {
+  visibility: hidden;
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
   width: 18px;
+  cursor: pointer;
+}
+
+.delete-icon:hover {
+  stroke: #473bf0;
+}
+
+.drag-handle-icon {
+  visibility: hidden;
+  margin-right: 0.2rem;
   cursor: pointer;
 }
 
@@ -30,6 +51,7 @@
   cursor: pointer;
   display: flex;
   align-items: center;
+  width: fit-content;
 }
 
 .time-chosen-colour {
