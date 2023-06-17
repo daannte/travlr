@@ -96,20 +96,37 @@ function Planner({ savedDests, setSavedDests }: PlannerProps) {
       const reorderedPlanner = { ...currentPlanner };
 
       // Get the activity we want to move
-      const sourceActivities =
-        reorderedPlanner.activityLists[parseInt(source.droppableId)].activities;
-      const movedActivity = sourceActivities[source.index];
+      const sourceActivitiesList =
+        reorderedPlanner.activityLists[parseInt(source.droppableId)];
+      const movedActivity = sourceActivitiesList.activities[source.index];
 
       // Remove that activity from the array
-      sourceActivities.splice(source.index, 1);
+      sourceActivitiesList.activities.splice(source.index, 1);
+
+      // Check if it was the last element in the source list
+      const isSourceEmpty = sourceActivitiesList.activities.length === 0;
+      sourceActivitiesList.isEmpty = isSourceEmpty;
 
       // Get the activities we want to move it to
-      const destActivities =
-        reorderedPlanner.activityLists[parseInt(destination.droppableId)]
-          .activities;
+      const destActivitiesList =
+        reorderedPlanner.activityLists[parseInt(destination.droppableId)];
 
-      // Insert the movedActivity into the acitivities we wanted
-      destActivities.splice(destination.index, 0, movedActivity);
+      // Check if the activities list exists
+      if (destActivitiesList.isEmpty) {
+        // Create a new list with that activity if it is empty
+        destActivitiesList.activities = [movedActivity];
+
+        // Set the empty value to false since it isn't empty anymore
+        destActivitiesList.isEmpty = false;
+      } else {
+        // Insert the movedActivity into the acitivities we wanted
+        // if the activities exist
+        destActivitiesList.activities.splice(
+          destination.index,
+          0,
+          movedActivity
+        );
+      }
 
       // Update the currentPlanner state with the reordered planner
       return setCurrentPlanner(reorderedPlanner);
