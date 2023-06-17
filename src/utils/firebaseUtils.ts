@@ -1,6 +1,6 @@
 import { onValue, ref, db } from "../backend/firebase";
 
-interface ActivityDetails {
+interface Activity {
   startTime: string;
   endTime: string;
   name: string;
@@ -8,7 +8,7 @@ interface ActivityDetails {
 
 interface ActivityList {
   date: string;
-  activities: ActivityDetails[];
+  activities: Activity[];
   isEmpty: boolean;
 }
 

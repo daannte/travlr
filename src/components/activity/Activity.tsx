@@ -22,6 +22,7 @@ function Activity({ day, activityIndex }: ActivityProps) {
   const activityList = activityLists[day];
   const { activities, date } = activityList;
   const activity = activities[activityIndex];
+
   const [startTime, setStartTime] = useState<Date | null>(null);
   const [endTime, setEndTime] = useState<Date | null>(null);
   const [isChoosingTime, setIsChoosingTime] = useState<boolean>(false);

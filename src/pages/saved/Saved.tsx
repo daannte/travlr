@@ -4,7 +4,7 @@ import { PlannerContext } from "../../App";
 import SavedCard from "../../components/savedCard/SavedCard";
 import "./Saved.css";
 
-interface ActivityDetails {
+interface Activity {
   startTime: string;
   endTime: string;
   name: string;
@@ -12,7 +12,7 @@ interface ActivityDetails {
 
 interface ActivityList {
   date: string;
-  activities: ActivityDetails[];
+  activities: Activity[];
   isEmpty: boolean;
 }
 

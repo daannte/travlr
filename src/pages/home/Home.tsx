@@ -11,7 +11,7 @@ import calendarIcon from "../../assets/calendar.svg";
 import mapPinIcon from "../../assets/feather-map-pin.svg";
 import heroImage from "/hero.png";
 
-interface ActivityDetails {
+interface Activity {
   startTime: string;
   endTime: string;
   name: string;
@@ -19,7 +19,7 @@ interface ActivityDetails {
 
 interface ActivityList {
   date: string;
-  activities: ActivityDetails[];
+  activities: Activity[];
   isEmpty: true;
 }
 
@@ -52,7 +52,7 @@ function Home({ savedDests }: HomeProps) {
           year: "numeric",
         });
 
-        const activities: ActivityDetails[] = [];
+        const activities: Activity[] = [];
         const isEmpty = true;
         newCurrentPlanner.push({ date, activities, isEmpty });
         currentDate.setDate(currentDate.getDate() + 1);

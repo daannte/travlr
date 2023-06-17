@@ -9,7 +9,7 @@ import Planner from "./pages/planner/Planner";
 import Saved from "./pages/saved/Saved";
 import Navbar from "./components/navbar/Navbar";
 
-interface ActivityDetails {
+interface Activity {
   startTime: string;
   endTime: string;
   name: string;
@@ -17,7 +17,7 @@ interface ActivityDetails {
 
 interface ActivityList {
   date: string;
-  activities: ActivityDetails[];
+  activities: Activity[];
   isEmpty: boolean;
 }
 
@@ -49,19 +49,28 @@ export const PlannerContext = createContext<PlannerContextProps>({
 
 export const UserIdContext = createContext<string>("");
 
+function createInitialPlannerState(): IPlanner {
+  const localPlanner = localStorage.getItem("currentPlanner");
+  return localPlanner
+    ? JSON.parse(localPlanner)
+    : {
+        destination: "",
+        startDate: "",
+        endDate: "",
+        activityLists: [],
+      };
+}
+
 function App() {
   const [savedDests, setSavedDests] = useState<string[]>([]);
   const [savedPlanners, setSavedPlanners] = useState<SavedPlanners>({});
-  const [currentPlanner, setCurrentPlanner] = useState<IPlanner>(() => {
-    const localPlanner = localStorage.getItem("currentPlanner");
-    return localPlanner
-      ? JSON.parse(localPlanner)
-      : { destination: "", startDate: "", endDate: "", activityLists: [] };
-  });
+  const [currentPlanner, setCurrentPlanner] = useState<IPlanner>(
+    createInitialPlannerState()
+  );
   const [userId, setUserId] = useState<string>("");
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const checkedLoggedIn = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUserId(user.uid);
         fetchSavedInfo(
@@ -77,7 +86,7 @@ function App() {
       }
     });
 
-    return () => unsubscribe();
+    return () => checkedLoggedIn();
   }, []);
 
   const renderSavedRoute = () => (
