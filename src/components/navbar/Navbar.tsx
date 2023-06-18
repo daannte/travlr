@@ -34,7 +34,7 @@ function Navbar() {
               Saved
             </NavLink>
             <button
-              className="signout-button navbar-element"
+              className="navbar-element signout-button"
               onClick={handleSignOut}
             >
               Sign out
@@ -48,7 +48,7 @@ function Navbar() {
               setLoginPopup(!loginPopup);
             }}
           >
-            Login To Save
+            Login to Save
           </button>
         )}
       </ul>

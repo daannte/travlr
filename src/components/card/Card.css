@@ -7,20 +7,15 @@
   display: flex;
   justify-content: center;
   margin-top: 2rem;
+  margin-bottom: 4rem;
 }
 
 .card-activity-name-input {
   border: none;
-  outline: none;
+  outline: 2px solid #473bf0;
   border-radius: 12px;
   padding: 0.5rem;
   margin-left: 0.5rem;
-  background: gainsboro;
+  background: none;
   color: black;
-}
-
-.card-line-split {
-  border-top: 2px solid #473bf0;
-  width: 16rem;
-  margin: 2rem;
 }
