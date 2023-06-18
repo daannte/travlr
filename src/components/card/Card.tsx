@@ -74,7 +74,6 @@ function Card({ day }: CardProps) {
               />
             </form>
           </div>
-          <hr className="card-line-split" />
         </div>
       )}
     </Droppable>

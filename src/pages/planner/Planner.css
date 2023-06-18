@@ -1,43 +1,39 @@
 .planner-container {
   display: flex;
-  justify-content: center;
-  height: 100vh;
-  background: #e7e7e7;
+  justify-content: flex-start;
+  padding-top: 4rem;
 }
 
-.event-container {
+.planner-event-container {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  margin-top: 3rem;
+  width: 50%;
 }
 
-.cards-container {
+.planner-cards-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-top: 5rem;
 }
 
-.hero-container {
+.planner-hero-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   position: relative;
-  background: red;
-  min-height: 15rem;
-  max-width: 45rem;
+  max-width: 100%;
+  max-height: 25rem;
 }
 
-.destination-image {
+.planner-destination-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: 1;
 }
 
-.destination-info-container {
+.planner-destination-info-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -50,16 +46,16 @@
   -webkit-backdrop-filter: blur(2px);
   padding: 1rem;
   border-radius: 16px;
-  z-index: 2;
+  z-index: 1;
 }
 
-.destination-title-container {
+.planner-destination-title-container {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-.destination-date-container {
+.planner-destination-date-container {
   margin-top: 1rem;
   display: flex;
   flex-direction: row;
@@ -67,24 +63,24 @@
   font-size: 0.8rem;
 }
 
-.destination-date-icon {
+.planner-destination-date-icon {
   margin-right: 1rem;
 }
 
-.destination {
+.planner-destination {
   color: black;
   font-weight: 500;
   font-size: 2.5rem;
   text-transform: capitalize;
 }
 
-.pin-icon {
+.planner-pin-icon {
   width: 28px;
   height: 28px;
   margin-right: 0.5rem;
 }
 
-.save-icon-container {
+.planner-save-icon-container {
   position: absolute;
   display: flex;
   align-items: center;
@@ -94,4 +90,24 @@
   background: #473bf0;
   cursor: pointer;
   border-radius: 50%;
+}
+
+.planner-map-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  right: 0;
+  width: 50%;
+  height: 100%;
+}
+
+@media (max-width: 840px) {
+  .planner-event-container {
+    width: 100%;
+  }
+
+  .planner-map-container {
+    display: none;
+  }
 }

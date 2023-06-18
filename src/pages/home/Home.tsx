@@ -47,9 +47,8 @@ function Home({ savedDests }: HomeProps) {
 
       while (currentDate <= endDate) {
         const date = currentDate.toLocaleDateString("en-US", {
-          month: "long",
+          month: "short",
           day: "numeric",
-          year: "numeric",
         });
 
         const activities: Activity[] = [];
@@ -104,7 +103,9 @@ function Home({ savedDests }: HomeProps) {
     <div className="home-container">
       <div className="home-hero-container">
         <div className="home-title-text">
-          <h1 className="home-title">Plan your Trip with Travlr</h1>
+          <h1 className="home-title">
+            Plan your Trip with <span className="travlr-text">Travlr</span>
+          </h1>
           <h2 className="home-title-subtext">
             Build your itineraries all in one place, and plan for your ultimate
             adventure

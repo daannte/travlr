@@ -47,7 +47,7 @@ function Planner({ savedDests, setSavedDests }: PlannerProps) {
     const fetchDestinationImage = async () => {
       try {
         const response = await fetch(
-          `https://api.unsplash.com/search/photos?query=${currentPlanner.destination}&client_id=${UNSPLASH_API_KEY}`
+          `https://api.unsplash.com/search/photos?query=${currentPlanner.destination}&orientation=landscape&client_id=${UNSPLASH_API_KEY}`
         );
         const data = await response.json();
         const image =
@@ -127,7 +127,6 @@ function Planner({ savedDests, setSavedDests }: PlannerProps) {
           movedActivity
         );
       }
-
       // Update the currentPlanner state with the reordered planner
       return setCurrentPlanner(reorderedPlanner);
     }
@@ -135,30 +134,32 @@ function Planner({ savedDests, setSavedDests }: PlannerProps) {
 
   return (
     <div className="planner-container">
-      <div className="event-container">
-        <div className="hero-container">
+      <div className="planner-event-container">
+        <div className="planner-hero-container">
           {destinationImage && (
             <img
               src={destinationImage}
               alt={currentPlanner.destination}
-              className="destination-image"
+              className="planner-destination-image"
             />
           )}
-          <div className="destination-info-container">
-            <div className="destination-title-container">
-              <img className="pin-icon" src={pinIcon} alt="Map Pin" />
-              <h1 className="destination">{currentPlanner.destination}</h1>
+          <div className="planner-destination-info-container">
+            <div className="planner-destination-title-container">
+              <img className="planner-pin-icon" src={pinIcon} alt="Map Pin" />
+              <h1 className="planner-destination">
+                {currentPlanner.destination}
+              </h1>
             </div>
-            <div className="destination-date-container">
+            <div className="planner-destination-date-container">
               <img
-                className="destination-date-icon"
+                className="planner-destination-date-icon"
                 src={calendarIcon}
                 alt="Calendar Icon"
               />
               {currentPlanner.startDate} - {currentPlanner.endDate}
             </div>
           </div>
-          <div className="save-icon-container" onClick={handleSaved}>
+          <div className="planner-save-icon-container" onClick={handleSaved}>
             <img
               src={isSaved && userId !== "" ? starFilledIcon : starIcon}
               alt="Save"
@@ -166,8 +167,11 @@ function Planner({ savedDests, setSavedDests }: PlannerProps) {
           </div>
         </div>
         <DragDropContext onDragEnd={handleDragDrop}>
-          <div className="cards-container">{renderCards()}</div>
+          <div className="planner-cards-container">{renderCards()}</div>
         </DragDropContext>
+      </div>
+      <div className="planner-map-container">
+        Google embedded map will go here in the future!!
       </div>
     </div>
   );
