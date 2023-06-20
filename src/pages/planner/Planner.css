@@ -7,7 +7,7 @@
 .planner-event-container {
   display: flex;
   flex-direction: column;
-  width: 50%;
+  width: 100%;
 }
 
 .planner-cards-container {
@@ -90,24 +90,4 @@
   background: #473bf0;
   cursor: pointer;
   border-radius: 50%;
-}
-
-.planner-map-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  right: 0;
-  width: 50%;
-  height: 100%;
-}
-
-@media (max-width: 840px) {
-  .planner-event-container {
-    width: 100%;
-  }
-
-  .planner-map-container {
-    display: none;
-  }
 }
