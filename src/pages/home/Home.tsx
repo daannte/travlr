@@ -181,7 +181,7 @@ function Home({ savedDests }: HomeProps) {
               selectsRange
               // To prevent weird UI design by react-datepicker
               disabledKeyboardNavigation
-              minDate={null}
+              minDate={new Date()}
               // Prevent mobile keybaord
               onFocus={(e) => e.target.blur()}
             />

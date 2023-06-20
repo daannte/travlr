@@ -4,11 +4,14 @@
 }
 
 .activity-info-container {
-  background: gainsboro;
+  background: white;
+  box-shadow: 0 0 10px 0 #cdcdcd;
+  -webkit-box-shadow: 0 0 10px 0 #cdcdcd;
   position: relative;
   padding: 0.5rem;
   border-radius: 12px;
-  width: 100%;
+  max-width: 12rem;
+  width: 12rem;
 }
 
 .activity-container:hover .delete-icon,

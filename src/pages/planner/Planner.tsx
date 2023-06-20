@@ -170,9 +170,6 @@ function Planner({ savedDests, setSavedDests }: PlannerProps) {
           <div className="planner-cards-container">{renderCards()}</div>
         </DragDropContext>
       </div>
-      <div className="planner-map-container">
-        Google embedded map will go here in the future!!
-      </div>
     </div>
   );
 }
