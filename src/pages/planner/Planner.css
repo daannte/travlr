@@ -101,3 +101,13 @@
   align-items: center;
   justify-content: center;
 }
+
+@media (max-width: 640px) {
+  .planner-map-container {
+    display: none;
+  }
+
+  .planner-event-container {
+    width: 100%;
+  }
+}

@@ -1,6 +1,7 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { PlannerContext } from "../../App";
 import dayjs, { Dayjs } from "dayjs";
+import { useMediaQuery } from "react-responsive";
 import "./CustomDatePicker.css";
 
 import arrowLeft from "../../assets/arrow-left.svg";
@@ -19,12 +20,17 @@ function CustomDatePicker({ setIsDatePickerOpen }: Props) {
     [Date | null, Date | null]
   >([null, null]);
 
+  const isPhone = useMediaQuery({ maxWidth: 640 });
+
   const currentMonth = selectedDate.clone();
   const nextMonth = selectedDate.clone().add(1, "month");
 
   useEffect(() => {
     if (isInitialOpen) {
-      setSelectedRange([currentPlanner.startDate, currentPlanner.endDate]);
+      setSelectedRange([
+        new Date(currentPlanner.startDate),
+        new Date(currentPlanner.endDate),
+      ]);
     }
   }, [currentPlanner.startDate, currentPlanner.endDate, isInitialOpen]);
 
@@ -104,14 +110,22 @@ function CustomDatePicker({ setIsDatePickerOpen }: Props) {
       setHoveredDate(null);
       setCurrentPlanner((prevPlanner) => ({
         ...prevPlanner,
-        startDate: day,
+        startDate: day.toLocaleString("en-US", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        }),
       }));
     } else {
       if (day >= startDate) {
         setSelectedRange([startDate, day]);
         setCurrentPlanner((prevPlanner) => ({
           ...prevPlanner,
-          endDate: day,
+          endDate: day.toLocaleString("en-US", {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+          }),
         }));
         setIsDatePickerOpen(false);
       }
@@ -137,7 +151,7 @@ function CustomDatePicker({ setIsDatePickerOpen }: Props) {
         <h3 className="date-picker__month">
           {currentMonth.format("MMM YYYY")}
         </h3>
-        <h3>{nextMonth.format("MMM YYYY")}</h3>
+        {isPhone ? null : <h3>{nextMonth.format("MMM YYYY")}</h3>}
         <img
           src={arrowRight}
           className="date-picker__arrow-right"
@@ -169,29 +183,31 @@ function CustomDatePicker({ setIsDatePickerOpen }: Props) {
             </div>
           ))}
         </div>
-        <div className="date-picker__calendar">
-          <div className="date-picker__week">
-            {dayLabels.map((dayLabel, index) => (
-              <div className="date-picker__day-name" key={index}>
-                {dayLabel}
-              </div>
-            ))}
-          </div>
-          {nextMonthCalendar.map((week, weekIndex) => (
-            <div className="date-picker__week" key={weekIndex}>
-              {week.map((day, dayIndex) => (
-                <div
-                  className={dayClassName(day, nextMonth)}
-                  key={dayIndex}
-                  onClick={() => handleDayClick(day)}
-                  onMouseEnter={() => handleDayHover(day)}
-                >
-                  {day.getDate()}
+        {isPhone ? null : (
+          <div className="date-picker__calendar">
+            <div className="date-picker__week">
+              {dayLabels.map((dayLabel, index) => (
+                <div className="date-picker__day-name" key={index}>
+                  {dayLabel}
                 </div>
               ))}
             </div>
-          ))}
-        </div>
+            {nextMonthCalendar.map((week, weekIndex) => (
+              <div className="date-picker__week" key={weekIndex}>
+                {week.map((day, dayIndex) => (
+                  <div
+                    className={dayClassName(day, nextMonth)}
+                    key={dayIndex}
+                    onClick={() => handleDayClick(day)}
+                    onMouseEnter={() => handleDayHover(day)}
+                  >
+                    {day.getDate()}
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

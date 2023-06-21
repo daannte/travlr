@@ -14,8 +14,8 @@ interface ActivityList {
 
 interface IPlanner {
   destination: string;
-  startDate: Date | null;
-  endDate: Date | null;
+  startDate: string;
+  endDate: string;
   activityLists: ActivityList[];
 }
 

@@ -74,3 +74,9 @@
 .date-picker__arrow-left {
   cursor: pointer;
 }
+
+@media (max-width: 640px) {
+  .date-picker__month {
+    margin-right: 0rem;
+  }
+}

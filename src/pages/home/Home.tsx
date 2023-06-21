@@ -65,14 +65,23 @@ function Home({ savedDests }: HomeProps) {
   useEffect(() => {
     setCurrentPlanner((prevPlanner) => ({
       ...prevPlanner,
-      startDate: null,
-      endDate: null,
+      startDate: "",
+      endDate: "",
       destination: "",
     }));
     localStorage.removeItem("destination");
     localStorage.removeItem("currentPlanner");
     setAutoCompleteData(null);
   }, [setCurrentPlanner]);
+
+  const generateSessionToken = () => {
+    let sessionToken = "";
+    const alphanum = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+    for (let i = 0; i < 32; i++) {
+      sessionToken += alphanum[Math.floor(Math.random() * 33)];
+    }
+    return sessionToken;
+  };
 
   useEffect(() => {
     if (currentPlanner.destination) {
@@ -86,7 +95,9 @@ function Home({ savedDests }: HomeProps) {
         };
         try {
           const response = await fetch(
-            `https://api.foursquare.com/v3/autocomplete?query=${currentPlanner.destination}&types=geo&session_token=9X7gT5dn0KfH4mVj3B8L6Z2cR1vQpWxY`,
+            `https://api.foursquare.com/v3/autocomplete?query=${
+              currentPlanner.destination
+            }&types=geo&session_token=${generateSessionToken()}`,
             options
           );
           const data = await response.json();
@@ -169,15 +180,7 @@ function Home({ savedDests }: HomeProps) {
               readOnly
               onClick={() => setIsDatePickerOpen(true)}
               placeholder="Start Date"
-              value={
-                currentPlanner.startDate
-                  ? currentPlanner.startDate.toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric",
-                    })
-                  : ""
-              }
+              value={currentPlanner.startDate}
             />
           </div>
           <div className="date-container">
@@ -194,15 +197,7 @@ function Home({ savedDests }: HomeProps) {
               readOnly
               onClick={() => setIsDatePickerOpen(true)}
               placeholder="End Date"
-              value={
-                currentPlanner.endDate
-                  ? currentPlanner.endDate.toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric",
-                    })
-                  : ""
-              }
+              value={currentPlanner.endDate}
             />
           </div>
           <button type="submit" className="home-search-button">

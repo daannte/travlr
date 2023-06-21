@@ -19,8 +19,8 @@ interface ActivityList {
 
 interface IPlanner {
   destination: string;
-  startDate: Date | null;
-  endDate: Date | null;
+  startDate: string;
+  endDate: string;
   activityLists: ActivityList[];
 }
 
@@ -58,18 +58,7 @@ function SavedCard({
       <div className="saved-card-info">
         <p className="saved-card-destination">{destination}</p>
         <p className="saved-card-date">
-          {startDate &&
-            new Date(startDate).toLocaleDateString("en-US", {
-              month: "short",
-              day: "numeric",
-              year: "numeric",
-            })}{" "}
-          -{" "}
-          {endDate &&
-            new Date(endDate).toLocaleDateString("en-US", {
-              month: "short",
-              year: "numeric",
-            })}
+          {startDate} - {endDate}
         </p>
       </div>
       <img

@@ -23,8 +23,8 @@ interface ActivityList {
 
 interface IPlanner {
   destination: string;
-  startDate: Date | null;
-  endDate: Date | null;
+  startDate: string;
+  endDate: string;
   activityLists: ActivityList[];
 }
 
@@ -40,8 +40,8 @@ interface PlannerContextProps {
 export const PlannerContext = createContext<PlannerContextProps>({
   currentPlanner: {
     destination: "",
-    startDate: null,
-    endDate: null,
+    startDate: "",
+    endDate: "",
     activityLists: [],
   },
   setCurrentPlanner: () => undefined,
@@ -55,8 +55,8 @@ function createInitialPlannerState(): IPlanner {
     ? JSON.parse(localPlanner)
     : {
         destination: "",
-        startDate: null,
-        endDate: null,
+        startDate: "",
+        endDate: "",
         activityLists: [],
       };
 }
