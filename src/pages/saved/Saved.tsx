@@ -2,37 +2,15 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { PlannerContext } from "../../App";
 import SavedCard from "../../components/savedCard/SavedCard";
+import { SavedPlanners } from "../../types";
 import "./Saved.css";
 
-interface Activity {
-  startTime: string;
-  endTime: string;
-  name: string;
-}
-
-interface ActivityList {
-  date: string;
-  activities: Activity[];
-  isEmpty: boolean;
-}
-
-interface IPlanner {
-  destination: string;
-  startDate: string;
-  endDate: string;
-  activityLists: ActivityList[];
-}
-
-interface SavedPlanners {
-  [key: string]: IPlanner;
-}
-
-interface SavedProps {
+interface Props {
   savedPlanners: SavedPlanners;
   savedDests: string[];
 }
 
-function Saved({ savedDests, savedPlanners }: SavedProps) {
+function Saved({ savedDests, savedPlanners }: Props) {
   const { setCurrentPlanner } = useContext(PlannerContext);
   const navigate = useNavigate();
   const loadItinerary = (destination: string) => {
@@ -46,9 +24,9 @@ function Saved({ savedDests, savedPlanners }: SavedProps) {
   };
 
   return (
-    <div className="saved-container">
+    <div className="saved">
       <h2>Saved Itineraries</h2>
-      <div className="destination-list">
+      <div className="saved__destination-list">
         {savedDests.map((destination, index) => (
           <SavedCard
             key={index}

@@ -11,12 +11,12 @@ interface IFormInputs {
   password: string;
 }
 
-interface LoginProps {
+interface Props {
   setLoginPopup: React.Dispatch<React.SetStateAction<boolean>>;
   setSignupPopup: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function Login({ setLoginPopup, setSignupPopup }: LoginProps) {
+function Login({ setLoginPopup, setSignupPopup }: Props) {
   const {
     register,
     handleSubmit,
@@ -35,12 +35,12 @@ function Login({ setLoginPopup, setSignupPopup }: LoginProps) {
 
   return (
     <>
-      <h2 className="login-title">Login</h2>
-      <form className="input-form" onSubmit={handleSubmit(onSubmit)}>
-        <div className="input-login-container">
-          <img src={mailIcon} alt="Mail" className="login-input-icon" />
+      <h2 className="login__title">Login</h2>
+      <form className="login__form" onSubmit={handleSubmit(onSubmit)}>
+        <div className="login__input-container">
+          <img src={mailIcon} alt="Mail" className="login__mail-icon" />
           <input
-            className="login-input"
+            className="login__input"
             type="email"
             placeholder="EMAIL"
             autoComplete="off"
@@ -50,10 +50,10 @@ function Login({ setLoginPopup, setSignupPopup }: LoginProps) {
             })}
           />
         </div>
-        <div className="input-login-container">
-          <img src={lockIcon} alt="Lock" className="login-input-icon" />
+        <div className="login__input-container">
+          <img src={lockIcon} alt="Lock" className="login__password-icon" />
           <input
-            className="login-input-password"
+            className="login__input-password"
             type="password"
             placeholder="PASSWORD"
             autoComplete="off"
@@ -63,20 +63,20 @@ function Login({ setLoginPopup, setSignupPopup }: LoginProps) {
             })}
           />
         </div>
-        <span className="login-error">
+        <span className="login__error">
           {errorMessage && errorMessage}
           {(errors.email || errors.password) &&
             !errorMessage &&
             "email and password required!"}
         </span>
-        <button className="login-submit-button" type="submit">
+        <button className="login__submit-button" type="submit">
           Login
         </button>
       </form>
-      <footer className="login-footer">
+      <footer className="login__footer">
         Don't have an account?{" "}
         <span
-          className="login-footer-span"
+          className="login__footer-span"
           onClick={() => {
             setLoginPopup(false);
             setSignupPopup(true);

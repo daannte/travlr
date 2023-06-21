@@ -14,11 +14,11 @@ import CustomDatePicker from "../../components/customDatePicker/CustomDatePicker
 
 const FSQ_API_KEY = import.meta.env.VITE_FOURSQUARE_API_KEY;
 
-interface HomeProps {
+interface Props {
   savedDests: string[];
 }
 
-function Home({ savedDests }: HomeProps) {
+function Home({ savedDests }: Props) {
   const { currentPlanner, setCurrentPlanner } = useContext(PlannerContext);
   const [autoCompleteData, setAutoCompleteData] = useState<string[] | null>(
     null
@@ -116,20 +116,16 @@ function Home({ savedDests }: HomeProps) {
   }, [currentPlanner.destination]);
 
   return (
-    <div className="home-container">
-      <div className="home-search-container">
-        <form className="home-form-container" onSubmit={handleSubmit}>
-          <div className="destination-container">
-            <div className="pin-container">
-              <img
-                className="home-map-pin-icon"
-                src={mapPinIcon}
-                alt="Pin Icon"
-              />
+    <div className="home">
+      <div className="home__search-container">
+        <form className="home__form-container" onSubmit={handleSubmit}>
+          <div className="home__destination-container">
+            <div className="home__pin-container">
+              <img className="home__pin-icon" src={mapPinIcon} alt="Pin Icon" />
             </div>
             <input
               name="destination"
-              className="destination-input"
+              className="home__destination-input"
               type="text"
               value={currentPlanner.destination}
               placeholder="Destination"
@@ -145,10 +141,10 @@ function Home({ savedDests }: HomeProps) {
             {!isLocationSelected &&
             autoCompleteData &&
             currentPlanner.destination.length > 2 ? (
-              <div className="home-autocomplete-data">
+              <div className="home__autocomplete-data">
                 {autoCompleteData.map((location, index) => (
                   <div
-                    className="home-autocomplete-location"
+                    className="home__autocomplete-location"
                     key={index}
                     onClick={() => {
                       setCurrentPlanner((prevPlanner) => ({
@@ -166,16 +162,16 @@ function Home({ savedDests }: HomeProps) {
               </div>
             ) : null}
           </div>
-          <div className="date-container">
-            <div className="calendar-icon-container">
+          <div className="home__date-container">
+            <div className="home__calendar-icon-container">
               <img
-                className="home-calendar-icon"
+                className="home__calendar-icon"
                 src={calendarIcon}
                 alt="Calendar Icon"
               />
             </div>
             <input
-              className="date-input"
+              className="home__date-input"
               required
               readOnly
               onClick={() => setIsDatePickerOpen(true)}
@@ -183,16 +179,16 @@ function Home({ savedDests }: HomeProps) {
               value={currentPlanner.startDate}
             />
           </div>
-          <div className="date-container">
-            <div className="calendar-icon-container">
+          <div className="home__date-container">
+            <div className="home__calendar-icon-container">
               <img
-                className="home-calendar-icon"
+                className="home__calendar-icon"
                 src={calendarIcon}
                 alt="Calendar Icon"
               />
             </div>
             <input
-              className="date-input"
+              className="home__date-input"
               required
               readOnly
               onClick={() => setIsDatePickerOpen(true)}
@@ -200,9 +196,9 @@ function Home({ savedDests }: HomeProps) {
               value={currentPlanner.endDate}
             />
           </div>
-          <button type="submit" className="home-search-button">
+          <button type="submit" className="home__search-button">
             <img
-              className="home-search-icon"
+              className="home__search-icon"
               src={searchIcon}
               alt="Search Icon"
             />
@@ -214,19 +210,19 @@ function Home({ savedDests }: HomeProps) {
           )}
         </form>
       </div>
-
-      <div className="home-hero-container">
-        <div className="home-title-text">
-          <h1 className="home-title">
-            Plan your Trip with <span className="travlr-text">Travlr</span>
+      <div className="home__hero-container">
+        <div className="home__title-text">
+          <h1 className="home__title">
+            Plan your Trip with{" "}
+            <span className="home__travlr-text">Travlr</span>
           </h1>
-          <h2 className="home-title-subtext">
+          <h2 className="home__title-subtext">
             Build your itineraries all in one place, and plan for your ultimate
             adventure
           </h2>
         </div>
-        <div className="home-hero-image-container">
-          <img className="home-hero-image" src={heroImage} alt="Hero Image" />
+        <div className="home__hero-image-container">
+          <img className="home__hero-image" src={heroImage} alt="Hero Image" />
         </div>
       </div>
     </div>

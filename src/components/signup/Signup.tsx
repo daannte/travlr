@@ -16,12 +16,12 @@ interface IFormInputs {
   confirmPassword: string;
 }
 
-interface SignupProps {
+interface Props {
   setLoginPopup: React.Dispatch<React.SetStateAction<boolean>>;
   setSignupPopup: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function Signup({ setLoginPopup, setSignupPopup }: SignupProps) {
+function Signup({ setLoginPopup, setSignupPopup }: Props) {
   const {
     register,
     handleSubmit,
@@ -50,12 +50,12 @@ function Signup({ setLoginPopup, setSignupPopup }: SignupProps) {
 
   return (
     <>
-      <h2 className="signup-title">Create Account</h2>
-      <form className="signup-form" onSubmit={handleSubmit(onSubmit)}>
-        <div className="input-signup-container">
-          <img src={mailIcon} alt="Mail" className="signup-input-icon" />
+      <h2 className="signup__title">Create Account</h2>
+      <form className="signup__form" onSubmit={handleSubmit(onSubmit)}>
+        <div className="signup__input-container">
+          <img src={mailIcon} alt="Mail" className="signup__mail-icon" />
           <input
-            className="signup-input"
+            className="signup__input"
             type="email"
             placeholder="EMAIL"
             autoComplete="off"
@@ -66,14 +66,14 @@ function Signup({ setLoginPopup, setSignupPopup }: SignupProps) {
           />
         </div>
         {(errorMessage || errors.email) && (
-          <span className="signup-error">
+          <span className="signup__error">
             {errorMessage ? errorMessage : errors.email && "Email is required"}
           </span>
         )}
-        <div className="input-signup-container">
-          <img src={lockIcon} alt="Lock" className="signup-input-icon" />
+        <div className="signup__input-container">
+          <img src={lockIcon} alt="Lock" className="signup__password-icon" />
           <input
-            className="signup-input-password"
+            className="signup__input-password"
             type="password"
             placeholder="PASSWORD"
             autoComplete="off"
@@ -87,10 +87,10 @@ function Signup({ setLoginPopup, setSignupPopup }: SignupProps) {
             })}
           />
         </div>
-        <div className="input-signup-container">
-          <img src={lockIcon} alt="Lock" className="signup-input-icon" />
+        <div className="signup__input-container">
+          <img src={lockIcon} alt="Lock" className="signup__password-icon" />
           <input
-            className="signup-input-confirm"
+            className="signup__input-confirm"
             type="password"
             placeholder="CONFIRM PASSWORD"
             autoComplete="off"
@@ -104,21 +104,21 @@ function Signup({ setLoginPopup, setSignupPopup }: SignupProps) {
             })}
           />
         </div>
-        <span className="signup-error">
+        <span className="signup__error">
           {errors.password
             ? errors.password.message || "Password is required"
             : errors.confirmPassword
             ? errors.confirmPassword.message || "Confirm password is required"
             : ""}
         </span>
-        <button className="signup-submit-button" type="submit">
+        <button className="signup__submit-button" type="submit">
           Sign up
         </button>
       </form>
-      <footer className="signup-footer">
+      <footer className="signup__footer">
         Already have an account?{" "}
         <span
-          className="signup-footer-span"
+          className="signup__footer-span"
           onClick={() => {
             setLoginPopup(true);
             setSignupPopup(false);

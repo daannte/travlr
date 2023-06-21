@@ -24,17 +24,17 @@ function Navbar() {
 
   return (
     <nav className="navbar">
-      <NavLink to="/" className="navbar-title">
+      <NavLink to="/" className="navbar__title">
         Travlr
       </NavLink>
-      <ul className="navbar-links">
+      <ul className="navbar__links">
         {isLoggedIn && (
           <>
-            <NavLink to="/saved" className="navbar-element">
+            <NavLink to="/saved" className="navbar__element">
               Saved
             </NavLink>
             <button
-              className="navbar-element signout-button"
+              className="navbar__element navbar__signout-button"
               onClick={handleSignOut}
             >
               Sign out
@@ -43,7 +43,7 @@ function Navbar() {
         )}
         {!isLoggedIn && (
           <button
-            className="navbar-element login-button"
+            className="navbar__element navbar__login-button"
             onClick={() => {
               setLoginPopup(!loginPopup);
             }}
@@ -54,10 +54,10 @@ function Navbar() {
       </ul>
       {(loginPopup || signupPopup) && (
         <>
-          <div className="blur-around-popup" />
-          <div className="login-signup-popup">
+          <div className="login-signup-modal__blur" />
+          <div className="login-signup-modal">
             <button
-              className="close-popup"
+              className="login-signup-modal__close-button"
               onClick={() => {
                 setSignupPopup(false);
                 setLoginPopup(false);

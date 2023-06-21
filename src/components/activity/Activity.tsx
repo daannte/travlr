@@ -10,12 +10,12 @@ interface IFormInputs {
   endTime: Date | null;
 }
 
-interface ActivityProps {
+interface Props {
   day: number;
   activityIndex: number;
 }
 
-function Activity({ day, activityIndex }: ActivityProps) {
+function Activity({ day, activityIndex }: Props) {
   const { currentPlanner, setCurrentPlanner } = useContext(PlannerContext);
   const { activityLists } = currentPlanner;
   const activityList = activityLists[day];
@@ -77,7 +77,11 @@ function Activity({ day, activityIndex }: ActivityProps) {
     if (!startTime) {
       return (
         <>
-          <img className="clock-icon" src={clockIcon} alt="Clock Icon" />
+          <img
+            className="activity__clock-icon"
+            src={clockIcon}
+            alt="Clock Icon"
+          />
           Add Time
         </>
       );
@@ -85,7 +89,7 @@ function Activity({ day, activityIndex }: ActivityProps) {
 
     if (startTime && !endTime) {
       return (
-        <div className="time-chosen-colour">
+        <div className="activity__time-chosen-colour">
           {startTime.toLocaleTimeString("en-US", {
             hour: "numeric",
             minute: "2-digit",
@@ -96,7 +100,7 @@ function Activity({ day, activityIndex }: ActivityProps) {
 
     if (startTime && endTime) {
       return (
-        <div className="time-chosen-colour">
+        <div className="activity__time-chosen-colour">
           {startTime.toLocaleTimeString("en-US", {
             hour: "numeric",
             minute: "2-digit",
@@ -112,7 +116,7 @@ function Activity({ day, activityIndex }: ActivityProps) {
   }
 
   return (
-    <div className="activity-container">
+    <div className="activity">
       <div>
         <svg
           width="22"
@@ -124,7 +128,7 @@ function Activity({ day, activityIndex }: ActivityProps) {
           strokeWidth="1.5"
           viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg"
-          className="drag-handle-icon"
+          className="activity__drag-handle-icon"
         >
           <path d="M9 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"></path>
           <path d="M9 13a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"></path>
@@ -134,7 +138,7 @@ function Activity({ day, activityIndex }: ActivityProps) {
           <path d="M15 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"></path>
         </svg>
       </div>
-      <div className="activity-info-container">
+      <div className="activity__info-container">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"
@@ -145,7 +149,7 @@ function Activity({ day, activityIndex }: ActivityProps) {
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="delete-icon"
+          className="activity__delete-icon"
           onClick={handleActivityDelete}
         >
           <polyline points="3 6 5 6 21 6"></polyline>
@@ -153,8 +157,8 @@ function Activity({ day, activityIndex }: ActivityProps) {
           <line x1="10" y1="11" x2="10" y2="17"></line>
           <line x1="14" y1="11" x2="14" y2="17"></line>
         </svg>
-        <h2 className="activity-destination">{activity.name}</h2>
-        <div className="activity-time" onClick={() => setIsChoosingTime(true)}>
+        <h2 className="activity__destination">{activity.name}</h2>
+        <div className="activity__time" onClick={() => setIsChoosingTime(true)}>
           {renderTime()}
         </div>
         {isChoosingTime && (

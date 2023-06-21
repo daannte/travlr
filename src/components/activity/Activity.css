@@ -1,9 +1,9 @@
-.activity-container {
+.activity {
   display: flex;
   margin-top: 2rem;
 }
 
-.activity-info-container {
+.activity__info-container {
   background: white;
   box-shadow: 0 0 10px 0 #cdcdcd;
   -webkit-box-shadow: 0 0 10px 0 #cdcdcd;
@@ -14,13 +14,13 @@
   width: 12rem;
 }
 
-.activity-container:hover .delete-icon,
-.activity-container:hover .drag-handle-icon {
+.activity:hover .activity__delete-icon,
+.activity:hover .activity__drag-handle-icon {
   visibility: visible;
   cursor: pointer;
 }
 
-.delete-icon {
+.activity__delete-icon {
   visibility: hidden;
   position: absolute;
   top: 0.5rem;
@@ -28,16 +28,16 @@
   width: 18px;
 }
 
-.delete-icon:hover {
+.activity__delete-icon:hover {
   stroke: #473bf0;
 }
 
-.drag-handle-icon {
+.activity__drag-handle-icon {
   visibility: hidden;
   margin-right: 0.2rem;
 }
 
-.activity-destination {
+.activity__destination {
   margin-bottom: 1rem;
   font-size: 1.3rem;
   font-weight: 500;
@@ -46,7 +46,7 @@
   text-transform: capitalize;
 }
 
-.activity-time {
+.activity__time {
   font-size: 0.8rem;
   color: gray;
   font-weight: 500;
@@ -56,24 +56,24 @@
   width: fit-content;
 }
 
-.time-chosen-colour {
+.activity__time-chosen-colour {
   color: #009ddc;
   outline: 1px solid #009ddc;
   padding: 0.2rem;
   border-radius: 8px;
 }
 
-.clock-icon {
+.activity__clock-icon {
   height: 15px;
   margin-right: 0.2rem;
 }
 
 @media (max-width: 640px) {
-  .delete-icon {
+  .activity__delete-icon {
     visibility: visible;
   }
 
-  .drag-handle-icon {
+  .activity__drag-handle-icon {
     display: none;
   }
 }

@@ -1,24 +1,24 @@
-.login-title {
+.login__title {
   font-size: 2rem;
   margin-right: auto;
   margin-left: 2.5rem;
   color: #022249;
 }
 
-.input-form {
+.login__form {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.input-login-container {
+.login__input-container {
   display: flex;
   align-items: center;
   margin-top: 1.5rem;
 }
 
-.login-input,
-.login-input-password {
+.login__input,
+.login__input-password {
   border: none;
   outline: none;
   border-bottom: 2px solid black;
@@ -28,13 +28,14 @@
   letter-spacing: 1px;
 }
 
-.login-input-icon {
+.login__mail-icon,
+.login__password-icon {
   position: absolute;
   margin-left: 0.5rem;
   width: 18px;
 }
 
-.login-submit-button {
+.login__submit-button {
   padding: 0.6rem;
   margin-top: 0.5rem;
   margin-left: auto;
@@ -47,20 +48,20 @@
   color: white;
 }
 
-.login-footer {
+.login__footer {
   position: absolute;
   bottom: 5%;
   font-size: 0.9rem;
   color: gray;
 }
 
-.login-footer-span {
+.login__footer-span {
   color: #009ddc;
   text-decoration: none;
   cursor: pointer;
 }
 
-.login-error {
+.login__error {
   display: flex;
   justify-content: center;
   color: #fc4344;

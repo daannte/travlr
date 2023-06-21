@@ -5,11 +5,11 @@ import "./Card.css";
 
 import featherMapPin from "../../assets/feather-map-pin.svg";
 
-interface CardProps {
+interface Props {
   day: number;
 }
 
-function Card({ day }: CardProps) {
+function Card({ day }: Props) {
   const { currentPlanner, setCurrentPlanner } = useContext(PlannerContext);
   const [activityName, setActivityName] = useState("");
   const date = currentPlanner.activityLists[day].date;
@@ -53,15 +53,15 @@ function Card({ day }: CardProps) {
 
   return (
     <div className="card">
-      <h1 className="card-title">{date}</h1>
+      <h1 className="card__title">{date}</h1>
       <div>{renderActivities()}</div>
       <form
-        className="card-activity-name-container"
+        className="card__activity-name-input-container"
         onSubmit={handleAddActivity}
       >
         <img src={featherMapPin} alt="Map Pin" />
         <input
-          className="card-activity-name-input"
+          className="card__activity-name-input"
           value={activityName}
           type="text"
           placeholder="Add Activity"
