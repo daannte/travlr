@@ -1,0 +1,76 @@
+.date-picker {
+  width: fit-content;
+  height: fit-content;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: white;
+  box-shadow: -6px 7px 54px -24px rgba(0, 0, 0, 0.5);
+}
+
+.date-picker__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.date-picker__month {
+  margin-right: 6rem;
+}
+
+.date-picker__week {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.date-picker__day-name {
+  height: 30px;
+  width: 30px;
+  margin: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+}
+
+.date-picker__calendar-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.date-picker__calendar {
+  margin: 1rem;
+}
+
+.date-picker__day {
+  height: 30px;
+  width: 30px;
+  margin: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  cursor: pointer;
+}
+
+.date-picker__day:hover,
+.date-picker__day-start,
+.date-picker__day-range-hover,
+.date-picker__day-range {
+  background-color: #473bf0;
+  color: white;
+  border-radius: 8px;
+}
+
+.date-picker__day-range-hover {
+  background-color: rgba(71, 58, 240, 0.8);
+}
+
+.date-picker__day-hidden {
+  visibility: hidden;
+}
+
+.date-picker__arrow-right,
+.date-picker__arrow-left {
+  cursor: pointer;
+}

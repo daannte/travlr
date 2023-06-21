@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import React, { forwardRef, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { PlannerContext } from "../../App";
 import DatePicker from "react-datepicker";
@@ -13,6 +13,7 @@ import heroImage from "/hero.png";
 
 // Types
 import { ActivityList, Activity, GeoData } from "../../types";
+import CustomDatePicker from "../../components/customDatePicker/CustomDatePicker";
 
 const FSQ_API_KEY = import.meta.env.VITE_FOURSQUARE_API_KEY;
 
@@ -26,11 +27,6 @@ function Home({ savedDests }: HomeProps) {
     null
   );
   const [isLocationSelected, setIsLocationSelected] = useState<boolean>(false);
-  const ExampleCustomInput = ({
-    onClick,
-  }: {
-    onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  }) => <button onClick={onClick}>{currentPlanner.startDate}</button>;
 
   const isPhone = useMediaQuery({ maxWidth: 767 });
   const navigate = useNavigate();
@@ -213,7 +209,6 @@ function Home({ savedDests }: HomeProps) {
               minDate={new Date()}
               // Prevent mobile keybaord
               onFocus={(e) => e.target.blur()}
-              customInput={React.createElement(ExampleCustomInput)}
             />
           </div>
           <div className="date-container">
@@ -252,6 +247,8 @@ function Home({ savedDests }: HomeProps) {
           </button>
         </form>
       </div>
+      <CustomDatePicker />
+
       <div className="home-hero-container">
         <div className="home-title-text">
           <h1 className="home-title">
