@@ -63,7 +63,15 @@
 
 .home-form-container {
   display: flex;
+  position: relative;
   flex-direction: row;
+}
+
+.home__custom-date-picker {
+  position: absolute;
+  z-index: 2;
+  top: 4rem;
+  right: 2.4rem;
 }
 
 .pin-container,
@@ -103,7 +111,7 @@
   letter-spacing: 1px;
 }
 
-.start-date-input {
+.date-input {
   cursor: pointer;
 }
 

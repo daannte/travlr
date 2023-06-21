@@ -54,19 +54,19 @@
 }
 
 .date-picker__day:hover,
-.date-picker__day-start,
-.date-picker__day-range-hover,
-.date-picker__day-range {
+.date-picker__day--start,
+.date-picker__day--range-hover,
+.date-picker__day--range {
   background-color: #473bf0;
   color: white;
   border-radius: 8px;
 }
 
-.date-picker__day-range-hover {
+.date-picker__day--range-hover {
   background-color: rgba(71, 58, 240, 0.8);
 }
 
-.date-picker__day-hidden {
+.date-picker__day--hidden {
   visibility: hidden;
 }
 

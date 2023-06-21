@@ -1,9 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import React, { useContext, useEffect, useState } from "react";
-import { useMediaQuery } from "react-responsive";
 import { PlannerContext } from "../../App";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import "./Home.css";
 
 import searchIcon from "../../assets/search.svg";
@@ -27,16 +24,16 @@ function Home({ savedDests }: HomeProps) {
     null
   );
   const [isLocationSelected, setIsLocationSelected] = useState<boolean>(false);
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState<boolean>(false);
 
-  const isPhone = useMediaQuery({ maxWidth: 767 });
   const navigate = useNavigate();
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (
       !savedDests.includes(currentPlanner.destination) &&
-      currentPlanner.startDate !== "" &&
-      currentPlanner.endDate !== ""
+      currentPlanner.startDate &&
+      currentPlanner.endDate
     ) {
       const newCurrentPlanner: ActivityList[] = [];
 
@@ -68,40 +65,14 @@ function Home({ savedDests }: HomeProps) {
   useEffect(() => {
     setCurrentPlanner((prevPlanner) => ({
       ...prevPlanner,
-      startDate: "",
-      endDate: "",
+      startDate: null,
+      endDate: null,
       destination: "",
     }));
     localStorage.removeItem("destination");
     localStorage.removeItem("currentPlanner");
     setAutoCompleteData(null);
   }, [setCurrentPlanner]);
-
-  function checkStartDate() {
-    return currentPlanner.startDate ? new Date(currentPlanner.startDate) : null;
-  }
-
-  function checkEndDate() {
-    return currentPlanner.endDate ? new Date(currentPlanner.endDate) : null;
-  }
-
-  function dateChange(dates: [Date, Date]) {
-    const [start, end] = dates;
-
-    setCurrentPlanner((prevPlanner) => ({
-      ...prevPlanner,
-      startDate: start.toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-      }),
-      endDate: end?.toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-      }),
-    }));
-  }
 
   useEffect(() => {
     if (currentPlanner.destination) {
@@ -192,23 +163,21 @@ function Home({ savedDests }: HomeProps) {
                 alt="Calendar Icon"
               />
             </div>
-            <DatePicker
+            <input
               className="date-input"
-              selected={checkStartDate()}
-              onChange={dateChange}
-              placeholderText="Start Date"
-              startDate={checkStartDate()}
-              endDate={checkEndDate()}
-              monthsShown={isPhone ? 1 : 2}
-              dateFormat="MMM d"
-              onKeyDown={(e) => e.preventDefault()}
               required
-              selectsRange
-              // To prevent weird UI design by react-datepicker
-              disabledKeyboardNavigation
-              minDate={new Date()}
-              // Prevent mobile keybaord
-              onFocus={(e) => e.target.blur()}
+              readOnly
+              onClick={() => setIsDatePickerOpen(true)}
+              placeholder="Start Date"
+              value={
+                currentPlanner.startDate
+                  ? currentPlanner.startDate.toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })
+                  : ""
+              }
             />
           </div>
           <div className="date-container">
@@ -219,23 +188,21 @@ function Home({ savedDests }: HomeProps) {
                 alt="Calendar Icon"
               />
             </div>
-            <DatePicker
+            <input
               className="date-input"
-              selected={checkEndDate()}
-              onChange={dateChange}
-              placeholderText="End Date"
-              startDate={checkStartDate()}
-              endDate={checkEndDate()}
-              monthsShown={isPhone ? 1 : 2}
-              dateFormat="MMM d"
-              onKeyDown={(e) => e.preventDefault()}
               required
-              selectsRange
-              // To prevent weird UI design by react-datepicker
-              disabledKeyboardNavigation
-              minDate={new Date()}
-              // Prevent mobile keybaord
-              onFocus={(e) => e.target.blur()}
+              readOnly
+              onClick={() => setIsDatePickerOpen(true)}
+              placeholder="End Date"
+              value={
+                currentPlanner.endDate
+                  ? currentPlanner.endDate.toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })
+                  : ""
+              }
             />
           </div>
           <button type="submit" className="home-search-button">
@@ -245,9 +212,13 @@ function Home({ savedDests }: HomeProps) {
               alt="Search Icon"
             />
           </button>
+          {isDatePickerOpen && (
+            <div className="home__custom-date-picker">
+              <CustomDatePicker setIsDatePickerOpen={setIsDatePickerOpen} />
+            </div>
+          )}
         </form>
       </div>
-      <CustomDatePicker />
 
       <div className="home-hero-container">
         <div className="home-title-text">

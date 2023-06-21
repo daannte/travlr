@@ -1,18 +1,32 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { PlannerContext } from "../../App";
 import dayjs, { Dayjs } from "dayjs";
 import "./CustomDatePicker.css";
 
 import arrowLeft from "../../assets/arrow-left.svg";
 import arrowRight from "../../assets/arrow-right.svg";
 
-function CustomDatePicker() {
+interface Props {
+  setIsDatePickerOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function CustomDatePicker({ setIsDatePickerOpen }: Props) {
+  const { currentPlanner, setCurrentPlanner } = useContext(PlannerContext);
   const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs());
-  const [startDate, setStartDate] = useState<Date | null>(null);
   const [hoveredDate, setHoveredDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [isInitialOpen, setIsInitialOpen] = useState<boolean>(true);
+  const [selectedRange, setSelectedRange] = useState<
+    [Date | null, Date | null]
+  >([null, null]);
 
   const currentMonth = selectedDate.clone();
   const nextMonth = selectedDate.clone().add(1, "month");
+
+  useEffect(() => {
+    if (isInitialOpen) {
+      setSelectedRange([currentPlanner.startDate, currentPlanner.endDate]);
+    }
+  }, [currentPlanner.startDate, currentPlanner.endDate, isInitialOpen]);
 
   const generateWeek = useCallback((startDay: Dayjs): Date[] => {
     const dates: Date[] = [];
@@ -65,41 +79,47 @@ function CustomDatePicker() {
 
   const dayClassName = (day: Date, month: Dayjs) => {
     if (month.toDate().getMonth() !== day.getMonth()) {
-      return "date-picker__day date-picker__day-hidden";
+      return "date-picker__day date-picker__day--hidden";
     } else {
       let className = "date-picker__day";
-      if (startDate && day >= startDate && endDate && day <= endDate) {
-        className += " date-picker__day-range";
-      } else if (startDate && dayjs(day).isSame(startDate, "day")) {
-        className += " date-picker__day-start";
-      } else if (
-        hoveredDate &&
-        startDate &&
-        day > startDate &&
-        day <= hoveredDate
-      ) {
-        className += " date-picker__day-range-hover";
+      const [start, end] = selectedRange;
+
+      if (start && end && day >= start && day <= end) {
+        className += " date-picker__day--range";
+      } else if (start && dayjs(day).isSame(start, "day")) {
+        className += " date-picker__day--start";
+      } else if (hoveredDate && start && day > start && day <= hoveredDate) {
+        className += " date-picker__day--range-hover";
       }
+
       return className;
     }
   };
 
   const handleDayClick = (day: Date) => {
+    const [startDate, endDate] = selectedRange;
+    setIsInitialOpen(false);
     if (!startDate || (startDate && endDate)) {
-      setStartDate(day);
-      setEndDate(null);
+      setSelectedRange([day, null]);
       setHoveredDate(null);
+      setCurrentPlanner((prevPlanner) => ({
+        ...prevPlanner,
+        startDate: day,
+      }));
     } else {
       if (day >= startDate) {
-        setEndDate(day);
-      } else {
-        setEndDate(startDate);
-        setStartDate(day);
+        setSelectedRange([startDate, day]);
+        setCurrentPlanner((prevPlanner) => ({
+          ...prevPlanner,
+          endDate: day,
+        }));
+        setIsDatePickerOpen(false);
       }
     }
   };
 
   const handleDayHover = (day: Date) => {
+    const [startDate, endDate] = selectedRange;
     if (startDate && !endDate) {
       setHoveredDate(day);
     }

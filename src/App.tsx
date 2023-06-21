@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { auth, onAuthStateChanged } from "./backend/firebase";
-import { fetchSavedInfo } from "./utils/firebaseUtils";
+import { fetchSavedInfo } from "./backend/firebaseUtils";
 import "./App.css";
 
 import Home from "./pages/home/Home";
@@ -23,8 +23,8 @@ interface ActivityList {
 
 interface IPlanner {
   destination: string;
-  startDate: string;
-  endDate: string;
+  startDate: Date | null;
+  endDate: Date | null;
   activityLists: ActivityList[];
 }
 
@@ -40,8 +40,8 @@ interface PlannerContextProps {
 export const PlannerContext = createContext<PlannerContextProps>({
   currentPlanner: {
     destination: "",
-    startDate: "",
-    endDate: "",
+    startDate: null,
+    endDate: null,
     activityLists: [],
   },
   setCurrentPlanner: () => undefined,
@@ -55,8 +55,8 @@ function createInitialPlannerState(): IPlanner {
     ? JSON.parse(localPlanner)
     : {
         destination: "",
-        startDate: "",
-        endDate: "",
+        startDate: null,
+        endDate: null,
         activityLists: [],
       };
 }
