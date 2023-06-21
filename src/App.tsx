@@ -2,35 +2,13 @@ import { createContext, useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { auth, onAuthStateChanged } from "./backend/firebase";
 import { fetchSavedInfo } from "./backend/firebaseUtils";
+import { IPlanner, SavedPlanners } from "./types";
 import "./App.css";
 
 import Home from "./pages/home/Home";
 import Planner from "./pages/planner/Planner";
 import Saved from "./pages/saved/Saved";
 import Navbar from "./components/navbar/Navbar";
-
-interface Activity {
-  startTime: string;
-  endTime: string;
-  name: string;
-}
-
-interface ActivityList {
-  date: string;
-  activities: Activity[];
-  isEmpty: boolean;
-}
-
-interface IPlanner {
-  destination: string;
-  startDate: string;
-  endDate: string;
-  activityLists: ActivityList[];
-}
-
-interface SavedPlanners {
-  [key: string]: IPlanner;
-}
 
 interface PlannerContextProps {
   currentPlanner: IPlanner;

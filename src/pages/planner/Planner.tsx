@@ -11,12 +11,12 @@ import calendarIcon from "../../assets/calendar.svg";
 
 const UNSPLASH_API_KEY = import.meta.env.VITE_UNSPLASH_ACCESS_KEY;
 
-interface PlannerProps {
+interface Props {
   savedDests: string[];
   setSavedDests: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
-function Planner({ savedDests, setSavedDests }: PlannerProps) {
+function Planner({ savedDests, setSavedDests }: Props) {
   const { currentPlanner } = useContext(PlannerContext);
   const userId = useContext(UserIdContext);
   const isSaved = savedDests.includes(currentPlanner.destination);
@@ -79,26 +79,26 @@ function Planner({ savedDests, setSavedDests }: PlannerProps) {
   }
 
   return (
-    <div className="planner-container">
-      <div className="planner-event-container">
-        <div className="planner-hero-container">
+    <div className="planner">
+      <div className="planner__itinerary-container">
+        <div className="planner__hero-container">
           {destinationImage && (
             <img
               src={destinationImage}
               alt={currentPlanner.destination}
-              className="planner-destination-image"
+              className="planner__destination-image"
             />
           )}
-          <div className="planner-destination-info-container">
-            <div className="planner-destination-title-container">
-              <img className="planner-pin-icon" src={pinIcon} alt="Map Pin" />
-              <h1 className="planner-destination">
+          <div className="planner__destination-info-container">
+            <div className="planner__destination-title-container">
+              <img className="planner__pin-icon" src={pinIcon} alt="Map Pin" />
+              <h1 className="planner__destination">
                 {currentPlanner.destination}
               </h1>
             </div>
-            <div className="planner-destination-date-container">
+            <div className="planner__destination-date-container">
               <img
-                className="planner-destination-date-icon"
+                className="planner__destination-date-icon"
                 src={calendarIcon}
                 alt="Calendar Icon"
               />
@@ -117,16 +117,16 @@ function Planner({ savedDests, setSavedDests }: PlannerProps) {
                 })}
             </div>
           </div>
-          <div className="planner-save-icon-container" onClick={handleSaved}>
+          <div className="planner__save-icon-container" onClick={handleSaved}>
             <img
               src={isSaved && userId ? starFilledIcon : starIcon}
               alt="Save"
             />
           </div>
         </div>
-        <div className="planner-cards-container">{renderCards()}</div>
+        <div className="planner__cards-container">{renderCards()}</div>
       </div>
-      <div className="planner-map-container">Map Will go here later.</div>
+      <div className="planner__map-container">Map Will go here later.</div>
     </div>
   );
 }

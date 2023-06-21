@@ -7,7 +7,18 @@ export interface Activity {
 export interface ActivityList {
   date: string;
   activities: Activity[];
-  isEmpty: true;
+  isEmpty: boolean;
+}
+
+export interface IPlanner {
+  destination: string;
+  startDate: string;
+  endDate: string;
+  activityLists: ActivityList[];
+}
+
+export interface SavedPlanners {
+  [key: string]: IPlanner;
 }
 
 // Foursquare api type
