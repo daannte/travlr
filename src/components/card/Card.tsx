@@ -1,6 +1,5 @@
 import { PlannerContext } from "../../App";
 import { useContext, useState } from "react";
-import { Droppable } from "@hello-pangea/dnd";
 import Activity from "../activity/Activity";
 import "./Card.css";
 
@@ -53,30 +52,23 @@ function Card({ day }: CardProps) {
   }
 
   return (
-    <Droppable droppableId={`${day}`} type="group">
-      {(provided) => (
-        <div {...provided.droppableProps} ref={provided.innerRef}>
-          <div className="card">
-            <h1 className="card-title">{date}</h1>
-            <div>{renderActivities()}</div>
-            {provided.placeholder}
-            <form
-              className="card-activity-name-container"
-              onSubmit={handleAddActivity}
-            >
-              <img src={featherMapPin} alt="Map Pin" />
-              <input
-                className="card-activity-name-input"
-                value={activityName}
-                type="text"
-                placeholder="Add Activity"
-                onChange={(e) => setActivityName(e.target.value)}
-              />
-            </form>
-          </div>
-        </div>
-      )}
-    </Droppable>
+    <div className="card">
+      <h1 className="card-title">{date}</h1>
+      <div>{renderActivities()}</div>
+      <form
+        className="card-activity-name-container"
+        onSubmit={handleAddActivity}
+      >
+        <img src={featherMapPin} alt="Map Pin" />
+        <input
+          className="card-activity-name-input"
+          value={activityName}
+          type="text"
+          placeholder="Add Activity"
+          onChange={(e) => setActivityName(e.target.value)}
+        />
+      </form>
+    </div>
   );
 }
 
