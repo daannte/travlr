@@ -33,7 +33,7 @@ This will be filled out when I think the UI/UX portion is finished.
 
 - [x] Add a drag feature to move the activities around.
 - [ ] Make a feature to download the itinerary as a PDF.
-- [ ] Use the Places API to have a autocomplete for destinations.
+- [ ] Use the Places API to have a autocomplete for destinations. (I used the FOURSQUARE API instead.)
 - [ ] Make a nicer Saved Itineraries page.
 - [ ] Multiple people can work on one itinerary (high chance this won't happen).
 

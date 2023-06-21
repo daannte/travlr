@@ -6,15 +6,7 @@
 }
 
 .home-search-container {
-  position: absolute;
-  bottom: 15%;
-  background: rgba(255, 255, 255, 0.6);
-  box-shadow: 0 0 6px 5px rgba(223, 223, 223, 0.6);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  z-index: 2;
-  padding: 1.2rem;
-  border-radius: 16px;
+  margin-top: 5rem;
 }
 
 .home-hero-container {
@@ -22,7 +14,7 @@
   width: 90%;
   height: 70%;
   display: flex;
-  margin-top: 5rem;
+  margin-top: 2rem;
   position: relative;
   border-radius: 32px;
 }
@@ -71,18 +63,19 @@
 
 .home-form-container {
   display: flex;
+  position: relative;
   flex-direction: row;
 }
 
-.destination-title-input-container,
-.date-input-title-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+.home__custom-date-picker {
+  position: absolute;
+  z-index: 2;
+  top: 4rem;
+  right: 2.4rem;
 }
 
 .pin-container,
-.calendar-container {
+.calendar-icon-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -90,15 +83,18 @@
 
 .home-map-pin-icon,
 .home-calendar-icon,
-.date-input-label {
-  width: 16px;
+.home-search-icon {
+  width: 20px;
 }
 
-.destination-input-label,
-.date-input-label {
-  font-weight: 500;
-  font-size: 1.2rem;
-  margin-left: 0.4rem;
+.date-container,
+.destination-container {
+  display: flex;
+  position: relative;
+  align-items: center;
+  background: #f0f3f5;
+  padding: 0.8rem;
+  margin-inline: 0.5rem;
 }
 
 .destination-input,
@@ -108,32 +104,14 @@
   background: transparent;
   border: none;
   outline: none;
-  margin-left: 1.4rem;
-  margin-top: 0.5rem;
+  margin-left: 0.5rem;
   font-weight: 300;
-  font-size: 0.9rem;
+  font-size: 1rem;
   letter-spacing: 1px;
 }
 
 .date-input {
-  width: 12rem;
   cursor: pointer;
-}
-
-.vertical-line {
-  width: 2px;
-  height: 3rem;
-  background: #473bf0;
-  margin: 0 2rem;
-}
-
-.horizontal-line {
-  width: 70%;
-  height: 2px;
-  background: #473bf0;
-  margin: 2rem 0;
-  display: flex;
-  align-self: center;
 }
 
 .home-search-button {
@@ -144,8 +122,29 @@
   cursor: pointer;
 }
 
-.home-search-icon {
-  width: 18px;
+.home-autocomplete-data {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 3rem;
+  left: 0;
+  padding: 0.5rem;
+  border-radius: 16px;
+  background: #f0f3f5;
+  border: 1px solid gray;
+  z-index: 1;
+}
+
+.home-autocomplete-location {
+  cursor: pointer;
+}
+
+.home-autocomplete-location:hover {
+  background: lightgray;
+}
+
+.react-datepicker {
+  display: inline-flex;
 }
 
 @media (max-width: 640px) {
@@ -163,8 +162,8 @@
   }
 
   .home-search-button {
-    margin-top: 2rem;
-    width: 50%;
+    margin-top: 1rem;
+    width: 95%;
     display: flex;
     align-self: center;
     justify-content: center;
@@ -184,9 +183,21 @@
   .home-hero-image-container {
     width: 0;
   }
+
+  .date-container,
+  .destination-container {
+    margin-top: 0.5rem;
+  }
+
+  .home__custom-date-picker {
+    position: absolute;
+    z-index: 2;
+    top: 10rem;
+    right: -0.5rem;
+  }
 }
 
-@media (max-width: 840px) and (min-width: 640px) {
+@media (max-width: 992px) and (min-width: 640px) {
   .home-hero-container {
     flex-direction: column;
   }
@@ -205,5 +216,23 @@
   .home-hero-image-container {
     width: 100%;
     height: 55%;
+  }
+
+  .home-form-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .date-container,
+  .destination-container {
+    margin-top: 0.5rem;
+  }
+
+  .home-search-button {
+    margin-top: 1rem;
+    width: 95%;
+    display: flex;
+    align-self: center;
+    justify-content: center;
   }
 }

@@ -1,9 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import React, { useContext, useEffect } from "react";
-import { useMediaQuery } from "react-responsive";
+import React, { useContext, useEffect, useState } from "react";
 import { PlannerContext } from "../../App";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import "./Home.css";
 
 import searchIcon from "../../assets/search.svg";
@@ -11,17 +8,11 @@ import calendarIcon from "../../assets/calendar.svg";
 import mapPinIcon from "../../assets/feather-map-pin.svg";
 import heroImage from "/hero.png";
 
-interface Activity {
-  startTime: string;
-  endTime: string;
-  name: string;
-}
+// Types
+import { ActivityList, Activity, GeoData } from "../../types";
+import CustomDatePicker from "../../components/customDatePicker/CustomDatePicker";
 
-interface ActivityList {
-  date: string;
-  activities: Activity[];
-  isEmpty: true;
-}
+const FSQ_API_KEY = import.meta.env.VITE_FOURSQUARE_API_KEY;
 
 interface HomeProps {
   savedDests: string[];
@@ -29,15 +20,20 @@ interface HomeProps {
 
 function Home({ savedDests }: HomeProps) {
   const { currentPlanner, setCurrentPlanner } = useContext(PlannerContext);
-  const isPhone = useMediaQuery({ maxWidth: 767 });
+  const [autoCompleteData, setAutoCompleteData] = useState<string[] | null>(
+    null
+  );
+  const [isLocationSelected, setIsLocationSelected] = useState<boolean>(false);
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState<boolean>(false);
+
   const navigate = useNavigate();
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (
       !savedDests.includes(currentPlanner.destination) &&
-      currentPlanner.startDate !== "" &&
-      currentPlanner.endDate !== ""
+      currentPlanner.startDate &&
+      currentPlanner.endDate
     ) {
       const newCurrentPlanner: ActivityList[] = [];
 
@@ -65,42 +61,160 @@ function Home({ savedDests }: HomeProps) {
     navigate("/planner");
   }
 
+  // Reset everything if someone comes back to the home page.
   useEffect(() => {
     setCurrentPlanner((prevPlanner) => ({
       ...prevPlanner,
       startDate: "",
       endDate: "",
+      destination: "",
     }));
+    localStorage.removeItem("destination");
+    localStorage.removeItem("currentPlanner");
+    setAutoCompleteData(null);
   }, [setCurrentPlanner]);
 
-  function checkStartDate() {
-    return currentPlanner.startDate ? new Date(currentPlanner.startDate) : null;
-  }
+  const generateSessionToken = () => {
+    let sessionToken = "";
+    const alphanum = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+    for (let i = 0; i < 32; i++) {
+      sessionToken += alphanum[Math.floor(Math.random() * 33)];
+    }
+    return sessionToken;
+  };
 
-  function checkEndDate() {
-    return currentPlanner.endDate ? new Date(currentPlanner.endDate) : null;
-  }
-
-  function dateChange(dates: [Date, Date]) {
-    const [start, end] = dates;
-
-    setCurrentPlanner((prevPlanner) => ({
-      ...prevPlanner,
-      startDate: start.toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-      }),
-      endDate: end?.toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-      }),
-    }));
-  }
+  useEffect(() => {
+    if (currentPlanner.destination) {
+      const fetchDestinationsAutoComplete = async () => {
+        const options = {
+          method: "GET",
+          headers: {
+            accept: "application/json",
+            Authorization: FSQ_API_KEY,
+          },
+        };
+        try {
+          const response = await fetch(
+            `https://api.foursquare.com/v3/autocomplete?query=${
+              currentPlanner.destination
+            }&types=geo&session_token=${generateSessionToken()}`,
+            options
+          );
+          const data = await response.json();
+          const namesData = data.results.map(
+            (location: GeoData) => location.geo.name
+          );
+          setAutoCompleteData(namesData);
+        } catch (error) {
+          setAutoCompleteData(null);
+        }
+      };
+      fetchDestinationsAutoComplete();
+    } else {
+      setAutoCompleteData(null);
+    }
+  }, [currentPlanner.destination]);
 
   return (
     <div className="home-container">
+      <div className="home-search-container">
+        <form className="home-form-container" onSubmit={handleSubmit}>
+          <div className="destination-container">
+            <div className="pin-container">
+              <img
+                className="home-map-pin-icon"
+                src={mapPinIcon}
+                alt="Pin Icon"
+              />
+            </div>
+            <input
+              name="destination"
+              className="destination-input"
+              type="text"
+              value={currentPlanner.destination}
+              placeholder="Destination"
+              autoComplete="off"
+              required
+              onChange={(e) =>
+                setCurrentPlanner((prevPlanner) => ({
+                  ...prevPlanner,
+                  destination: e.target.value,
+                }))
+              }
+            />
+            {!isLocationSelected &&
+            autoCompleteData &&
+            currentPlanner.destination.length > 2 ? (
+              <div className="home-autocomplete-data">
+                {autoCompleteData.map((location, index) => (
+                  <div
+                    className="home-autocomplete-location"
+                    key={index}
+                    onClick={() => {
+                      setCurrentPlanner((prevPlanner) => ({
+                        ...prevPlanner,
+                        destination: location.split(",")[0],
+                      }));
+                      setAutoCompleteData(null);
+                      setIsLocationSelected(true);
+                    }}
+                    onChange={() => setIsLocationSelected(false)}
+                  >
+                    {location}
+                  </div>
+                ))}
+              </div>
+            ) : null}
+          </div>
+          <div className="date-container">
+            <div className="calendar-icon-container">
+              <img
+                className="home-calendar-icon"
+                src={calendarIcon}
+                alt="Calendar Icon"
+              />
+            </div>
+            <input
+              className="date-input"
+              required
+              readOnly
+              onClick={() => setIsDatePickerOpen(true)}
+              placeholder="Start Date"
+              value={currentPlanner.startDate}
+            />
+          </div>
+          <div className="date-container">
+            <div className="calendar-icon-container">
+              <img
+                className="home-calendar-icon"
+                src={calendarIcon}
+                alt="Calendar Icon"
+              />
+            </div>
+            <input
+              className="date-input"
+              required
+              readOnly
+              onClick={() => setIsDatePickerOpen(true)}
+              placeholder="End Date"
+              value={currentPlanner.endDate}
+            />
+          </div>
+          <button type="submit" className="home-search-button">
+            <img
+              className="home-search-icon"
+              src={searchIcon}
+              alt="Search Icon"
+            />
+          </button>
+          {isDatePickerOpen && (
+            <div className="home__custom-date-picker">
+              <CustomDatePicker setIsDatePickerOpen={setIsDatePickerOpen} />
+            </div>
+          )}
+        </form>
+      </div>
+
       <div className="home-hero-container">
         <div className="home-title-text">
           <h1 className="home-title">
@@ -114,86 +228,6 @@ function Home({ savedDests }: HomeProps) {
         <div className="home-hero-image-container">
           <img className="home-hero-image" src={heroImage} alt="Hero Image" />
         </div>
-      </div>
-      <div className="home-search-container">
-        <form className="home-form-container" onSubmit={handleSubmit}>
-          <div className="destination-container">
-            <div className="destination-title-input-container">
-              <div className="pin-container">
-                <img
-                  className="home-map-pin-icon"
-                  src={mapPinIcon}
-                  alt="Pin Icon"
-                />
-              </div>
-              <label
-                htmlFor="destination-input"
-                className="destination-input-label"
-              >
-                Destination
-              </label>
-            </div>
-            <input
-              name="destination"
-              id="destination-input"
-              className="destination-input"
-              type="text"
-              placeholder="Where do you want to go?"
-              autoComplete="off"
-              required
-              onChange={(e) =>
-                setCurrentPlanner((prevPlanner) => ({
-                  ...prevPlanner,
-                  destination: e.target.value,
-                }))
-              }
-            />
-          </div>
-          {isPhone ? (
-            <div className="horizontal-line" />
-          ) : (
-            <div className="vertical-line" />
-          )}
-          <div className="date-container">
-            <div className="date-input-title-container">
-              <div className="calendar-container">
-                <img
-                  className="home-calendar-icon"
-                  src={calendarIcon}
-                  alt="Calendar Icon"
-                />
-              </div>
-              <label className="date-input-label" htmlFor="date-input">
-                Date
-              </label>
-            </div>
-            <DatePicker
-              className="date-input"
-              selected={checkStartDate()}
-              onChange={dateChange}
-              placeholderText="When are you going?"
-              startDate={checkStartDate()}
-              endDate={checkEndDate()}
-              monthsShown={isPhone ? 1 : 2}
-              dateFormat="MMM d"
-              onKeyDown={(e) => e.preventDefault()}
-              required
-              selectsRange
-              // To prevent weird UI design by react-datepicker
-              disabledKeyboardNavigation
-              minDate={new Date()}
-              // Prevent mobile keybaord
-              onFocus={(e) => e.target.blur()}
-            />
-          </div>
-          <button type="submit" className="home-search-button">
-            <img
-              className="home-search-icon"
-              src={searchIcon}
-              alt="Search Icon"
-            />
-          </button>
-        </form>
       </div>
     </div>
   );

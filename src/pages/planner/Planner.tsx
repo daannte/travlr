@@ -21,7 +21,7 @@ function Planner({ savedDests, setSavedDests }: PlannerProps) {
   const { currentPlanner, setCurrentPlanner } = useContext(PlannerContext);
   const userId = useContext(UserIdContext);
   const isSaved = savedDests.includes(currentPlanner.destination);
-  const [destinationImage, setDestinationImage] = useState("");
+  const [destinationImage, setDestinationImage] = useState<string>("");
 
   function renderCards() {
     const cards = currentPlanner.activityLists.map((_, index) => {
@@ -62,13 +62,13 @@ function Planner({ savedDests, setSavedDests }: PlannerProps) {
   }, [currentPlanner.destination]);
 
   function handleSaved() {
-    if (userId !== "") {
+    if (userId) {
       const newSavedDests = savedDests.includes(currentPlanner.destination)
         ? savedDests.filter((dest) => dest !== currentPlanner.destination)
         : [...savedDests, currentPlanner.destination];
       setSavedDests(newSavedDests);
 
-      if (savedDests.includes(currentPlanner.destination)) {
+      if (isSaved) {
         remove(
           ref(
             db,
@@ -131,7 +131,6 @@ function Planner({ savedDests, setSavedDests }: PlannerProps) {
       return setCurrentPlanner(reorderedPlanner);
     }
   }
-
   return (
     <div className="planner-container">
       <div className="planner-event-container">
@@ -156,12 +155,24 @@ function Planner({ savedDests, setSavedDests }: PlannerProps) {
                 src={calendarIcon}
                 alt="Calendar Icon"
               />
-              {currentPlanner.startDate} - {currentPlanner.endDate}
+              {currentPlanner.startDate &&
+                new Date(currentPlanner.startDate).toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })}{" "}
+              -{" "}
+              {currentPlanner.endDate &&
+                new Date(currentPlanner.endDate).toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })}
             </div>
           </div>
           <div className="planner-save-icon-container" onClick={handleSaved}>
             <img
-              src={isSaved && userId !== "" ? starFilledIcon : starIcon}
+              src={isSaved && userId ? starFilledIcon : starIcon}
               alt="Save"
             />
           </div>
@@ -170,6 +181,7 @@ function Planner({ savedDests, setSavedDests }: PlannerProps) {
           <div className="planner-cards-container">{renderCards()}</div>
         </DragDropContext>
       </div>
+      <div className="planner-map-container">Map Will go here later.</div>
     </div>
   );
 }
