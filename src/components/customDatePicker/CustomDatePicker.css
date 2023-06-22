@@ -63,7 +63,7 @@
 }
 
 .date-picker__day--range-hover {
-  background-color: rgba(71, 58, 240, 0.8);
+  background: rgba(71, 58, 240, 0.2);
 }
 
 .date-picker__day--hidden {
