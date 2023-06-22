@@ -61,16 +61,28 @@ function CustomTimePicker({
   };
 
   const handleStartTimeClick = (selectedTimeInterval: string) => {
-    setIsChoosingStartTime(false);
-    setCurrentPlanner((prevPlanner) => {
-      const updatedActivityLists = updateActivityLists(
-        prevPlanner,
-        date,
-        activityIndex,
-        { startTime: selectedTimeInterval }
-      );
-      return { ...prevPlanner, activityLists: updatedActivityLists };
-    });
+    if (
+      dayjs(selectedTimeInterval, "h:mm A").isAfter(
+        dayjs(activity.endTime, "h:mm A")
+      ) ||
+      dayjs(selectedTimeInterval, "h:mm A").isSame(
+        dayjs(activity.endTime, "h:mm A")
+      )
+    ) {
+      setErrorMessage("End time must be set to a time after the start time!");
+    } else {
+      setErrorMessage("");
+      setIsChoosingStartTime(false);
+      setCurrentPlanner((prevPlanner) => {
+        const updatedActivityLists = updateActivityLists(
+          prevPlanner,
+          date,
+          activityIndex,
+          { startTime: selectedTimeInterval }
+        );
+        return { ...prevPlanner, activityLists: updatedActivityLists };
+      });
+    }
   };
 
   const handleEndTimeClick = (selectedTimeInterval: string) => {
