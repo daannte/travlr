@@ -1,11 +1,11 @@
 import dayjs from "dayjs";
 import customParseMoment from "dayjs/plugin/customParseFormat";
-dayjs.extend(customParseMoment);
-
-import "./customTimePicker.css";
 import { useContext, useState } from "react";
 import { PlannerContext } from "../../App";
-import { Activity } from "../../types";
+import { Activity, IPlanner } from "../../types";
+import "./customTimePicker.css";
+
+dayjs.extend(customParseMoment);
 
 interface Props {
   activity: Activity;
@@ -24,10 +24,7 @@ function CustomTimePicker({
   const [isChoosingStartTime, setIsChoosingStartTime] = useState<boolean>(true);
   const [errorMessage, setErrorMessage] = useState("");
 
-  // Set the start of the day to 12:00 AM
   const startDayTime = dayjs().startOf("day");
-
-  // Set it to end of the day to 11:30 PM
   const endDayTime = dayjs().endOf("day").subtract(29, "minute");
 
   const setTimeIntervals = () => {
@@ -41,27 +38,36 @@ function CustomTimePicker({
     return timeIntervals;
   };
 
+  const updateActivityLists = (
+    prevPlanner: IPlanner,
+    date: string,
+    activityIndex: number,
+    updatedProperties: { startTime?: string; endTime?: string }
+  ) => {
+    return prevPlanner.activityLists.map((activityList) => {
+      if (activityList.date === date) {
+        const updatedActivities = activityList.activities.map(
+          (activity, index) => {
+            if (index === activityIndex) {
+              return { ...activity, ...updatedProperties };
+            }
+            return activity;
+          }
+        );
+        return { ...activityList, activities: updatedActivities };
+      }
+      return activityList;
+    });
+  };
+
   const handleStartTimeClick = (selectedTimeInterval: string) => {
     setIsChoosingStartTime(false);
     setCurrentPlanner((prevPlanner) => {
-      const updatedActivityLists = prevPlanner.activityLists.map(
-        (activityList) => {
-          if (activityList.date === date) {
-            const updatedActivities = activityList.activities.map(
-              (activity, index) => {
-                if (index === activityIndex) {
-                  return {
-                    ...activity,
-                    startTime: selectedTimeInterval,
-                  };
-                }
-                return activity;
-              }
-            );
-            return { ...activityList, activities: updatedActivities };
-          }
-          return activityList;
-        }
+      const updatedActivityLists = updateActivityLists(
+        prevPlanner,
+        date,
+        activityIndex,
+        { startTime: selectedTimeInterval }
       );
       return { ...prevPlanner, activityLists: updatedActivityLists };
     });
@@ -71,6 +77,9 @@ function CustomTimePicker({
     if (
       dayjs(selectedTimeInterval, "h:mm A").isBefore(
         dayjs(activity.startTime, "h:mm A")
+      ) ||
+      dayjs(selectedTimeInterval, "h:mm A").isSame(
+        dayjs(activity.startTime, "h:mm A")
       )
     ) {
       setErrorMessage("End time must be set to a time after the start time!");
@@ -78,24 +87,11 @@ function CustomTimePicker({
       setErrorMessage("");
       setIsChoosingStartTime(true);
       setCurrentPlanner((prevPlanner) => {
-        const updatedActivityLists = prevPlanner.activityLists.map(
-          (activityList) => {
-            if (activityList.date === date) {
-              const updatedActivities = activityList.activities.map(
-                (activity, index) => {
-                  if (index === activityIndex) {
-                    return {
-                      ...activity,
-                      endTime: selectedTimeInterval,
-                    };
-                  }
-                  return activity;
-                }
-              );
-              return { ...activityList, activities: updatedActivities };
-            }
-            return activityList;
-          }
+        const updatedActivityLists = updateActivityLists(
+          prevPlanner,
+          date,
+          activityIndex,
+          { endTime: selectedTimeInterval }
         );
         return { ...prevPlanner, activityLists: updatedActivityLists };
       });
@@ -104,21 +100,11 @@ function CustomTimePicker({
 
   const handleClear = () => {
     setCurrentPlanner((prevPlanner) => {
-      const updatedActivityLists = prevPlanner.activityLists.map(
-        (activityList) => {
-          if (activityList.date === date) {
-            const updatedActivities = activityList.activities.map(
-              (activity, index) => {
-                if (index === activityIndex) {
-                  return { ...activity, startTime: "", endTime: "" };
-                }
-                return activity;
-              }
-            );
-            return { ...activityList, activities: updatedActivities };
-          }
-          return activityList;
-        }
+      const updatedActivityLists = updateActivityLists(
+        prevPlanner,
+        date,
+        activityIndex,
+        { startTime: "", endTime: "" }
       );
       return { ...prevPlanner, activityLists: updatedActivityLists };
     });
@@ -129,9 +115,7 @@ function CustomTimePicker({
       <div className="time-picker__header">
         <input
           className={`time-picker__header-start-time ${
-            isChoosingStartTime
-              ? "time-picker__header-start-time--outline"
-              : null
+            isChoosingStartTime ? "time-picker__header-start-time--outline" : ""
           }`}
           placeholder="Start Time"
           value={activity.startTime}
@@ -140,9 +124,7 @@ function CustomTimePicker({
         />
         <input
           className={`time-picker__header-end-time ${
-            !isChoosingStartTime
-              ? "time-picker__header-end-time--outline"
-              : null
+            !isChoosingStartTime ? "time-picker__header-end-time--outline" : ""
           }`}
           placeholder="End Time"
           value={activity.endTime}
@@ -150,15 +132,15 @@ function CustomTimePicker({
           readOnly
         />
       </div>
-      <div className="time-picker__error">{errorMessage && errorMessage}</div>
-      {isChoosingStartTime ? (
+      {errorMessage && <div className="time-picker__error">{errorMessage}</div>}
+      {isChoosingStartTime && (
         <div className="time-picker__times">
           {setTimeIntervals().map((timeInterval, index) => (
             <div
               className={`time-picker__time ${
                 timeInterval === activity.startTime
                   ? "time-picker__time--selected"
-                  : null
+                  : ""
               }`}
               key={index}
               onClick={() => handleStartTimeClick(timeInterval)}
@@ -167,15 +149,15 @@ function CustomTimePicker({
             </div>
           ))}
         </div>
-      ) : null}
-      {!isChoosingStartTime ? (
+      )}
+      {!isChoosingStartTime && (
         <div className="time-picker__times">
           {setTimeIntervals().map((timeInterval, index) => (
             <div
               className={`time-picker__time ${
                 timeInterval === activity.endTime
                   ? "time-picker__time--selected"
-                  : null
+                  : ""
               }`}
               key={index}
               onClick={() => handleEndTimeClick(timeInterval)}
@@ -184,12 +166,9 @@ function CustomTimePicker({
             </div>
           ))}
         </div>
-      ) : null}
+      )}
       <div className="time-picker__buttons">
-        <button
-          className="time-picker__buttons-clear"
-          onClick={() => handleClear()}
-        >
+        <button className="time-picker__buttons-clear" onClick={handleClear}>
           Clear
         </button>
         <button
