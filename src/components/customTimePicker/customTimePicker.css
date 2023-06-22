@@ -24,6 +24,11 @@
   cursor: pointer;
 }
 
+.time-picker__header-start-time--outline,
+.time-picker__header-end-time--outline {
+  outline: 2px solid #473bf0;
+}
+
 .time-picker__times {
   display: flex;
   flex-direction: column;
@@ -44,8 +49,13 @@
   width: 100%;
 }
 
+.time-picker__time--selected {
+  background: #473bf0;
+  color: white;
+}
+
 .time-picker__time:hover {
-  background-color: rgba(71, 58, 240, 0.2);
+  background: rgba(71, 58, 240, 0.2);
 }
 
 .time-picker__buttons {
