@@ -3,7 +3,7 @@ import { PlannerContext } from "../../App";
 import "./Activity.css";
 
 import clockIcon from "../../assets/clock.svg";
-import CustomTimePicker from "../customTimePicker/customTimePicker";
+import CustomTimePicker from "../customTimePicker/CustomTimePicker";
 
 // interface IFormInputs {
 //   startTime: string;

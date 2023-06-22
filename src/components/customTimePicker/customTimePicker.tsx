@@ -3,7 +3,7 @@ import customParseMoment from "dayjs/plugin/customParseFormat";
 import { useContext, useState } from "react";
 import { PlannerContext } from "../../App";
 import { Activity, IPlanner } from "../../types";
-import "./customTimePicker.css";
+import "./CustomTimePicker.css";
 
 dayjs.extend(customParseMoment);
 
@@ -69,7 +69,7 @@ function CustomTimePicker({
         dayjs(activity.endTime, "h:mm A")
       )
     ) {
-      setErrorMessage("End time must be set to a time after the start time!");
+      setErrorMessage("Start time must be set to a time before the end time!");
     } else {
       setErrorMessage("");
       setIsChoosingStartTime(false);
@@ -131,7 +131,10 @@ function CustomTimePicker({
           }`}
           placeholder="Start Time"
           value={activity.startTime}
-          onClick={() => setIsChoosingStartTime(true)}
+          onClick={() => {
+            setIsChoosingStartTime(true);
+            setErrorMessage("");
+          }}
           readOnly
         />
         <input
@@ -140,7 +143,10 @@ function CustomTimePicker({
           }`}
           placeholder="End Time"
           value={activity.endTime}
-          onClick={() => setIsChoosingStartTime(false)}
+          onClick={() => {
+            setIsChoosingStartTime(false);
+            setErrorMessage("");
+          }}
           readOnly
         />
       </div>
