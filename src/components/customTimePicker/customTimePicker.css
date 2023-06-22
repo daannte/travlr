@@ -1,0 +1,79 @@
+.time-picker {
+  width: 16rem;
+  height: fit-content;
+  border-radius: 16px;
+  padding: 1.25rem;
+  background-color: white;
+  box-shadow: -6px 7px 54px -24px rgba(0, 0, 0, 0.5);
+}
+
+.time-picker__header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.time-picker__header-start-time,
+.time-picker__header-end-time {
+  width: 6rem;
+  height: 2.5rem;
+  border-radius: 8px;
+  background: whitesmoke;
+  text-align: center;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+.time-picker__times {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem;
+  padding: 1rem;
+  background: whitesmoke;
+  border-radius: 16px;
+  overflow-y: scroll;
+  max-height: 14rem;
+}
+
+.time-picker__time {
+  cursor: pointer;
+  padding: 0.2rem;
+  padding-left: 1rem;
+  border-radius: 8px;
+  width: 100%;
+}
+
+.time-picker__time:hover {
+  background-color: rgba(71, 58, 240, 0.2);
+}
+
+.time-picker__buttons {
+  display: flex;
+  margin-top: 1rem;
+  justify-content: space-evenly;
+}
+
+.time-picker__buttons-save,
+.time-picker__buttons-clear {
+  border: none;
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  background: #f4f5f5;
+  color: black;
+  padding: 0.5rem;
+  border-radius: 8px;
+  width: 4.5rem;
+}
+
+.time-picker__buttons-save {
+  background: #473bf0;
+  color: white;
+}
+
+.time-picker__error {
+  margin-top: 1rem;
+  color: #fc4344;
+  text-align: center;
+}

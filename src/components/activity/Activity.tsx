@@ -1,14 +1,14 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { PlannerContext } from "../../App";
-import TimeSelect from "../timeSelect/TimeSelect";
 import "./Activity.css";
 
 import clockIcon from "../../assets/clock.svg";
+import CustomTimePicker from "../customTimePicker/customTimePicker";
 
-interface IFormInputs {
-  startTime: Date | null;
-  endTime: Date | null;
-}
+// interface IFormInputs {
+//   startTime: string;
+//   endTime: string;
+// }
 
 interface Props {
   day: number;
@@ -22,15 +22,7 @@ function Activity({ day, activityIndex }: Props) {
   const { activities, date } = activityList;
   const activity = activities[activityIndex];
 
-  const [startTime, setStartTime] = useState<Date | null>(null);
-  const [endTime, setEndTime] = useState<Date | null>(null);
   const [isChoosingTime, setIsChoosingTime] = useState<boolean>(false);
-
-  useEffect(() => {
-    // If the activity changes, check if it has a time set
-    setStartTime(activity.startTime ? new Date(activity.startTime) : null);
-    setEndTime(activity.endTime ? new Date(activity.endTime) : null);
-  }, [activity]);
 
   // Delete activity from activity list
   function handleActivityDelete() {
@@ -50,31 +42,8 @@ function Activity({ day, activityIndex }: Props) {
     });
   }
 
-  function onSubmit(data: IFormInputs) {
-    const updatedActivity = {
-      ...activity,
-      startTime: data.startTime ? data.startTime.toISOString() : "",
-      endTime: data.endTime ? data.endTime.toISOString() : "",
-    };
-
-    setCurrentPlanner((prevPlanner) => {
-      const updatedActivityLists = prevPlanner.activityLists.map(
-        (activityList) => {
-          if (activityList.date === date) {
-            const updatedActivities = [...activityList.activities];
-            updatedActivities[activityIndex] = updatedActivity;
-            return { ...activityList, activities: updatedActivities };
-          }
-          return activityList;
-        }
-      );
-      return { ...prevPlanner, activityLists: updatedActivityLists };
-    });
-    setIsChoosingTime(false);
-  }
-
   function renderTime() {
-    if (!startTime) {
+    if (!activity.startTime && !activity.endTime) {
       return (
         <>
           <img
@@ -87,29 +56,16 @@ function Activity({ day, activityIndex }: Props) {
       );
     }
 
-    if (startTime && !endTime) {
+    if (activity.startTime && !activity.endTime) {
       return (
-        <div className="activity__time-chosen-colour">
-          {startTime.toLocaleTimeString("en-US", {
-            hour: "numeric",
-            minute: "2-digit",
-          })}
-        </div>
+        <div className="activity__time-chosen-colour">{activity.startTime}</div>
       );
     }
 
-    if (startTime && endTime) {
+    if (activity.startTime && activity.endTime) {
       return (
         <div className="activity__time-chosen-colour">
-          {startTime.toLocaleTimeString("en-US", {
-            hour: "numeric",
-            minute: "2-digit",
-          })}{" "}
-          -{" "}
-          {endTime.toLocaleTimeString("en-US", {
-            hour: "numeric",
-            minute: "2-digit",
-          })}
+          {activity.startTime} - {activity.endTime}
         </div>
       );
     }
@@ -161,15 +117,16 @@ function Activity({ day, activityIndex }: Props) {
         <div className="activity__time" onClick={() => setIsChoosingTime(true)}>
           {renderTime()}
         </div>
-        {isChoosingTime && (
-          <TimeSelect
-            startTime={startTime}
-            setStartTime={setStartTime}
-            endTime={endTime}
-            setEndTime={setEndTime}
-            onSubmit={onSubmit}
-          />
-        )}
+        <div className="activity__time-picker">
+          {isChoosingTime && (
+            <CustomTimePicker
+              activity={activity}
+              date={date}
+              activityIndex={activityIndex}
+              setIsChoosingTime={setIsChoosingTime}
+            />
+          )}
+        </div>
       </div>
     </div>
   );
