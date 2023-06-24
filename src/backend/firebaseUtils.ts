@@ -1,27 +1,5 @@
 import { onValue, ref, db } from "../backend/firebase";
-
-interface Activity {
-  startTime: string;
-  endTime: string;
-  name: string;
-}
-
-interface ActivityList {
-  date: string;
-  activities: Activity[];
-  isEmpty: boolean;
-}
-
-interface IPlanner {
-  destination: string;
-  startDate: string;
-  endDate: string;
-  activityLists: ActivityList[];
-}
-
-interface SavedPlanners {
-  [key: string]: IPlanner;
-}
+import { IPlanner, SavedPlanners } from "../types";
 
 const fetchSavedInfo = (
   userId: string,
