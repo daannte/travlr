@@ -186,10 +186,8 @@
   }
 
   .home__custom-date-picker {
-    position: absolute;
-    z-index: 2;
-    top: 10rem;
-    right: -0.5rem;
+    top: 11rem;
+    transform: translateX(14%);
   }
 }
 
@@ -230,5 +228,10 @@
     display: flex;
     align-self: center;
     justify-content: center;
+  }
+
+  .home__custom-date-picker {
+    transform: translateX(30%);
+    top: 11rem;
   }
 }
