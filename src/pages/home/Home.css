@@ -126,13 +126,15 @@
   position: absolute;
   display: flex;
   flex-direction: column;
-  top: 3rem;
-  left: 0;
-  padding: 0.5rem;
+  align-items: flex-start;
+  top: 3.5rem;
+  left: -1rem;
+  padding: 1rem;
   border-radius: 16px;
-  background: #f0f3f5;
-  border: 1px solid gray;
+  background-color: white;
+  box-shadow: -6px 7px 54px -24px rgba(0, 0, 0, 0.5);
   z-index: 1;
+  width: 110%;
 }
 
 .home__autocomplete-location {
