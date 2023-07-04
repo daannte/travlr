@@ -80,6 +80,27 @@
   margin-right: 0.5rem;
 }
 
+.planner__download-itinerary-link-container {
+  position: absolute;
+  left: 0.5rem;
+  top: 0.5rem;
+  padding: 0.3rem;
+  background: #473bf0;
+  cursor: pointer;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.planner__download-itinerary-link {
+  color: white;
+  text-decoration: none;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
 .planner__save-icon-container {
   position: absolute;
   display: flex;
