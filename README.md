@@ -32,7 +32,7 @@ This will be filled out when I think the UI/UX portion is finished.
 ## Roadmap
 
 - [x] Add a drag feature to move the activities around.
-- [ ] Make a feature to download the itinerary as a PDF.
+- [x] Make a feature to download the itinerary as a PDF.
 - [x] Use the Places API to have a autocomplete for destinations. (I used the FOURSQUARE API instead.)
 - [ ] Get better at UI/UX design so I can make the app look way better.
 

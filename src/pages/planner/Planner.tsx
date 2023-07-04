@@ -4,11 +4,13 @@ import { PlannerContext, UserIdContext } from "../../App";
 import "./Planner.css";
 
 import Card from "../../components/card/Card";
+import PDF from "../../components/pdf/Pdf";
 import starIcon from "../../assets/star.svg";
 import starFilledIcon from "../../assets/starFilled.svg";
 import pinIcon from "../../assets/map-pin.svg";
 import calendarIcon from "../../assets/calendar.svg";
 import { DragDropContext, DropResult } from "@hello-pangea/dnd";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 
 const UNSPLASH_API_KEY = import.meta.env.VITE_UNSPLASH_ACCESS_KEY;
 
@@ -172,6 +174,22 @@ function Planner({ savedDests, setSavedDests }: Props) {
                 })}
             </div>
           </div>
+          <div className="planner__download-itinerary-link-container">
+            <PDFDownloadLink
+              className="planner__download-itinerary-link"
+              document={
+                <PDF
+                  destination={currentPlanner.destination}
+                  activityLists={currentPlanner.activityLists}
+                />
+              }
+              fileName={`${currentPlanner.destination}.pdf`}
+            >
+              {({ loading }) =>
+                loading ? "Loading itinerary..." : "Download Itinerary"
+              }
+            </PDFDownloadLink>
+          </div>
           <div className="planner__save-icon-container" onClick={handleSaved}>
             <img
               src={isSaved && userId ? starFilledIcon : starIcon}
@@ -179,6 +197,7 @@ function Planner({ savedDests, setSavedDests }: Props) {
             />
           </div>
         </div>
+
         <DragDropContext onDragEnd={handleDragDrop}>
           <div className="planner__cards-container">{renderCards()}</div>
         </DragDropContext>
