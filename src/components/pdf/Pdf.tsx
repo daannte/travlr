@@ -34,11 +34,16 @@ const styles = StyleSheet.create({
   },
   activityTimeContainer: {
     flexDirection: "row",
-    marginTop: "0.6cm",
+    marginTop: "0.2cm",
     alignSelf: "center",
   },
   activityTime: {
     fontSize: 10,
+  },
+  activity: {
+    borderTop: "1.5 solid black",
+    marginTop: "0.3cm",
+    width: "50%",
   },
   noInfo: {
     marginTop: "0.2cm",
@@ -51,6 +56,7 @@ interface Props {
   activityLists: ActivityList[];
 }
 
+// Create Document
 const MyDocument = ({ destination, activityLists }: Props) => {
   return (
     <Document>
@@ -70,7 +76,7 @@ const MyDocument = ({ destination, activityLists }: Props) => {
                 ) : (
                   activityList.activities.map((activity) => {
                     return (
-                      <View key={index} break>
+                      <View key={index} style={styles.activity} break>
                         <View style={styles.activityTimeContainer}>
                           {!activity.startTime && !activity.endTime ? (
                             <Text style={styles.noInfo}>
