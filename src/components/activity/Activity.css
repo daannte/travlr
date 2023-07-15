@@ -1,17 +1,17 @@
 .activity {
   display: flex;
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 .activity__info-container {
   background: white;
-  box-shadow: 0 0 10px 0 #cdcdcd;
-  -webkit-box-shadow: 0 0 10px 0 #cdcdcd;
+  box-shadow: 0 0 5px 0 #cdcdcd;
+  -webkit-box-shadow: 0 0 5px 0 #cdcdcd;
   position: relative;
   padding: 0.5rem;
-  border-radius: 12px;
-  max-width: 12rem;
-  width: 12rem;
+  border-radius: 6px;
+  max-width: 18rem;
+  width: 18rem;
 }
 
 .activity:hover .activity__delete-icon,
@@ -38,11 +38,12 @@
 }
 
 .activity__destination {
-  margin-bottom: 1rem;
-  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
   font-weight: 500;
-  max-width: 10rem;
-  overflow-wrap: break-word;
+  max-width: 100%;
+  width: 100%;
+  white-space: initial;
   text-transform: capitalize;
 }
 
@@ -57,9 +58,7 @@
 }
 
 .activity__time-chosen-colour {
-  color: #009ddc;
-  outline: 1px solid #009ddc;
-  padding: 0.2rem;
+  color: black;
   border-radius: 8px;
 }
 

@@ -76,29 +76,9 @@ function Activity({ day, activityIndex }: Props) {
         <div
           className="activity"
           {...provided.draggableProps}
+          {...provided.dragHandleProps}
           ref={provided.innerRef}
         >
-          <div {...provided.dragHandleProps}>
-            <svg
-              width="22"
-              height="22"
-              fill="none"
-              stroke="gray"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="1.5"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              className="activity__drag-handle-icon"
-            >
-              <path d="M9 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"></path>
-              <path d="M9 13a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"></path>
-              <path d="M9 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"></path>
-              <path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"></path>
-              <path d="M15 13a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"></path>
-              <path d="M15 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"></path>
-            </svg>
-          </div>
           <div className="activity__info-container">
             <svg
               xmlns="http://www.w3.org/2000/svg"

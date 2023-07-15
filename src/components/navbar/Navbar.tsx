@@ -31,7 +31,7 @@ function Navbar() {
         {isLoggedIn && (
           <>
             <NavLink to="/saved" className="navbar__element">
-              Saved
+              Trips
             </NavLink>
             <button
               className="navbar__element navbar__signout-button"

@@ -71,9 +71,7 @@ function App() {
     <Saved savedPlanners={savedPlanners} savedDests={savedDests} />
   );
 
-  const renderPlannerRoute = () => (
-    <Planner savedDests={savedDests} setSavedDests={setSavedDests} />
-  );
+  const renderPlannerRoute = () => <Planner />;
 
   const renderHomeRoute = () => <Home savedDests={savedDests} />;
   return (
