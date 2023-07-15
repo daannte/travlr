@@ -1,3 +1,7 @@
+.card {
+  margin-inline: 1rem;
+}
+
 .card__title {
   font-size: 1.5rem;
   text-align: center;
@@ -8,14 +12,17 @@
   justify-content: center;
   margin-top: 2rem;
   margin-bottom: 4rem;
+  background-color: #e5e1d9;
+  padding: 1rem;
+  border-radius: 6px;
 }
 
 .card__activity-name-input {
   border: none;
-  outline: 2px solid #473bf0;
-  border-radius: 12px;
+  outline: none;
   padding: 0.5rem;
   margin-left: 0.5rem;
   background: none;
   color: black;
+  font-size: 0.9rem;
 }

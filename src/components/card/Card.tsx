@@ -4,7 +4,6 @@ import { Droppable } from "@hello-pangea/dnd";
 import "./Card.css";
 
 import Activity from "../activity/Activity";
-import featherMapPin from "../../assets/feather-map-pin.svg";
 
 interface Props {
   day: number;
@@ -64,12 +63,11 @@ function Card({ day }: Props) {
               className="card__activity-name-input-container"
               onSubmit={handleAddActivity}
             >
-              <img src={featherMapPin} alt="Map Pin" />
               <input
                 className="card__activity-name-input"
                 value={activityName}
                 type="text"
-                placeholder="Add Activity"
+                placeholder="+ New Card Name"
                 onChange={(e) => setActivityName(e.target.value)}
               />
             </form>

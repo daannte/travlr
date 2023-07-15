@@ -2,19 +2,22 @@
   display: flex;
   justify-content: flex-start;
   padding-top: 4rem;
+  background-color: #f4f2ef;
+  height: 100vh;
 }
 
 .planner__itinerary-container {
   display: flex;
   flex-direction: column;
-  width: 50%;
+  width: 100%;
 }
 
 .planner__cards-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
   padding-top: 5rem;
+  overflow-x: scroll;
+  height: 100%;
 }
 
 .planner__hero-container {
@@ -111,24 +114,4 @@
   background: #473bf0;
   cursor: pointer;
   border-radius: 50%;
-}
-
-.planner__map-container {
-  position: fixed;
-  right: 0;
-  width: 50%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-@media (max-width: 992px) {
-  .planner__map-container {
-    display: none;
-  }
-
-  .planner__itinerary-container {
-    width: 100%;
-  }
 }
