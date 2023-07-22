@@ -1,18 +1,19 @@
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { PlannerContext } from "../../App";
-import SavedCard from "../../components/savedCard/SavedCard";
+import TripsCard from "../../components/tripsCard/TripsCard";
 import { SavedPlanners } from "../../types";
-import "./Saved.css";
+import "./Trips.css";
 
 interface Props {
   savedPlanners: SavedPlanners;
   savedDests: string[];
 }
 
-function Saved({ savedDests, savedPlanners }: Props) {
+function Trips({ savedDests, savedPlanners }: Props) {
   const { setCurrentPlanner } = useContext(PlannerContext);
   const navigate = useNavigate();
+
   const loadItinerary = (destination: string) => {
     // Update all the values when we want to load a saved destination
     setCurrentPlanner(savedPlanners[destination]);
@@ -24,11 +25,11 @@ function Saved({ savedDests, savedPlanners }: Props) {
   };
 
   return (
-    <div className="saved">
-      <h2>Saved Itineraries</h2>
-      <div className="saved__destination-list">
+    <div className="trips">
+      <h2 className="trips__upcoming">Upcoming Trips</h2>
+      <div className="trips__cards">
         {savedDests.map((destination, index) => (
-          <SavedCard
+          <TripsCard
             key={index}
             destination={destination}
             savedPlanners={savedPlanners}
@@ -40,4 +41,4 @@ function Saved({ savedDests, savedPlanners }: Props) {
   );
 }
 
-export default Saved;
+export default Trips;

@@ -7,7 +7,7 @@ import "./App.css";
 
 import Home from "./pages/home/Home";
 import Planner from "./pages/planner/Planner";
-import Saved from "./pages/saved/Saved";
+import Trips from "./pages/trips/Trips";
 import Navbar from "./components/navbar/Navbar";
 
 interface PlannerContextProps {
@@ -68,7 +68,7 @@ function App() {
   }, []);
 
   const renderSavedRoute = () => (
-    <Saved savedPlanners={savedPlanners} savedDests={savedDests} />
+    <Trips savedPlanners={savedPlanners} savedDests={savedDests} />
   );
 
   const renderPlannerRoute = () => <Planner />;
@@ -76,11 +76,11 @@ function App() {
   const renderHomeRoute = () => <Home savedDests={savedDests} />;
   return (
     <Router>
-      <Navbar />
       <PlannerContext.Provider value={{ currentPlanner, setCurrentPlanner }}>
+        <Navbar />
         <UserIdContext.Provider value={userId}>
           <Routes>
-            <Route path="/saved" element={renderSavedRoute()} />
+            <Route path="/trips" element={renderSavedRoute()} />
             <Route path="/planner" element={renderPlannerRoute()} />
             <Route path="/" element={renderHomeRoute()} />
           </Routes>
