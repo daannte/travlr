@@ -22,10 +22,7 @@ function Planner() {
   useEffect(() => {
     if (userId) {
       set(
-        ref(
-          db,
-          `users/${userId}/savedDestinations/${currentPlanner.destination}`
-        ),
+        ref(db, `users/${userId}/trips/${currentPlanner.destination}`),
         currentPlanner
       );
     }

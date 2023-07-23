@@ -2,12 +2,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100vh;
+  height: 100%;
   background-color: #f4f2ef;
+  padding-top: 4rem;
 }
 
 .home__search-container {
-  margin-top: 5rem;
+  margin-top: 1rem;
 }
 
 .home__hero-container {

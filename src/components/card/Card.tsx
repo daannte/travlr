@@ -54,24 +54,26 @@ function Card({ day }: Props) {
   return (
     <Droppable droppableId={`${day}`} type="group">
       {(provided) => (
-        <div {...provided.droppableProps} ref={provided.innerRef}>
-          <div className="card">
-            <h1 className="card__title">{date}</h1>
-            <div>{renderActivities()}</div>
-            {provided.placeholder}
-            <form
-              className="card__activity-name-input-container"
-              onSubmit={handleAddActivity}
-            >
-              <input
-                className="card__activity-name-input"
-                value={activityName}
-                type="text"
-                placeholder="+ New Card Name"
-                onChange={(e) => setActivityName(e.target.value)}
-              />
-            </form>
-          </div>
+        <div
+          className="card"
+          {...provided.droppableProps}
+          ref={provided.innerRef}
+        >
+          <h1 className="card__title">{date}</h1>
+          <div>{renderActivities()}</div>
+          {provided.placeholder}
+          <form
+            className="card__activity-name-input-container"
+            onSubmit={handleAddActivity}
+          >
+            <input
+              className="card__activity-name-input"
+              value={activityName}
+              type="text"
+              placeholder="+ New Card Name"
+              onChange={(e) => setActivityName(e.target.value)}
+            />
+          </form>
         </div>
       )}
     </Droppable>

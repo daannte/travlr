@@ -2,7 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { auth, onAuthStateChanged } from "./backend/firebase";
 import { fetchSavedInfo } from "./backend/firebaseUtils";
-import { IPlanner, SavedPlanners } from "./types";
+import { IPlanner, TripsType } from "./types";
 import "./App.css";
 
 import Home from "./pages/home/Home";
@@ -41,7 +41,7 @@ function createInitialPlannerState(): IPlanner {
 
 function App() {
   const [savedDests, setSavedDests] = useState<string[]>([]);
-  const [savedPlanners, setSavedPlanners] = useState<SavedPlanners>({});
+  const [trips, setTrips] = useState<TripsType>({});
   const [currentPlanner, setCurrentPlanner] = useState<IPlanner>(
     createInitialPlannerState()
   );
@@ -51,24 +51,18 @@ function App() {
     const checkedLoggedIn = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUserId(user.uid);
-        fetchSavedInfo(
-          user.uid,
-          setSavedDests,
-          setSavedPlanners,
-          setCurrentPlanner
-        );
+        fetchSavedInfo(user.uid, setSavedDests, setTrips, setCurrentPlanner);
       } else {
         setUserId("");
         setSavedDests([]);
-        setSavedPlanners({});
+        setTrips({});
       }
     });
-
     return () => checkedLoggedIn();
   }, []);
 
   const renderSavedRoute = () => (
-    <Trips savedPlanners={savedPlanners} savedDests={savedDests} />
+    <Trips trips={trips} savedDests={savedDests} />
   );
 
   const renderPlannerRoute = () => <Planner />;

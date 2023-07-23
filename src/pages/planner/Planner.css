@@ -1,9 +1,8 @@
 .planner {
   display: flex;
   justify-content: flex-start;
-  padding-top: 4rem;
   background-color: #f4f2ef;
-  height: 100vh;
+  height: 100%;
 }
 
 .planner__itinerary-container {
@@ -15,7 +14,7 @@
 .planner__cards-container {
   display: flex;
   flex-direction: row;
-  padding-top: 5rem;
+  padding: 6rem 2rem 2rem 2rem;
   overflow-x: scroll;
   height: 100%;
 }

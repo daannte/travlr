@@ -1,22 +1,22 @@
 import { onValue, ref, db } from "../backend/firebase";
-import { IPlanner, SavedPlanners } from "../types";
+import { IPlanner, TripsType } from "../types";
 
 const fetchSavedInfo = (
   userId: string,
   setSavedDests: React.Dispatch<React.SetStateAction<string[]>>,
-  setSavedPlanners: React.Dispatch<React.SetStateAction<SavedPlanners>>,
+  setTrips: React.Dispatch<React.SetStateAction<TripsType>>,
   setCurrentPlanner: React.Dispatch<React.SetStateAction<IPlanner>>
 ) => {
-  const savedDestinationsRef = ref(db, `users/${userId}/savedDestinations`);
-  onValue(savedDestinationsRef, (snapshot) => {
+  const tripsRef = ref(db, `users/${userId}/trips`);
+  onValue(tripsRef, (snapshot) => {
     const data = snapshot.val();
     if (data) {
-      const savedDestinationNames = Object.keys(data);
-      setSavedDests(savedDestinationNames);
-      setSavedPlanners(data);
+      const tripsNames = Object.keys(data);
+      setSavedDests(tripsNames);
+      setTrips(data);
     } else {
       setSavedDests([]);
-      setSavedPlanners({});
+      setTrips({});
     }
   });
 
@@ -30,10 +30,7 @@ const fetchSavedInfo = (
   }
 
   if (destination) {
-    const currentPlannerRef = ref(
-      db,
-      `users/${userId}/savedDestinations/${destination}`
-    );
+    const currentPlannerRef = ref(db, `users/${userId}/trips/${destination}`);
     onValue(currentPlannerRef, (snapshot) => {
       const currentPlannerData = snapshot.val();
       if (currentPlannerData) {

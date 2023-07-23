@@ -1,7 +1,7 @@
 import { db, ref, remove } from "../../backend/firebase";
 import { UserIdContext } from "../../App";
 import { useContext, useEffect, useState } from "react";
-import { SavedPlanners } from "../../types";
+import { TripsType } from "../../types";
 import "./TripsCard.css";
 
 import closeIcon from "../../assets/close.svg";
@@ -9,22 +9,22 @@ const UNSPLASH_API_KEY = import.meta.env.VITE_UNSPLASH_ACCESS_KEY;
 
 interface Props {
   destination: string;
-  savedPlanners: SavedPlanners;
+  trips: TripsType;
   loadItinerary: (destination: string) => void;
 }
 
-function TripsCard({ destination, savedPlanners, loadItinerary }: Props) {
+function TripsCard({ destination, trips, loadItinerary }: Props) {
   const userId = useContext(UserIdContext);
 
-  const startDate = savedPlanners[destination].startDate;
-  const endDate = savedPlanners[destination].endDate;
+  const startDate = trips[destination].startDate;
+  const endDate = trips[destination].endDate;
   const [destinationImage, setDestinationImage] = useState<string>("");
 
   function handleDeleteClick(
     e: React.MouseEvent<HTMLImageElement, MouseEvent>
   ) {
     e.stopPropagation();
-    remove(ref(db, `users/${userId}/savedDestinations/${destination}`));
+    remove(ref(db, `users/${userId}/trips/${destination}`));
   }
 
   useEffect(() => {
