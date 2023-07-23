@@ -5,10 +5,9 @@ import "./Home.css";
 
 import searchIcon from "../../assets/search.svg";
 import calendarIcon from "../../assets/calendar.svg";
-import mapPinIcon from "../../assets/feather-map-pin.svg";
+import mapPinIcon from "../../assets/map-pin.svg";
 import heroImage from "/hero.png";
 
-// Types
 import { ActivityList, Activity, GeoData } from "../../types";
 import CustomDatePicker from "../../components/customDatePicker/CustomDatePicker";
 

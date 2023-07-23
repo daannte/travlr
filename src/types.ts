@@ -17,7 +17,7 @@ export interface IPlanner {
   activityLists: ActivityList[];
 }
 
-export interface SavedPlanners {
+export interface TripsType {
   [key: string]: IPlanner;
 }
 

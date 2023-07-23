@@ -6,7 +6,10 @@
   height: 4rem;
   padding: 1rem;
   position: fixed;
+  top: 0;
+  left: 0;
   background-color: #f4f2ef;
+  border-bottom: 1px solid #e0dbd4;
   z-index: 999;
 }
 
@@ -18,46 +21,54 @@
   color: black;
   text-decoration: none;
   cursor: pointer;
-  margin-left: 3%;
-}
-
-.navbar__title:after {
-  content: "";
-  display: inline-block;
-  width: 2px;
-  height: 1.8rem;
-  background-color: #473bf0;
-  margin: 1rem;
+  margin-left: 0%;
 }
 
 .navbar__links {
   display: flex;
   flex-direction: row;
+  align-items: center;
   font-size: large;
+  width: 100%;
 }
 
-.navbar__element {
+.navbar__trips-button {
   display: flex;
   align-items: center;
+  justify-content: center;
   list-style: none;
   cursor: pointer;
   text-decoration: none;
   color: black;
   text-transform: uppercase;
-  font-size: 1rem;
-  margin-right: 1rem;
+  font-size: 0.8rem;
+  margin-inline: 1rem;
+  background-color: #dcd1c7;
+  border-radius: 8px;
+  /* width: 4rem; */
+  /* height: 1.5rem; */
+  padding: 0.2rem 0.4rem;
+}
+
+.navbar__trips-button-name {
+  margin-left: 0.1rem;
 }
 
 .navbar__signout-button,
 .navbar__login-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: none;
   font-size: 0.8rem;
   cursor: pointer;
   text-transform: uppercase;
-  background: #473bf0;
-  color: white;
-  padding: 0.3rem 1.5rem;
+  text-decoration: none;
+  color: black;
+  background-color: #dcd1c7;
   border-radius: 8px;
+  padding: 0.2rem 0.4rem;
+  margin-left: auto;
 }
 
 .login-signup-modal {
@@ -65,7 +76,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #fff;
+  background-color: #f4f2ef;
   border-radius: 32px;
   padding: 20px;
   width: 22rem;
@@ -81,7 +92,7 @@
   position: absolute;
   top: 0;
   right: 0;
-  background: #473bf0;
+  background: #dcd1c7;
   border: none;
   display: flex;
   align-items: center;

@@ -1,37 +1,35 @@
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { PlannerContext } from "../../App";
-import SavedCard from "../../components/savedCard/SavedCard";
-import { SavedPlanners } from "../../types";
-import "./Saved.css";
+import TripsCard from "../../components/tripsCard/TripsCard";
+import { TripsType } from "../../types";
+import "./Trips.css";
 
 interface Props {
-  savedPlanners: SavedPlanners;
+  trips: TripsType;
   savedDests: string[];
 }
 
-function Saved({ savedDests, savedPlanners }: Props) {
+function Trips({ trips, savedDests }: Props) {
   const { setCurrentPlanner } = useContext(PlannerContext);
   const navigate = useNavigate();
+
   const loadItinerary = (destination: string) => {
     // Update all the values when we want to load a saved destination
-    setCurrentPlanner(savedPlanners[destination]);
-    localStorage.setItem(
-      "currentPlanner",
-      JSON.stringify(savedPlanners[destination])
-    );
+    setCurrentPlanner(trips[destination]);
+    localStorage.setItem("currentPlanner", JSON.stringify(trips[destination]));
     navigate("/planner");
   };
 
   return (
-    <div className="saved">
-      <h2>Saved Itineraries</h2>
-      <div className="saved__destination-list">
+    <div className="trips">
+      <h2 className="trips__upcoming">Upcoming Trips</h2>
+      <div className="trips__cards">
         {savedDests.map((destination, index) => (
-          <SavedCard
+          <TripsCard
             key={index}
             destination={destination}
-            savedPlanners={savedPlanners}
+            trips={trips}
             loadItinerary={loadItinerary}
           />
         ))}
@@ -40,4 +38,4 @@ function Saved({ savedDests, savedPlanners }: Props) {
   );
 }
 
-export default Saved;
+export default Trips;

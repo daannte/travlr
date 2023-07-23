@@ -2,12 +2,12 @@ import { createContext, useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { auth, onAuthStateChanged } from "./backend/firebase";
 import { fetchSavedInfo } from "./backend/firebaseUtils";
-import { IPlanner, SavedPlanners } from "./types";
+import { IPlanner, TripsType } from "./types";
 import "./App.css";
 
 import Home from "./pages/home/Home";
 import Planner from "./pages/planner/Planner";
-import Saved from "./pages/saved/Saved";
+import Trips from "./pages/trips/Trips";
 import Navbar from "./components/navbar/Navbar";
 
 interface PlannerContextProps {
@@ -41,7 +41,7 @@ function createInitialPlannerState(): IPlanner {
 
 function App() {
   const [savedDests, setSavedDests] = useState<string[]>([]);
-  const [savedPlanners, setSavedPlanners] = useState<SavedPlanners>({});
+  const [trips, setTrips] = useState<TripsType>({});
   const [currentPlanner, setCurrentPlanner] = useState<IPlanner>(
     createInitialPlannerState()
   );
@@ -51,24 +51,18 @@ function App() {
     const checkedLoggedIn = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUserId(user.uid);
-        fetchSavedInfo(
-          user.uid,
-          setSavedDests,
-          setSavedPlanners,
-          setCurrentPlanner
-        );
+        fetchSavedInfo(user.uid, setSavedDests, setTrips, setCurrentPlanner);
       } else {
         setUserId("");
         setSavedDests([]);
-        setSavedPlanners({});
+        setTrips({});
       }
     });
-
     return () => checkedLoggedIn();
   }, []);
 
   const renderSavedRoute = () => (
-    <Saved savedPlanners={savedPlanners} savedDests={savedDests} />
+    <Trips trips={trips} savedDests={savedDests} />
   );
 
   const renderPlannerRoute = () => <Planner />;
@@ -76,11 +70,11 @@ function App() {
   const renderHomeRoute = () => <Home savedDests={savedDests} />;
   return (
     <Router>
-      <Navbar />
       <PlannerContext.Provider value={{ currentPlanner, setCurrentPlanner }}>
+        <Navbar />
         <UserIdContext.Provider value={userId}>
           <Routes>
-            <Route path="/saved" element={renderSavedRoute()} />
+            <Route path="/trips" element={renderSavedRoute()} />
             <Route path="/planner" element={renderPlannerRoute()} />
             <Route path="/" element={renderHomeRoute()} />
           </Routes>
