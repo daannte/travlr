@@ -5,6 +5,9 @@ import { ActivityList } from "../../types";
 const styles = StyleSheet.create({
   page: {
     flexDirection: "column",
+    display: "flex",
+    alignItems: "center",
+    width: "100%",
     backgroundColor: "white",
   },
   title: {
@@ -13,8 +16,6 @@ const styles = StyleSheet.create({
     marginTop: "1cm",
   },
   activityDaysContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
     width: "100%",
   },
   activityDayContainer: {
@@ -22,32 +23,34 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    width: "50%",
+    width: "100%",
   },
   activityDay: {
     fontSize: 18,
+    paddingBottom: "0.1cm",
+    borderBottom: "1 solid black",
+    width: "50%",
   },
   activityName: {
-    marginTop: "0.2cm",
-    fontSize: 14,
+    fontSize: 12,
     alignSelf: "center",
   },
   activityTimeContainer: {
     flexDirection: "row",
-    marginTop: "0.2cm",
+    marginLeft: "auto",
     alignSelf: "center",
   },
   activityTime: {
     fontSize: 10,
   },
   activity: {
-    borderTop: "1.5 solid black",
+    flexDirection: "row",
     marginTop: "0.3cm",
     width: "50%",
   },
   noInfo: {
     marginTop: "0.2cm",
-    fontSize: 8,
+    fontSize: 12,
   },
 });
 
@@ -89,11 +92,12 @@ const MyDocument = ({ destination, activityLists }: Props) => {
                   {activityList.date}
                 </Text>
                 {activityList.isEmpty ? (
-                  <Text style={styles.noInfo}>No Activities for today</Text>
+                  <Text style={styles.noInfo}>No Plans for today</Text>
                 ) : (
                   activityList.activities.map((activity) => {
                     return (
                       <View key={index} style={styles.activity} break>
+                        <Text style={styles.activityName}>{activity.name}</Text>
                         <View style={styles.activityTimeContainer}>
                           {!activity.startTime && !activity.endTime ? (
                             <Text style={styles.noInfo}>
@@ -110,7 +114,6 @@ const MyDocument = ({ destination, activityLists }: Props) => {
                             </Text>
                           )}
                         </View>
-                        <Text style={styles.activityName}>{activity.name}</Text>
                       </View>
                     );
                   })
