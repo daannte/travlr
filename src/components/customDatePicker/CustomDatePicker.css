@@ -57,13 +57,13 @@
 .date-picker__day--start,
 .date-picker__day--range-hover,
 .date-picker__day--range {
-  background-color: #473bf0;
+  background-color: #a18267;
   color: white;
   border-radius: 8px;
 }
 
 .date-picker__day--range-hover {
-  background: rgba(71, 58, 240, 0.2);
+  background: #dcd1c7;
   color: black;
 }
 

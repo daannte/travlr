@@ -3,10 +3,11 @@ import { db, ref, set } from "../../backend/firebase";
 import { PlannerContext, UserIdContext } from "../../App";
 import "./Planner.css";
 
-import Card from "../../components/card/Card";
-import PDF from "../../components/pdf/Pdf";
-import { DragDropContext, DropResult } from "@hello-pangea/dnd";
+import downloadIcon from "../../assets/download.svg";
 import { PDFDownloadLink } from "@react-pdf/renderer";
+import PDF from "../../components/pdf/Pdf";
+import Card from "../../components/card/Card";
+import { DragDropContext, DropResult } from "@hello-pangea/dnd";
 
 function Planner() {
   const { setCurrentPlanner, currentPlanner } = useContext(PlannerContext);
@@ -86,28 +87,26 @@ function Planner() {
   return (
     <div className="planner">
       <div className="planner__itinerary-container">
-        <div className="planner__hero-container">
-          <div className="planner__download-itinerary-link-container">
-            <PDFDownloadLink
-              className="planner__download-itinerary-link"
-              document={
-                <PDF
-                  destination={currentPlanner.destination}
-                  activityLists={currentPlanner.activityLists}
-                />
-              }
-              fileName={`${currentPlanner.destination}.pdf`}
-            >
-              {({ loading }) =>
-                loading ? "Loading itinerary..." : "Download Itinerary"
-              }
-            </PDFDownloadLink>
-          </div>
-        </div>
         <DragDropContext onDragEnd={handleDragDrop}>
           <div className="planner__cards-container">{renderCards()}</div>
         </DragDropContext>
       </div>
+      <PDFDownloadLink
+        className="planner__pdf-container"
+        document={
+          <PDF
+            destination={currentPlanner.destination}
+            activityLists={currentPlanner.activityLists}
+          />
+        }
+        fileName={`${currentPlanner.destination}.pdf`}
+      >
+        <img
+          className="planner__download-button"
+          src={downloadIcon}
+          alt="Download"
+        />
+      </PDFDownloadLink>
     </div>
   );
 }

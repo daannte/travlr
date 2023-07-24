@@ -1,6 +1,7 @@
 .activity {
   display: flex;
   margin-top: 1rem;
+  cursor: grab;
 }
 
 .activity__info-container {
@@ -9,9 +10,10 @@
   -webkit-box-shadow: 0 0 5px 0 #cdcdcd;
   position: relative;
   padding: 0.5rem;
-  border-radius: 6px;
+  border-radius: 8px;
   max-width: 18rem;
   width: 18rem;
+  min-height: 4.375rem;
 }
 
 .activity:hover .activity__delete-icon,

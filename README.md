@@ -17,6 +17,7 @@ Demo login information:
 - CSS
 - Firebase
 - Unsplash API
+- Foursquare API
 
 ## About The Website
 
@@ -27,15 +28,16 @@ people can use the website at the same time without changing each others itinera
 
 ## Screenshots
 
-This will be filled out when I think the UI/UX portion is finished.
+![Home Page](./public/screenshots/home.png "Home Page")
+![Trips Page](./public/screenshots/trips.png "Trips Page")
+![Planner Page](./public/screenshots/planner.png "Planner Page")
 
 ## Roadmap
 
 - [x] Add a drag feature to move the activities around.
 - [x] Make a feature to download the itinerary as a PDF.
 - [x] Use the Places API to have a autocomplete for destinations. (I used the FOURSQUARE API instead.)
-- [ ] Get better at UI/UX design so I can make the app look better.
-- [ ] Add a way to distinguish the activities
+- [x] Get better at UI/UX design so I can make the app look better.
 
 ## License
 

@@ -27,6 +27,22 @@ function Home({ savedDests }: Props) {
 
   const navigate = useNavigate();
 
+  // Function to handle changes in the start date input
+  const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCurrentPlanner((prevPlanner) => ({
+      ...prevPlanner,
+      startDate: e.target.value,
+    }));
+  };
+
+  // Function to handle changes in the end date input
+  const handleEndDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCurrentPlanner((prevPlanner) => ({
+      ...prevPlanner,
+      endDate: e.target.value,
+    }));
+  };
+
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (
@@ -73,6 +89,7 @@ function Home({ savedDests }: Props) {
     setAutoCompleteData(null);
   }, [setCurrentPlanner]);
 
+  // For the Foursquare API
   const generateSessionToken = () => {
     let sessionToken = "";
     const alphanum = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
@@ -172,8 +189,8 @@ function Home({ savedDests }: Props) {
             <input
               className="home__date-input"
               required
-              readOnly
               onClick={() => setIsDatePickerOpen(true)}
+              onChange={handleStartDateChange}
               placeholder="Start Date"
               value={currentPlanner.startDate}
             />
@@ -189,8 +206,8 @@ function Home({ savedDests }: Props) {
             <input
               className="home__date-input"
               required
-              readOnly
               onClick={() => setIsDatePickerOpen(true)}
+              onChange={handleEndDateChange}
               placeholder="End Date"
               value={currentPlanner.endDate}
             />

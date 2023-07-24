@@ -58,6 +58,23 @@ interface Props {
 
 // Create Document
 const MyDocument = ({ destination, activityLists }: Props) => {
+  function convertTo12HourFormat(time: string) {
+    const [hours, minutes] = time.split(":");
+    let period = "AM";
+
+    let hours12 = parseInt(hours, 10);
+    if (hours12 === 0) {
+      hours12 = 12;
+    } else if (hours12 === 12) {
+      period = "PM";
+    } else if (hours12 > 12) {
+      hours12 -= 12;
+      period = "PM";
+    }
+
+    return `${hours12}:${minutes} ${period}`;
+  }
+
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -84,11 +101,12 @@ const MyDocument = ({ destination, activityLists }: Props) => {
                             </Text>
                           ) : activity.startTime && !activity.endTime ? (
                             <Text style={styles.activityTime}>
-                              {activity.startTime}
+                              {convertTo12HourFormat(activity.startTime)}
                             </Text>
                           ) : (
                             <Text style={styles.activityTime}>
-                              {activity.startTime} - {activity.endTime}
+                              {convertTo12HourFormat(activity.startTime)} -{" "}
+                              {convertTo12HourFormat(activity.endTime)}
                             </Text>
                           )}
                         </View>
