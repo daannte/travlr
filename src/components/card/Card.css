@@ -7,22 +7,15 @@
   text-align: center;
 }
 
-.card__activity-name-input-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 1rem;
-  margin-bottom: 4rem;
+.card__new-card {
   background-color: #e5e1d9;
-  padding: 1rem;
-  border-radius: 6px;
-}
-
-.card__activity-name-input {
+  margin-top: 1rem;
+  padding: 1.5rem;
+  border-radius: 8px;
   border: none;
   outline: none;
-  padding: 0.5rem;
-  margin-left: 0.5rem;
-  background: none;
-  color: black;
-  font-size: 0.9rem;
+  font-size: 1rem;
+  width: 18rem;
+  cursor: pointer;
+  color: #88847f;
 }

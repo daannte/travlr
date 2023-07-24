@@ -19,98 +19,17 @@
   height: 100%;
 }
 
-.planner__hero-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  max-width: 100%;
-  max-height: 25rem;
-}
-
-.planner__destination-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.planner__destination-info-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.planner__pdf-container {
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: -3rem;
-  background: rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
-  padding: 1rem;
-  border-radius: 16px;
-  z-index: 1;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 99;
 }
 
-.planner__destination-title-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.planner__destination-date-container {
-  margin-top: 1rem;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  font-size: 0.8rem;
-}
-
-.planner__destination-date-icon {
-  margin-right: 1rem;
-}
-
-.planner__destination {
-  color: black;
-  font-weight: 500;
-  font-size: 2.5rem;
-  text-transform: capitalize;
-}
-
-.planner__pin-icon {
-  width: 28px;
-  height: 28px;
-  margin-right: 0.5rem;
-}
-
-.planner__download-itinerary-link-container {
-  position: absolute;
-  left: 0.5rem;
-  top: 0.5rem;
-  padding: 0.2rem 0.4rem;
-  background: #dcd1c7;
-  cursor: pointer;
+.planner__download-button {
+  width: 32px;
+  background-color: #dcd1c7;
+  padding: 0.2rem;
   border-radius: 8px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-}
-
-.planner__download-itinerary-link {
-  color: black;
-  text-decoration: none;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.planner__save-icon-container {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  right: 0.5rem;
-  top: 0.5rem;
-  padding: 0.3rem;
-  background: #473bf0;
-  cursor: pointer;
-  border-radius: 50%;
 }

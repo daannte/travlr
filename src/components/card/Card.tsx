@@ -4,39 +4,47 @@ import { Droppable } from "@hello-pangea/dnd";
 import "./Card.css";
 
 import Activity from "../activity/Activity";
+import NewCardModal from "../../components/newCardModal/NewCardModal";
 
 interface Props {
   day: number;
 }
 
 function Card({ day }: Props) {
+  const [showNewModal, setShowNewModal] = useState<boolean>(false);
+  const [activityToEdit, setActivityToEdit] = useState<number | null>(null);
+
   const { currentPlanner, setCurrentPlanner } = useContext(PlannerContext);
-  const [activityName, setActivityName] = useState("");
   const date = currentPlanner.activityLists[day].date;
 
-  function handleAddActivity(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  function handleAddCard() {
     setCurrentPlanner((prevPlanner) => {
-      const { activityLists } = prevPlanner;
-      const updatedActivityLists = activityLists.map((activityList) => {
-        if (activityList.date === date) {
-          const updatedActivities = activityList.activities || [];
-          updatedActivities.push({
-            startTime: "",
-            endTime: "",
-            name: activityName,
-          });
-          return {
-            ...activityList,
-            activities: updatedActivities,
-            isEmpty: false,
-          };
-        }
-        return activityList;
-      });
-      return { ...prevPlanner, activityLists: updatedActivityLists };
+      const updatedPlanner = { ...prevPlanner };
+      const { activityLists } = updatedPlanner;
+      const activityListIndex = activityLists.findIndex(
+        (activityList) => activityList.date === date
+      );
+      if (activityListIndex !== -1) {
+        const updatedActivityLists = [...activityLists];
+        const currentActivities = activityLists[activityListIndex].activities;
+        const updatedActivities = currentActivities
+          ? [...currentActivities]
+          : [];
+        updatedActivities.push({
+          startTime: "",
+          endTime: "",
+          name: "New Card",
+        });
+        setActivityToEdit(updatedActivities.length - 1);
+        updatedActivityLists[activityListIndex] = {
+          ...activityLists[activityListIndex],
+          activities: updatedActivities,
+          isEmpty: false,
+        };
+        updatedPlanner.activityLists = updatedActivityLists;
+      }
+      return updatedPlanner;
     });
-    setActivityName("");
   }
 
   function renderActivities() {
@@ -46,37 +54,52 @@ function Card({ day }: Props) {
       : currentPlanner.activityLists[day].activities;
 
     const activitiesList = activityList.map((_, index) => {
-      return <Activity key={index} day={day} activityIndex={index} />;
+      return (
+        <Activity
+          key={index}
+          day={day}
+          activityIndex={index}
+          setActivityToEdit={setActivityToEdit}
+          setShowNewModal={setShowNewModal}
+        />
+      );
     });
     return activitiesList;
   }
 
   return (
-    <Droppable droppableId={`${day}`} type="group">
-      {(provided) => (
-        <div
-          className="card"
-          {...provided.droppableProps}
-          ref={provided.innerRef}
-        >
-          <h1 className="card__title">{date}</h1>
-          <div>{renderActivities()}</div>
-          {provided.placeholder}
-          <form
-            className="card__activity-name-input-container"
-            onSubmit={handleAddActivity}
+    <>
+      <Droppable droppableId={`${day}`} type="group">
+        {(provided) => (
+          <div
+            className="card"
+            {...provided.droppableProps}
+            ref={provided.innerRef}
           >
-            <input
-              className="card__activity-name-input"
-              value={activityName}
-              type="text"
-              placeholder="+ New Card Name"
-              onChange={(e) => setActivityName(e.target.value)}
-            />
-          </form>
-        </div>
+            <h1 className="card__title">{date}</h1>
+            <div>{renderActivities()}</div>
+            {provided.placeholder}
+            <button
+              className="card__new-card"
+              onClick={() => {
+                setShowNewModal(true);
+                handleAddCard();
+              }}
+            >
+              + New Card
+            </button>
+          </div>
+        )}
+      </Droppable>
+      {showNewModal && (
+        <NewCardModal
+          setShowNewModal={setShowNewModal}
+          day={day}
+          activityToEdit={activityToEdit}
+          setActivityToEdit={setActivityToEdit}
+        />
       )}
-    </Droppable>
+    </>
   );
 }
 
