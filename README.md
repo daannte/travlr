@@ -1,5 +1,7 @@
 # Travlr
 
+No longer works cause of new foursquare API.
+
 ## Demo Link
 
 You can access my website [here](https://travlr-9c098.web.app/)
